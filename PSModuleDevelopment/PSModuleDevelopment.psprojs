@@ -1,0 +1,14 @@
+﻿<ProjectState>
+  <Version>1.0</Version>
+  <FileID>37dd5fce-e7b5-4d57-ac37-832055ce49d6</FileID>
+  <OpenFolders>
+    <Folder>en-us</Folder>
+    <Folder>functions</Folder>
+    <Folder>scripts</Folder>
+  </OpenFolders>
+  <OpenFiles>
+    <File>PSModuleDevelopment.psm1</File>
+    <File>PSModuleDevelopment.psd1</File>
+    <File>functions\New-PssModuleProject.ps1</File>
+  </OpenFiles>
+</ProjectState>
