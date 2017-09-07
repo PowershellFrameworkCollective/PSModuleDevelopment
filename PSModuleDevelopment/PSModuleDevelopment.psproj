@@ -1,4 +1,4 @@
-﻿<Project>
+﻿<Project Synchronized="True" SyncFilter="*.ps1;*.psm1;*.psd1;*.psxml;*.psf;*.pss;*.xml">
   <Version>2.0</Version>
   <FileID>37dd5fce-e7b5-4d57-ac37-832055ce49d6</FileID>
   <ProjectType>1</ProjectType>
@@ -7,21 +7,24 @@
     <Folder>functions</Folder>
     <Folder>scripts</Folder>
     <Folder>xml</Folder>
+    <Folder>functions\utility</Folder>
+    <Folder>functions\moduledebug</Folder>
+    <Folder>functions\performance</Folder>
+    <Folder>functions\help</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
     <File Build="0">PSModuleDevelopment.psm1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-preload_ps1">scripts\preload.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-postload_ps1">scripts\postload.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Restart-Shell_ps1">functions\Restart-Shell.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-ModuleDebug_ps1">functions\Set-ModuleDebug.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-ModuleDebug_ps1">functions\Get-ModuleDebug.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Remove-ModuleDebug_ps1">functions\Remove-ModuleDebug.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Import-ModuleDebug_ps1">functions\Import-ModuleDebug.ps1</File>
-    <File Build="2">en-us\about_psmoduledevelopment.help.txt</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-HelpEx_ps1">functions\Get-HelpEx.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Measure-CommandEx_ps1">functions\Measure-CommandEx.ps1</File>
-    <File Build="2" Shared="False" ReferenceFunction="Invoke-New-PssModuleProject_ps1">functions\New-PssModuleProject.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Restart-Shell_ps1">functions\utility\Restart-Shell.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-ModuleDebug_ps1">functions\moduledebug\Set-ModuleDebug.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-ModuleDebug_ps1">functions\moduledebug\Get-ModuleDebug.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Remove-ModuleDebug_ps1">functions\moduledebug\Remove-ModuleDebug.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Import-ModuleDebug_ps1">functions\moduledebug\Import-ModuleDebug.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-HelpEx_ps1">functions\help\Get-HelpEx.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Measure-CommandEx_ps1">functions\performance\Measure-CommandEx.ps1</File>
+    <File Build="2" Shared="False" ReferenceFunction="Invoke-New-PssModuleProject_ps1">functions\utility\New-PssModuleProject.ps1</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>
