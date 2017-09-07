@@ -11,6 +11,6 @@ PSModuleDevelopment/bin/PSModuleDevelopment.xml
 PSModuleDevelopment/bin/PSModuleDevelopment.pdb
 
 # ignore PowerShell Studio MetaData
-*.psproj
-*.psproj.bak
-*.psprojs
+PSModuleDevelopment/PSModuleDevelopment.psproj
+PSModuleDevelopment/PSModuleDevelopment.psproj.bak
+PSModuleDevelopment/PSModuleDevelopment.psprojs
