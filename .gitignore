@@ -1,0 +1,11 @@
+*TempPoint*
+*.pssproj
+
+# ignore the settings folder and files for VSCode
+.vscode/*
+*.psproj
+
+# ignore library
+PSModuleDevelopment/bin/PSModuleDevelopment.dll
+PSModuleDevelopment/bin/PSModuleDevelopment.xml
+PSModuleDevelopment/bin/PSModuleDevelopment.pdb
