@@ -1,4 +1,4 @@
-﻿<Project Synchronized="True" SyncFilter="*.ps1;*.psm1;*.psd1;*.psxml;*.psf;*.pss;*.xml">
+﻿<Project Synchronized="True" SyncFilter="*.ps1;*.psm1;*.psd1;*.psxml;*.psf;*.pss;*.xml; *.txt">
   <Version>2.0</Version>
   <FileID>37dd5fce-e7b5-4d57-ac37-832055ce49d6</FileID>
   <ProjectType>1</ProjectType>
@@ -25,6 +25,7 @@
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-HelpEx_ps1">functions\help\Get-HelpEx.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Measure-CommandEx_ps1">functions\performance\Measure-CommandEx.ps1</File>
     <File Build="2" Shared="False" ReferenceFunction="Invoke-New-PssModuleProject_ps1">functions\utility\New-PssModuleProject.ps1</File>
+    <File Build="2">en-us\about_psmoduledevelopment.help.txt</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>
