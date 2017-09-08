@@ -22,7 +22,7 @@
 	Description = 'A module designed to speed up the development of PowerShell modules'
 	
 	# Minimum version of the Windows PowerShell engine required by this module
-	PowerShellVersion = '2.0'
+	PowerShellVersion = '3.0'
 	
 	# Name of the Windows PowerShell host required by this module
 	PowerShellHostName = ''
@@ -41,7 +41,7 @@
 	
 	# Modules that must be imported into the global environment prior to importing
 	# this module
-	RequiredModules = @()
+	RequiredModules = @("PSFramework")
 	
 	# Assemblies that must be loaded prior to importing this module
 	RequiredAssemblies = @()
