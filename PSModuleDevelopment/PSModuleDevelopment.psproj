@@ -11,6 +11,7 @@
     <Folder>functions\moduledebug</Folder>
     <Folder>functions\performance</Folder>
     <Folder>functions\help</Folder>
+    <Folder>snippets</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
