@@ -4,7 +4,7 @@
 	ModuleToProcess = 'PSModuleDevelopment.psm1'
 	
 	# Version number of this module.
-	ModuleVersion = '1.3.1.17'
+	ModuleVersion = '1.4.0.27'
 	
 	# ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -69,7 +69,8 @@
         'New-PssModuleProject',
         'Remove-ModuleDebug',
         'Restart-Shell',
-        'Set-ModuleDebug'
+		'Set-ModuleDebug',
+		'Set-PSMDModulePath'
     )
 	
 	# Cmdlets to export from this module
