@@ -62,7 +62,8 @@
 	
 	# Functions to export from this module
     FunctionsToExport = @(
-        'Get-HelpEx',
+		'Expand-PSMDTypeName',
+		'Get-HelpEx',
         'Get-ModuleDebug',
         'Import-ModuleDebug',
         'Measure-CommandEx',

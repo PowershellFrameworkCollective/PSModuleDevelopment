@@ -15,6 +15,10 @@
     <Folder>functions\wix</Folder>
     <Folder>internal</Folder>
     <Folder>internal\configurations</Folder>
+    <Folder>internal\scripts\NewFolder1</Folder>
+    <Folder>functions\format</Folder>
+    <Folder>functions\refactor</Folder>
+    <Folder>functions\assembly</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
@@ -38,6 +42,9 @@
     <File Build="2" Shared="False" ReferenceFunction="Invoke-wix_ps1">internal\configurations\wix.ps1</File>
     <File Build="2" Shared="False" ReferenceFunction="Invoke-debug_ps1">internal\configurations\debug.ps1</File>
     <File Build="2" Shared="False" ReferenceFunction="Invoke-license_ps1">internal\scripts\license.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-New-PSMDFormatTableDefinition_ps1">functions\format\New-PSMDFormatTableDefinition.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Rename-PSMDParameter_ps1">functions\refactor\Rename-PSMDParameter.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Expand-PSMDTypeName_ps1">functions\assembly\Expand-PSMDTypeName.ps1</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>
