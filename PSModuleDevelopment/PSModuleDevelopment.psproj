@@ -45,6 +45,7 @@
     <File Build="2" Shared="True" ReferenceFunction="Invoke-New-PSMDFormatTableDefinition_ps1">functions\format\New-PSMDFormatTableDefinition.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Rename-PSMDParameter_ps1">functions\refactor\Rename-PSMDParameter.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Expand-PSMDTypeName_ps1">functions\assembly\Expand-PSMDTypeName.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-PSMDParameterHelp_ps1">functions\refactor\Set-PSMDParameterHelp.ps1</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>

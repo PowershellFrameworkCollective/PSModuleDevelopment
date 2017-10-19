@@ -7,16 +7,16 @@
 		.DESCRIPTION
 			This command is designed to rename the parameter of a function within an entire module.
 			By default it will add an alias for the previous command name.
-	
+			
 			In order for this to work you need to consider to have the command / module imported.
 			Hint: Import the psm1 file for best results.
-	
+			
 			It will then search all files in the specified path (hint: Specify module root for best results), and update all psm1/ps1 files.
 			At the same time it will force all commands to call the parameter by its new standard, even if they previously used an alias for the parameter.
-	
+			
 			While this command was designed to work with a module, it is not restricted to that:
 			You can load a standalone function and specify a path with loose script files for the same effect.
-	
+			
 			Note:
 			You can also use this to update your scripts, after a foreign module introduced a breaking change by renaming a parameter.
 			In this case, import the foreign module to see the function, but point it at the base path of your scripts to update.
@@ -42,12 +42,17 @@
 			This may cause a breaking change!
 		
 		.PARAMETER EnableException
-            Replaces user friendly yellow warnings with bloody red exceptions of doom!
-            Use this if you want the function to throw terminating errors you want to catch.
+			Replaces user friendly yellow warnings with bloody red exceptions of doom!
+			Use this if you want the function to throw terminating errors you want to catch.
+		
+		.PARAMETER DisableCache
+			By default, this command caches the results of its execution in the PSFramework result cache.
+			This information can then be retrieved for the last command to do so by running Get-PSFResultCache.
+			Setting this switch disables the caching of data in the cache.
 		
 		.EXAMPLE
 			PS C:\> Rename-PSMDParameter -Path 'C:\Scripts\Modules\MyModule' -Command 'Get-Test' -Name 'Foo' -NewName 'Bar'
-	
+			
 			Renames the parameter 'Foo' of the command 'Get-Test' to 'Bar' for all scripts stored in 'C:\Scripts\Modules\MyModule'
 	#>
 	[CmdletBinding()]
@@ -57,7 +62,7 @@
 		$Path,
 		
 		[Parameter(Mandatory = $true)]
-		[string]
+		[string[]]
 		$Command,
 		
 		[Parameter(Mandatory = $true)]
@@ -72,7 +77,10 @@
 		$NoAlias,
 		
 		[switch]
-		$EnableException
+		$EnableException,
+		
+		[switch]
+		$DisableCache
 	)
 	
 	# Global Store for pending file updates
@@ -86,7 +94,7 @@
 		Param (
 			$Ast,
 			
-			[string]
+			[string[]]
 			$Command,
 			
 			[string[]]
@@ -120,10 +128,10 @@
 				}
 				if (Test-Path alias:\$commandName)
 				{
-					$resolvedCommand = (Get-Item function:\$commandName).ResolvedCommand.Name
+					$resolvedCommand = (Get-Item alias:\$commandName).ResolvedCommand.Name
 				}
 				
-				if ($resolvedCommand -eq $Command)
+				if ($resolvedCommand -in $Command)
 				{
 					$parameters = $Ast.CommandElements | Where-Object { $_.GetType().FullName -eq "System.Management.Automation.Language.CommandParameterAst" }
 					
@@ -138,11 +146,12 @@
 					
 					$splatted = $Ast.CommandElements | Where-Object Splatted
 					
-					foreach ($splat in $splatted)
+					if ($splatted)
 					{
-						$assignments = $Ast.Parent.Parent.Statements | Where-Object { $_.GetType().FullName -eq "System.Management.Automation.Language.AssignmentStatementAst" }
-						$assignments | Where-Object { ($_.Left.VariablePath.UserPath -eq $splat.VariablePath.UserPath) -and ($Ast.Parent.Parent.Statements.IndexOf($_) -lt $Ast.Parent.Parent.Statements.IndexOf($Ast.Parent)) } | ForEach-Object {
-							
+						foreach ($splat in $splatted)
+						{
+							Write-PSFMessage -Level Warning -FunctionName Rename-PSMDParameter -Message "Splat detected! Manually verify $($splat.Extent.Text) at line $($splat.Extent.StartLineNumber) in file $($splat.Extent.File)" -Tag 'splat','fail','manual'
+							Write-Issue -Extent $splat.Extent -Data $Ast -Type "SplattedParameter"
 						}
 					}
 				}
@@ -157,7 +166,7 @@
 			}
 			"System.Management.Automation.Language.FunctionDefinitionAst"
 			{
-				if ($Ast.Name -eq $Command)
+				if ($Ast.Name -In $Command)
 				{
 					foreach ($parameter in $Ast.Body.ParamBlock.Parameters)
 					{
@@ -217,6 +226,8 @@
 					if ($Ast.Body.BeginBlock) { Invoke-AstWalk -Ast $Ast.Body.BeginBlock -Command $Command -Name $Name -NewName $NewName -IsCommand $true -NoAlias $NoAlias }
 					if ($Ast.Body.ProcessBlock) { Invoke-AstWalk -Ast $Ast.Body.ProcessBlock -Command $Command -Name $Name -NewName $NewName -IsCommand $true -NoAlias $NoAlias }
 					if ($Ast.Body.EndBlock) { Invoke-AstWalk -Ast $Ast.Body.EndBlock -Command $Command -Name $Name -NewName $NewName -IsCommand $true -NoAlias $NoAlias }
+					
+					Update-CommandParameterHelp -FunctionAst $Ast -ParameterName $Name[0] -NewName $NewName
 				}
 				else
 				{
@@ -273,7 +284,76 @@
 		$name = $NewName
 		if ($name -notlike "-*") { $name = "-$name" }
 		
-		Add-FileReplacement -Path $Ast.Extent.File -Start $Ast.Extent.StartOffset -Length ($Ast.Extent.EndOffset - $Ast.Extent.StartOffset) -NewContent $name
+		$length = $Ast.Extent.EndOffset - $Ast.Extent.StartOffset
+		if ($Ast.Argument -ne $null) { $length = $Ast.Argument.Extent.StartOffset - $Ast.Extent.StartOffset - 1 }
+		
+		Add-FileReplacement -Path $Ast.Extent.File -Start $Ast.Extent.StartOffset -Length $length -NewContent $name
+	}
+	
+	function Update-CommandParameterHelp
+	{
+		[CmdletBinding()]
+		Param (
+			[System.Management.Automation.Language.FunctionDefinitionAst]
+			$FunctionAst,
+			
+			[string]
+			$ParameterName,
+			
+			[string]
+			$NewName
+		)
+		
+		function Get-StartIndex
+		{
+			[CmdletBinding()]
+			Param (
+				[System.Management.Automation.Language.FunctionDefinitionAst]
+				$FunctionAst,
+				
+				[string]
+				$ParameterName,
+				
+				[int]
+				$HelpEnd
+			)
+			
+			if ($HelpEnd -lt 1) { return -1 }
+			
+			$index = -1
+			$offset = 0
+			
+			while ($FunctionAst.Extent.Text.SubString(0, $HelpEnd).IndexOf(".PARAMETER $ParameterName", $offset, [System.StringComparison]::InvariantCultureIgnoreCase) -ne -1)
+			{
+				$tempIndex = $FunctionAst.Extent.Text.SubString(0, $HelpEnd).IndexOf(".PARAMETER $ParameterName", $offset, [System.StringComparison]::InvariantCultureIgnoreCase)
+				$endOfLineIndex = $FunctionAst.Extent.Text.SubString(0, $HelpEnd).IndexOf("`n", $tempIndex, [System.StringComparison]::InvariantCultureIgnoreCase)
+				if ($FunctionAst.Extent.Text.SubString($tempIndex, ($endOfLineIndex - $tempIndex)).Trim() -eq ".PARAMETER $ParameterName")
+				{
+					return $tempIndex
+				}
+				$offset = $endOfLineIndex
+			}
+			
+			return $index
+		}
+		
+		$startIndex = $FunctionAst.Extent.StartOffset
+		$endIndex = $FunctionAst.Body.ParamBlock.Extent.StartOffset
+		foreach ($attribute in $FunctionAst.Body.ParamBlock.Attributes)
+		{
+			if ($attribute.Extent.StartOffset -lt $endIndex) { $endIndex = $attribute.Extent.StartOffset }
+		}
+		
+		$index1 = Get-StartIndex -FunctionAst $FunctionAst -ParameterName $ParameterName -HelpEnd ($endIndex - $startIndex)
+		if ($index1 -eq -1)
+		{
+			Write-PSFMessage -Level Warning -Message "Could not find Comment Based Help for parameter '$ParameterName' of command '$($FunctionAst.Name)' in '$($FunctionAst.Extent.File)'" -Tag 'cbh', 'fail' -FunctionName Rename-PSMDParameter
+			Write-Issue -Extent $FunctionAst.Extent -Type "ParameterCBHNotFound" -Data "Parameter Help not found"
+			return
+		}
+		$index2 = $FunctionAst.Extent.Text.SubString(0, ($endIndex - $startIndex)).IndexOf("$ParameterName", $index1, [System.StringComparison]::InvariantCultureIgnoreCase)
+		
+		Add-FileReplacement -Path $FunctionAst.Extent.File -Start ($index2 + $startIndex) -Length $ParameterName.Length -NewContent $NewName
 	}
 	
 	function Add-FileReplacement
@@ -330,18 +410,44 @@
 			
 			$newString += $content.SubString($currentIndex)
 			
-			#[System.IO.File]::WriteAllText($key, $newString)
-			$newString
+			[System.IO.File]::WriteAllText($key, $newString)
+			#$newString
+		}
+	}
+	
+	function Write-Issue
+	{
+		[CmdletBinding()]
+		Param (
+			$Extent,
+			
+			$Data,
+			
+			[string]
+			$Type
+		)
+		
+		New-Object PSObject -Property @{
+			Type  = $Type
+			Data   = $Data
+			File	 = $Extent.File
+			StartLine = $Extent.StartLineNumber
+			Text = $Extent.Text
 		}
 	}
 	#endregion Helper Functions
 	
-	try { $com = Get-Item function:\$Command -ErrorAction Stop }
-	catch
+	foreach ($item in $Command)
 	{
-		Stop-PSFFunction -Message "Could not find command, please import the module using the psm1 file before starting a refactor" -EnableException $EnableException -Category ObjectNotFound -ErrorRecord $_ -OverrideExceptionMessage -Tag "fail", "input"
-		return
+		try { $com = Get-Item function:\$item -ErrorAction Stop }
+		catch
+		{
+			Stop-PSFFunction -Message "Could not find command, please import the module using the psm1 file before starting a refactor" -EnableException $EnableException -Category ObjectNotFound -ErrorRecord $_ -OverrideExceptionMessage -Tag "fail", "input"
+			return
+		}
 	}
+	
+	<#
 	$param = $com.Parameters.$Name
 	if ($param -eq $null)
 	{
@@ -355,8 +461,11 @@
 	{
 		if ($alias.Length -gt 0) { $names += $alias }
 	}
+	#>
 	
 	$files = Get-ChildItem -Path $Path -Recurse | Where-Object Extension -Match "\.ps1|\.psm1"
+	
+	$issues = @()
 	
 	foreach ($file in $files)
 	{
@@ -365,8 +474,10 @@
 		$ast = [System.Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$parsingError)
 		
 		Write-PSFMessage -Level VeryVerbose -Message "Replacing <c='sub'>$Command / $Name</c> with <c='em'>$NewName</c> | Scanning $($file.FullName)" -Tag 'start' -Target $Name
-		Invoke-AstWalk -Ast $ast -Command $Command -Name $Name -NewName $NewName -IsCommand $false -NoAlias $NoAlias
+		$issues += Invoke-AstWalk -Ast $ast -Command $Command -Name $Name -NewName $NewName -IsCommand $false -NoAlias $NoAlias
 	}
 	
+	Set-PSFResultCache -InputObject $issues -DisableCache $DisableCache
 	Apply-FileReplacement
+	$issues
 }

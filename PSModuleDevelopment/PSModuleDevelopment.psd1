@@ -71,7 +71,8 @@
         'Remove-ModuleDebug',
         'Restart-Shell',
 		'Set-ModuleDebug',
-		'Set-PSMDModulePath'
+		'Set-PSMDModulePath',
+		'Set-PSMDParameterHelp'
     )
 	
 	# Cmdlets to export from this module
