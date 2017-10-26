@@ -69,7 +69,7 @@
         'Measure-CommandEx',
         'New-PssModuleProject',
         'Remove-ModuleDebug',
-        'Restart-Shell',
+		'Restart-PSMDShell',
 		'Set-ModuleDebug',
 		'Set-PSMDModulePath',
 		'Set-PSMDParameterHelp'
@@ -84,7 +84,8 @@
 	# Aliases to export from this module
     AliasesToExport = @(
         'hex',
-        'Get-ExHelp',
+		'Get-ExHelp',
+		'Restart-Shell',
         'rss',
         'ipmod',
         'smd'

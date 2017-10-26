@@ -6,7 +6,6 @@
     <Folder>en-us</Folder>
     <Folder>functions</Folder>
     <Folder>internal\scripts</Folder>
-    <Folder>xml</Folder>
     <Folder>functions\utility</Folder>
     <Folder>functions\moduledebug</Folder>
     <Folder>functions\performance</Folder>
@@ -15,7 +14,6 @@
     <Folder>functions\wix</Folder>
     <Folder>internal</Folder>
     <Folder>internal\configurations</Folder>
-    <Folder>internal\scripts\NewFolder1</Folder>
     <Folder>functions\format</Folder>
     <Folder>functions\refactor</Folder>
     <Folder>functions\assembly</Folder>
@@ -25,7 +23,7 @@
     <File Build="0">PSModuleDevelopment.psm1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-preload_ps1">internal\scripts\preload.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-postload_ps1">internal\scripts\postload.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Restart-Shell_ps1">functions\utility\Restart-Shell.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Restart-PSMDShell_ps1">functions\utility\Restart-PSMDShell.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-ModuleDebug_ps1">functions\moduledebug\Set-ModuleDebug.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-ModuleDebug_ps1">functions\moduledebug\Get-ModuleDebug.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Remove-ModuleDebug_ps1">functions\moduledebug\Remove-ModuleDebug.ps1</File>

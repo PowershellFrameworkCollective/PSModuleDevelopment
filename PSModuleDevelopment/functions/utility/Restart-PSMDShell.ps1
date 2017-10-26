@@ -1,4 +1,4 @@
-﻿function Restart-Shell
+﻿function Restart-PSMDShell
 {
     <#
         .SYNOPSIS
@@ -16,12 +16,12 @@
             The new PowerShell process will be run as admin.
         
         .EXAMPLE
-            PS C:\> Restart-Shell
+            PS C:\> Restart-PSMDShell
     
             Restarts the current PowerShell process.
     
         .EXAMPLE
-            PS C:\> Restart-Shell -Admin -NoExit
+            PS C:\> Restart-PSMDShell -Admin -NoExit
     
             Creates a new PowerShell process, run with elevation, while keeping the current console around.
         
@@ -43,4 +43,5 @@
 	else { Start-Process powershell.exe }
 	if (-not $NoExit) { exit }
 }
-New-Alias -Name rss -Value Restart-Shell -Option AllScope -Scope Global
+New-Alias -Name Restart-Shell -Value Restart-PSMDShell -Option AllScope -Scope Global
+New-Alias -Name rss -Value Restart-PSMDShell -Option AllScope -Scope Global
