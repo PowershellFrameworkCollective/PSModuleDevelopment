@@ -71,6 +71,7 @@
         'Remove-ModuleDebug',
 		'Restart-PSMDShell',
 		'Set-ModuleDebug',
+		'Set-PSMDCmdletBinding',
 		'Set-PSMDModulePath',
 		'Set-PSMDParameterHelp'
     )
