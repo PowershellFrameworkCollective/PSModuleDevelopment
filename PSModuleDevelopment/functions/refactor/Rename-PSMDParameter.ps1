@@ -40,6 +40,10 @@
 		.PARAMETER NoAlias
 			Avoid creating an alias for the old parameter name.
 			This may cause a breaking change!
+	
+		.PARAMETER WhatIf
+			Prevents the command from updating the files.
+			Instead it will return the strings of all its changes.
 		
 		.PARAMETER EnableException
 			Replaces user friendly yellow warnings with bloody red exceptions of doom!
@@ -75,6 +79,9 @@
 		
 		[switch]
 		$NoAlias,
+		
+		[switch]
+		$WhatIf,
 		
 		[switch]
 		$EnableException,
@@ -240,7 +247,18 @@
 				{
 					Add-FileReplacement -Path $Ast.Extent.File -Start $Ast.Extent.StartOffset -Length ($Ast.Extent.EndOffset - $Ast.Extent.StartOffset) -NewContent "`$$NewName"
 				}
-				
+			}
+			"System.Management.Automation.Language.IfStatementAst"
+			{
+				foreach ($clause in $Ast.Clauses)
+				{
+					Invoke-AstWalk -Ast $clause.Item1 -Command $Command -Name $Name -NewName $NewName -IsCommand $IsCommand -NoAlias $NoAlias
+					Invoke-AstWalk -Ast $clause.Item2 -Command $Command -Name $Name -NewName $NewName -IsCommand $IsCommand -NoAlias $NoAlias
+				}
+				if ($Ast.ElseClause)
+				{
+					Invoke-AstWalk -Ast $Ast.ElseClause -Command $Command -Name $Name -NewName $NewName -IsCommand $IsCommand -NoAlias $NoAlias
+				}
 			}
 			default
 			{
@@ -390,7 +408,8 @@
 	{
 		[CmdletBinding()]
 		Param (
-			
+			[bool]
+			$WhatIf
 		)
 		
 		foreach ($key in $globalFunctionHash.Keys)
@@ -410,8 +429,8 @@
 			
 			$newString += $content.SubString($currentIndex)
 			
-			[System.IO.File]::WriteAllText($key, $newString)
-			#$newString
+			if ($WhatIf) { $newString }
+			else { [System.IO.File]::WriteAllText($key, $newString) }
 		}
 	}
 	
@@ -478,6 +497,6 @@
 	}
 	
 	Set-PSFResultCache -InputObject $issues -DisableCache $DisableCache
-	Apply-FileReplacement
+	Apply-FileReplacement -WhatIf $WhatIf
 	$issues
 }
