@@ -66,14 +66,18 @@
 		'Get-HelpEx',
         'Get-ModuleDebug',
         'Import-ModuleDebug',
-        'Measure-CommandEx',
+		'Measure-CommandEx',
+		'New-PSMDHeader',
+		'New-PSMDFormatTableDefinition',
         'New-PssModuleProject',
-        'Remove-ModuleDebug',
+		'Remove-ModuleDebug',
+		'Rename-PSMDParameter',
 		'Restart-PSMDShell',
 		'Set-ModuleDebug',
 		'Set-PSMDCmdletBinding',
 		'Set-PSMDModulePath',
-		'Set-PSMDParameterHelp'
+		'Set-PSMDParameterHelp',
+		'Split-PSMDScriptFile'
     )
 	
 	# Cmdlets to export from this module
