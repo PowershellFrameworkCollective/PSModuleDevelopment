@@ -1,4 +1,4 @@
-﻿<Project Synchronized="True" SyncFilter="*.ps1;*.psm1;*.psd1;*.psxml;*.psf;*.pss;*.xml; *.txt">
+﻿<Project Synchronized="True" SyncFilter="*.ps1;*.psm1;*.psd1;*.psxml;*.psf;*.pss;*.xml; *.txt;*.dll">
   <Version>2.0</Version>
   <FileID>37dd5fce-e7b5-4d57-ac37-832055ce49d6</FileID>
   <ProjectType>1</ProjectType>
@@ -17,6 +17,9 @@
     <Folder>functions\format</Folder>
     <Folder>functions\refactor</Folder>
     <Folder>functions\assembly</Folder>
+    <Folder>bin</Folder>
+    <Folder>xml</Folder>
+    <Folder>internal\scripts\NewFolder1</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
@@ -44,6 +47,11 @@
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Rename-PSMDParameter_ps1">functions\refactor\Rename-PSMDParameter.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Expand-PSMDTypeName_ps1">functions\assembly\Expand-PSMDTypeName.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-PSMDParameterHelp_ps1">functions\refactor\Set-PSMDParameterHelp.ps1</File>
+    <File Build="2">bin\PSModuleDevelopment.xml</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-PSMDCmdletBinding_ps1">functions\refactor\Set-PSMDCmdletBinding.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Split-PSMDScriptFile_ps1">functions\refactor\Split-PSMDScriptFile.ps1</File>
+    <File Build="2">bin\PSModuleDevelopment.dll</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-New-PSMDHeader_ps1">functions\utility\New-PSMDHeader.ps1</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>

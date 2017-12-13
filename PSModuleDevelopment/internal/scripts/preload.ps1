@@ -28,3 +28,6 @@ if (-not (Test-Path $root)) { New-Item $root -ItemType Directory -Force | Out-Nu
 if (-not (Test-Path $PSModuleDevelopment_ModuleConfigPath)) { Export-Clixml -InputObject @() -Path $PSModuleDevelopment_ModuleConfigPath}
 
 #endregion Ensure Config path exists
+
+# Pass on the host UI to the library
+[PSModuleDevelopment.Utility.UtilityHost]::RawUI = $host.UI.RawUI
