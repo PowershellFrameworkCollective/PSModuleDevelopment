@@ -63,6 +63,7 @@
 	# Functions to export from this module
     FunctionsToExport = @(
 		'Expand-PSMDTypeName',
+		'Find-PSMDFileContent',
 		'Get-HelpEx',
         'Get-ModuleDebug',
         'Import-ModuleDebug',
@@ -88,8 +89,9 @@
 	
 	# Aliases to export from this module
     AliasesToExport = @(
-        'hex',
+		'find',
 		'Get-ExHelp',
+		'hex',
 		'Restart-Shell',
         'rss',
         'ipmod',

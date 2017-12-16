@@ -52,6 +52,8 @@
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Split-PSMDScriptFile_ps1">functions\refactor\Split-PSMDScriptFile.ps1</File>
     <File Build="2">bin\PSModuleDevelopment.dll</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-New-PSMDHeader_ps1">functions\utility\New-PSMDHeader.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Find-PSMDFileContent_ps1">functions\utility\Find-PSMDFileContent.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-utility_ps1">internal\configurations\utility.ps1</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>
