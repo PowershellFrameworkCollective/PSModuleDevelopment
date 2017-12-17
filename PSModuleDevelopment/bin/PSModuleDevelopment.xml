@@ -4,6 +4,42 @@
         <name>PSModuleDevelopment</name>
     </assembly>
     <members>
+        <member name="T:PSModuleDevelopment.PsmdAssembly.Constructor">
+            <summary>
+            Class containing information about a class's constructor
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.PsmdAssembly.Constructor.Type">
+            <summary>
+            The type the constructor is part of
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.PsmdAssembly.Constructor.Definition">
+            <summary>
+            The constructor definition
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.PsmdAssembly.Constructor.Public">
+            <summary>
+            Whether the constructor is public
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.PsmdAssembly.Constructor.Parameters">
+            <summary>
+            The actual parameters of the constructor
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.PsmdAssembly.Constructor.ConstructorItem">
+            <summary>
+            The actual constructor object
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.PsmdAssembly.Constructor.#ctor(System.Reflection.ConstructorInfo)">
+            <summary>
+            Creates a new constructor object, designed for display in PowerShell
+            </summary>
+            <param name="Info">The constructor info object describing the constructor</param>
+        </member>
         <member name="T:PSModuleDevelopment.Utility.TextAlignment">
             <summary>
             What a text can be aligned to

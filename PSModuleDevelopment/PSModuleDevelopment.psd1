@@ -1,7 +1,7 @@
 ﻿@{
 	
 	# Script module or binary module file associated with this manifest
-	ModuleToProcess = 'PSModuleDevelopment.psm1'
+	RootModule = 'PSModuleDevelopment.psm1'
 	
 	# Version number of this module.
 	ModuleVersion = '1.4.0.27'
@@ -41,7 +41,7 @@
 	
 	# Modules that must be imported into the global environment prior to importing
 	# this module
-	RequiredModules = @("PSFramework")
+	RequiredModules		    = @(@{ ModuleName='PSFramework'; ModuleVersion='0.9.4.9' })
 	
 	# Assemblies that must be loaded prior to importing this module
 	RequiredAssemblies = @('bin\PSModuleDevelopment.dll')
@@ -54,7 +54,7 @@
 	TypesToProcess = @()
 	
 	# Format files (.ps1xml) to be loaded when importing this module
-	FormatsToProcess = @()
+	FormatsToProcess = @('xml\PSModuleDevelopment.Format.ps1xml')
 	
 	# Modules to import as nested modules of the module specified in
 	# ModuleToProcess
@@ -64,17 +64,19 @@
     FunctionsToExport = @(
 		'Expand-PSMDTypeName',
 		'Find-PSMDFileContent',
-		'Get-HelpEx',
-        'Get-ModuleDebug',
-        'Import-ModuleDebug',
-		'Measure-CommandEx',
+		'Get-PSMDAssembly',
+		'Get-PSMDConstructor',
+		'Get-PSMDHelpEx',
+		'Get-PSMDModuleDebug',
+		'Import-PSMDModuleDebug',
+		'Measure-PSMDCommandEx',
 		'New-PSMDHeader',
 		'New-PSMDFormatTableDefinition',
         'New-PssModuleProject',
-		'Remove-ModuleDebug',
+		'Remove-PSMDModuleDebug',
 		'Rename-PSMDParameter',
 		'Restart-PSMDShell',
-		'Set-ModuleDebug',
+		'Set-PSMDModuleDebug',
 		'Set-PSMDCmdletBinding',
 		'Set-PSMDModulePath',
 		'Set-PSMDParameterHelp',
@@ -90,7 +92,6 @@
 	# Aliases to export from this module
     AliasesToExport = @(
 		'find',
-		'Get-ExHelp',
 		'hex',
 		'Restart-Shell',
         'rss',

@@ -14,6 +14,9 @@
         
         .PARAMETER Admin
             The new PowerShell process will be run as admin.
+	
+		.PARAMETER NoProfile
+			The new PowerShell process will not load its profile.
         
         .EXAMPLE
             PS C:\> Restart-PSMDShell
@@ -36,11 +39,22 @@
 		$NoExit,
 		
 		[Switch]
-		$Admin
+		$Admin,
+		
+		[switch]
+		$NoProfile
 	)
 	
-	if ($Admin) { Start-Process powershell.exe -Verb RunAs }
-	else { Start-Process powershell.exe }
+	if ($NoProfile)
+	{
+		if ($Admin) { Start-Process powershell.exe -Verb RunAs -ArgumentList '-NoProfile' }
+		else { Start-Process powershell.exe -ArgumentList '-NoProfile' }
+	}
+	else
+	{
+		if ($Admin) { Start-Process powershell.exe -Verb RunAs }
+		else { Start-Process powershell.exe }
+	}
 	if (-not $NoExit) { exit }
 }
 New-Alias -Name Restart-Shell -Value Restart-PSMDShell -Option AllScope -Scope Global

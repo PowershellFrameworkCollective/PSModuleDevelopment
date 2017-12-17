@@ -1,4 +1,4 @@
-﻿function Import-ModuleDebug
+﻿function Import-PSMDModuleDebug
 {
 	<#
 		.SYNOPSIS
@@ -11,7 +11,7 @@
 			The exact name of the module to import using the specified configuration.
 		
 		.EXAMPLE
-			PS C:\> Import-ModuleDebug -Name 'cPSNetwork'
+			PS C:\> Import-PSMDModuleDebug -Name 'cPSNetwork'
 	
 			Imports the cPSNetwork module as it was configured to be imported using Set-ModuleDebug.
 		

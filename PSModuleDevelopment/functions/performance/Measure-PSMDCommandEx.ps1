@@ -1,4 +1,4 @@
-﻿function Measure-CommandEx
+﻿function Measure-PSMDCommandEx
 {
 	
 	<#
@@ -19,7 +19,7 @@
 			How many times should this performance test be repeated.
 		
 		.EXAMPLE
-			PS C:\> Measure-CommandEx -ScriptBlock { dir \\Server\share } -Iterations 100
+			PS C:\> Measure-PSMDCommandEx -ScriptBlock { dir \\Server\share } -Iterations 100
 	
 			This tries to use Get-ChildItem on a remote directory 100 consecutive times, then measures performance and reports common performance indicators (Average duration, Maximum, Minimum, Total)
 		

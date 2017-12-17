@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PsmdAssembly\Constructor.cs" />
     <Compile Include="Utility\TextAlignment.cs" />
     <Compile Include="Utility\TextHeader.cs" />
     <Compile Include="Utility\UtilityHost.cs" />
