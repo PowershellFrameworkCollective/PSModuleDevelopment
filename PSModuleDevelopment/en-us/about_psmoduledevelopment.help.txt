@@ -1,67 +1,214 @@
 ﻿TOPIC
-  about_psmoduledevelopment
+	about_psmoduledevelopment
 	
 SHORT DESCRIPTION
-  Explains how the PSModuleDevelopment module can enhance your module development
+	Explains how the PSModuleDevelopment module can enhance your module
+	development experience
 
 LONG DESCRIPTION
-  This module enhances module development by adding simple debugging configuration and tools to your console.
+	Welcome to the introductory guide of the PSModuleDevelopment module.
+	
+	This module is designed to help you develop PowerShell modules faster,
+	easier and more reliably, than would otherwise be possible.
+	
+	For brevity's sake, the module shall henceforth be abbreviated to "PSMD"
+	
+	
+	#-------------------------------------------------------------------------#
+	#                                  Index                                  #
+	#-------------------------------------------------------------------------#
+	
+	- The Little Helpers
+	- Refactoring
+	- Gaming the Type System
+	- Multilingual Help
+	- The Need for Speed
+	- Optimizing the debugging cycle
+	- Changelog
+	
+	
+	#-------------------------------------------------------------------------#
+	#                           The Little Helpers                            #
+	#-------------------------------------------------------------------------#
+	
+	Often it is the small things that make all the difference. PSMD provides a
+	few small helpers, that can make all the difference:
+	
+	# find (Find-PSMDFileContent) #
+	#-----------------------------#
+	
+	"find" allows you to swiftly search the module you are working on. For
+	example, the following line:
+	
+	  find "Get-Test"
+	
+	Will search the entire module for all instances of "Get-Test"
+	
+	In order to set this up, you need to point the command to where your module
+	is being stored:
+	
+	  Set-PSMDModulePath -Path "<path to module folder>"
+	
+	If you want that path to persist across multiple sessions, you can register
+	it, which will set the same path again each time you import PSMD:
+	
+	  Register-PSFConfig -FullName 'PSModuleDevelopment.Module.Path'
+	
+	# rss (Restart-PSMDShell #
+	#------------------------#
+	
+	The best we to reset your test environment is to start a new console. This
+	can be cumbersome though ... unless you use PSMD, in which case it is a
+	matter of typing "rss" and sending the command.
+	You can further use one (or multiple) of its parameters for extra benefit:
+	- NoExit: Instead of closing the old console, you clone it
+	- Admin: The new console will be started with elevation
+	- NoProfile: The new console will not load the user profile
+	
+	
+	#-------------------------------------------------------------------------#
+	#                               Refactoring                               #
+	#-------------------------------------------------------------------------#
+	
+	Sometimes you need to fix something at scale. Globally rename a parameter
+	maybe? Change the help text for the same parameter across all commands?
+	This is where the refactoring suite of commands of PSMD comes into play:
+	
+	- Rename-PSMDParameter
+	- Set-PSMDCmdletBinding
+	- Set-PSMDParameterHelp
+	- Split-PSMDScriptFile
+	
+	More detailed guidance on how to use them shall follow in a dedicated
+	article, but they already have full Comment Based Help (with examples).
+	
+	
+	#-------------------------------------------------------------------------#
+	#                         Gaming the Type System                          #
+	#-------------------------------------------------------------------------#
+	
+	Sometimes we need to look beneath the hood of C# and .NET. This is when the
+	suite of commands dealing with assemblies, types at all come in handy.
+	
+	# New-PSMDFormatTableDefinition
+	Give this command any type of object, it will create an XML definition you
+	can use in your module to style the layout of your objects.
+	
+	# Expand-PSMDTypeName
+	Returns the full name of the input object's type, as well as the name of
+	the types it inherits from, recursively until System.Object.
+	
+	# Find-PSMDType
+	Searches assemblies for types.
+	
+	# Get-PSMDAssembly
+	Returns the assemblies currently loaded.
+	
+	# Get-PSMDConstructor
+	Returns information on the available constructors of a type.
+	
+	
+	#-------------------------------------------------------------------------#
+	#                            Multilingual Help                            #
+	#-------------------------------------------------------------------------#
+	
+	In some instances, you may want to provide multilingual help for your
+	module. If you're wondering how to do that, here's a guide that will walk
+	you through the details:
+	
+	  https://allthingspowershell.blogspot.com/2016/08/powershell-modules-multilingual-help.html
+	
+	That said, the PSMD module ships with a command that lets you test out help
+	text on commands in multiple languages:
+	
+	  Get-PSMDHelpEx (Alias: hex)
+	
+	It comes with a few gotchas (the main one being that PowerShell caches the
+	first help retrieved for a command. Testing help in another language
+	requires a restart of the console).
+	
+	
+	#-------------------------------------------------------------------------#
+	#                           The Need for Speed                            #
+	#-------------------------------------------------------------------------#
+	
+	Speed matters. 
+	In order to develop high performance code however, you need to have the
+	tools to measure speed accurately. PowerShell has out of the box a tool
+	that helps with that: 'Measure-Command'
+	However, while Measure-Command is powerful (and you really should master it
+	if you haven't already), sometimes you need to measure many repetitions of
+	code in deeper details. This is where PSMD comes into play with:
+	
+	  Measure-PSMDCommandEx
+	
+	It's basically a Measure-Command, but can run the same snippet dozens or
+	hundreds of time in a row and measure duration statistics (total, average,
+	minimum, ...).
+	
+	
+	#-------------------------------------------------------------------------#
+	#                     Optimizing the debugging cycle                      #
+	#-------------------------------------------------------------------------#
+	
+	The module provides, using its *-PSMDModuleDebug commands, a system to
+	automatedly perform tests. It can reduce the test workflow in your console
+	window to the simple act of restarting the shell.
+	
+	For more details on how to set up your computer and module for this
+	automated testing cycle, see the following blog post:
+	
+	  https://allthingspowershell.blogspot.com/2016/08/module-development-optimizing-test-and.html
+	
 
-  To get the best mileage out of this, add its import to your profile. See this article if you wonder how to do that:
-  http://allthingspowershell.blogspot.de/2015/01/about-profiles.html
+	#-------------------------------------------------------------------------#
+	#                                Changelog                                #
+	#-------------------------------------------------------------------------#
+	
+	2.0.0.0 (December 18th, 2017)
+	  - Breaking change: Renamed all commands to include the PSMD prefix
+	  - New function: Find-PSMDFileContent (alias: find), to swiftly search in
+	                  your current project
+	  - New function: New-PSMDHeader, to create headers for documentation
+	  - New function: Set-PSMDModulePath, to define the project currently being
+	                  worked on
+	  - Suite of new functions that refactor a project:
+	    Rename-PSMDParameter: Renames a parameter, then updates the function's
+		                      internal use, then updates the parameter usage
+							  across the entire module.
+		Set-PSMDCmdletBinding: Inserts a CmdletBinding-Attribute into all
+		                       functions that need one
+		Set-PSMDParameterHelp: Globally updates parameter help for all commands
+		                       that share a parameter across the project
+		Split-PSMDScriptFile: Exports all functions in a file and creates new
+		                      files, one per function, named after the function
+	  - New function: New-PSMDFormatTableDefinition, creates format xml for
+	                  input types that will present it by default as a table
+	  - New function: Expand-PSMDTypeName, returns a list of all type-names an
+	                  object has (by default, the entire inheritance chain)
+	  - New function: Find-PSMDType, search currently imported assemblies for
+	                  types
+	  - New function: Get-PSMDAssembly, return the currently imported assemblies
+	  - New function: Get-PSMDConstructor, return the constructor definitions
+	                  for a type or the type of an input object
+	1.3.0.0 (October 19th, 2016):
+	  - New function: Measure-CommandEx
+	    Measures the executiontime of a scriptblock any number of time and
+		presents the average execution time.
+	    This provides better statistics, as a single run can easily be
+		influenced by outside factors, while an average over a thousand
+		executions will be more reliable.
+	  - Renamed function: Get-ExHelp --> Get-HelpEx
+	    Introduces constistent naming across functions and prevents confusing
+		the "ex" (for Extended) with a module prefix.
+	  - New Alias: Get-ExHelp --> Get-HelpEx
+	    So that users who still like the old naming can still use it
+	  - New Alias: hex --> Get-HelpEx
+	    Because getting help should be simple.
 
-  During import it will automatically import all modules that you configure it to import, allowing you to specify ...
-  - Whether they should be imported in debug mode
-  - Any action that should be taken before importing
-  - Any action that should be taken after importing
-
-  To configure this, use Set-ModuleDebug
-  To check the configuration, use Get-ModuleDebug
-  To remove configurations, use Remove-ModuleDebug
-
-  You can also configure a module to NOT be automatically imported and still store debugmode, preimportaction and postimportaction for it. In that case you can use Import-ModuleDebug to import it manually at a later time.
-
-  Also, to further simplify your module testing, you can use the function Restart-Shell (or its alias "rss") to swiftly restart a powershell console, reinitializing a clean environment (and auto-importing all modules configured for auto-import).
-
-  | Debug Mode:
-  It was said, that modules may be configured to launch in debug mode. However, debug mode is something that must be configured within the module to be thus imported.
-  As a general good practice, each module should ship with its own tests. These however should not always be actually executed, thus a trigger must be configured. This module assumes that one such trigger is a variable named "<modulename>_DebugMode" and will write this variable on the global scope, if a configuration is set to debug mode. The module to be tested should then recognize this variable and run its tests. However, this can only ever be configured on the module to be tested.
-
-  Example for debug mode:
-  The module "cPSNetwork" has its own tests file. Its content looks like this:
-
-  if ($cPSNetwork_DebugMOde)
-  {
-    #region Tests
-    # Test 1
-    # Test 2
-    # Test 3
-    #endregion Tests
-  }
-
-
-  | Module configurations:
-  All this configuration is stored in an xml file. By default, it is stored in this path:
-  "$($env:APPDATA)\InfernalAssociates\PowerShell\PSModuleDevelopment\config.xml"
-
-  However, this behavior can be overridden, by configuring a different path (including the file name) in this variable:
-  $global:PSModuleDevelopment_ModuleConfigPath
-  (Yes, on the global scope, since module management is a global matter as far as the console is concerned)
-
-VERSIONS
-1.3.0.0 (October 19th, 2016):
-  - New function: Measure-CommandEx
-    Measures the executiontime of a scriptblock any number of time and presents the average execution time.
-    This provides better statistics, as a single run can easily be influenced by outside factors, while an average over a thousand executions will be more reliable.
-  - Renamed function: Get-ExHelp --> Get-HelpEx
-    Introduces constistent naming across functions and prevents confusing the "ex" (for Extended) to be confused with a module prefix.
-  - New Alias: Get-ExHelp --> Get-HelpEx
-    So that users who still like the old naming can still use it
-  - New Alias: hex --> Get-HelpEx
-    Because getting help should be simple.
-
-1.2.0.0 (August 15th, 2016): 
-  - New function: Get-ExHelp
-    Provides localized help to better test modules with localized help content.
+	1.2.0.0 (August 15th, 2016): 
+	  - New function: Get-ExHelp
+	    Provides localized help to better test modules with localized help
+		content.
 KEYWORDS
 	module development debugging
