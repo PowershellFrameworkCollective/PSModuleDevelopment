@@ -19,7 +19,16 @@
             Use this if you want the function to throw terminating errors you want to catch.
 		
 		.EXAMPLE
-			PS C:\> Set-PSMDModulePath -Path 
+			Set-PSMDModulePath -Path "C:\github\dbatools"
+	
+			Sets the current module path to "C:\github\dbatools"
+	
+		.EXAMPLE
+			Set-PSMDModulePath -Path "C:\github\dbatools"
+			Register-PSFConfig -FullName 'PSModuleDevelopment.Module.Path'
+	
+			Sets the current module path to "C:\github\dbatools"
+			Then stores the setting in registry, causing it to be persisted acros multiple sessions.
 	#>
 	[CmdletBinding()]
 	Param (

@@ -1,4 +1,4 @@
-﻿function Set-ModuleDebug
+﻿function Set-PSMDModuleDebug
 {
 	<#
 		.SYNOPSIS
@@ -6,7 +6,7 @@
 		
 		.DESCRIPTION
 			This module allows specifying other modules to import during import of this module.
-			Using the Set-ModuleDebug function it is possible to configure, which module is automatically imported, without having to edit the profile each time.
+			Using the Set-PSMDModuleDebug function it is possible to configure, which module is automatically imported, without having to edit the profile each time.
 			This import occurs at the end of importing this module, thus setting this module in the profile as automatically imported is recommended.
 		
 		.PARAMETER Name
@@ -23,7 +23,7 @@
 		
 		.PARAMETER PreImportAction
 			Any scriptblock that should run before importing the module.
-			Only used when importing modules using the "Invoke-ModuleDebug" funtion, as his used for modules set to auto-import.
+			Only used when importing modules using the "Invoke-ModuleDebug" funtion, as is used for modules set to auto-import.
 		
 		.PARAMETER PostImportAction
 			Any scriptblock that should run after importing the module.
@@ -36,17 +36,17 @@
 			Changes all registered modules to not automatically import on powershell launch.
 		
 		.EXAMPLE
-			PS C:\> Set-ModuleDebug -Name 'cPSNetwork' -AutoImport
+			PS C:\> Set-PSMDModuleDebug -Name 'cPSNetwork' -AutoImport
 			
 			Configures the module cPSNetwork to automatically import after importing PSModuleDevelopment
 		
 		.EXAMPLE
-			PS C:\> Set-ModuleDebug -Name 'cPSNetwork' -AutoImport -DebugMode
+			PS C:\> Set-PSMDModuleDebug -Name 'cPSNetwork' -AutoImport -DebugMode
 			
 			Configures the module cPSNetwork to automatically import after importing PSModuleDevelopment using debug mode.
 		
 		.EXAMPLE
-			PS C:\> Set-ModuleDebug -Name 'cPSNetwork' -AutoImport -DebugMode -PreImportAction { Write-Host "Was done before importing" } -PostImportAction { Write-Host "Was done after importing" }
+			PS C:\> Set-PSMDModuleDebug -Name 'cPSNetwork' -AutoImport -DebugMode -PreImportAction { Write-Host "Was done before importing" } -PostImportAction { Write-Host "Was done after importing" }
 			
 			Configures the module cPSNetwork to automatically import after importing PSModuleDevelopment using debug mode.
 			- Running a scriptblock before import
@@ -157,4 +157,4 @@
 	Export-Clixml -InputObject $newModules -Path $PSModuleDevelopment_ModuleConfigPath
 	#endregion Name
 }
-Set-Alias -Name smd -Value Set-ModuleDebug -Option AllScope -Scope Global
+Set-Alias -Name smd -Value Set-PSMDModuleDebug -Option AllScope -Scope Global

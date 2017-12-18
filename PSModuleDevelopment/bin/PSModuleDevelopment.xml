@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PSModuleDevelopment</name>
+    </assembly>
+    <members>
+        <member name="T:PSModuleDevelopment.PsmdAssembly.Constructor">
+            <summary>
+            Class containing information about a class's constructor
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.PsmdAssembly.Constructor.Type">
+            <summary>
+            The type the constructor is part of
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.PsmdAssembly.Constructor.Definition">
+            <summary>
+            The constructor definition
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.PsmdAssembly.Constructor.Public">
+            <summary>
+            Whether the constructor is public
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.PsmdAssembly.Constructor.Parameters">
+            <summary>
+            The actual parameters of the constructor
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.PsmdAssembly.Constructor.ConstructorItem">
+            <summary>
+            The actual constructor object
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.PsmdAssembly.Constructor.#ctor(System.Reflection.ConstructorInfo)">
+            <summary>
+            Creates a new constructor object, designed for display in PowerShell
+            </summary>
+            <param name="Info">The constructor info object describing the constructor</param>
+        </member>
+        <member name="T:PSModuleDevelopment.Utility.TextAlignment">
+            <summary>
+            What a text can be aligned to
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextAlignment.Left">
+            <summary>
+            The text should be left-aligned
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextAlignment.Center">
+            <summary>
+            The text should be centered
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextAlignment.Right">
+            <summary>
+            The text should be right aligned
+            </summary>
+        </member>
+        <member name="T:PSModuleDevelopment.Utility.TextHeader">
+            <summary>
+            Object containing information 
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Utility.TextHeader.Text">
+            <summary>
+            The text of the header
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Utility.TextHeader.LinesOfText">
+            <summary>
+            The number of lines the header text has
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Utility.TextHeader.WidthOfText">
+            <summary>
+            The maximum width any line of text has.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.CornerLT">
+            <summary>
+            The symbol of the left top corner
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.CornerRT">
+            <summary>
+            The symbol of the right top corner
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.CornerLB">
+            <summary>
+            The symbol of the left bottom corner
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.CornerRB">
+            <summary>
+            The symbol of the right bottom corner
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.BorderRight">
+            <summary>
+            The symbol of the right border
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.BorderLeft">
+            <summary>
+            The symbol of the left border
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.BorderTop">
+            <summary>
+            The symbol of the top border
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.BorderBottom">
+            <summary>
+            The symbol of the bottom border
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.MaxWidth">
+            <summary>
+            Whether the header should be as wide as the window running the code
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.Width">
+            <summary>
+            How wide should the header be, if it isn't set to max. Anything shorter than the text width will be ignored
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.TextAlignment">
+            <summary>
+            How the text should be aligned within the header
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.TextHeader.Padding">
+            <summary>
+            Whether the text should be padded on the side it is aligned to
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Utility.TextHeader.#ctor(System.String)">
+            <summary>
+            Creates a new header around the specified string
+            </summary>
+            <param name="Text">The string to put in a header</param>
+        </member>
+        <member name="M:PSModuleDevelopment.Utility.TextHeader.ToString">
+            <summary>
+            Converts the header into its string representation
+            </summary>
+            <returns>The header text to use whereever said header is needed.</returns>
+        </member>
+        <member name="T:PSModuleDevelopment.Utility.UtilityHost">
+            <summary>
+            Host class, containing statics in support of the utility namespace
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.UtilityHost.RawUI">
+            <summary>
+            Gives access to the host UI, in order to access window information
+            </summary>
+        </member>
+    </members>
+</doc>

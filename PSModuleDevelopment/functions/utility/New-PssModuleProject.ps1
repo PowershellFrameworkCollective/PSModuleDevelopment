@@ -68,7 +68,7 @@
         $Force
     )
     
-    if (-not $PSBoundParameters.ContainsKey("Path"))
+    if (Test-PSFParameterBinding -ParameterName "Path" -Not)
     {
         try
         {

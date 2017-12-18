@@ -1,10 +1,10 @@
 ﻿@{
 	
 	# Script module or binary module file associated with this manifest
-	ModuleToProcess = 'PSModuleDevelopment.psm1'
+	RootModule = 'PSModuleDevelopment.psm1'
 	
 	# Version number of this module.
-	ModuleVersion = '1.3.1.17'
+	ModuleVersion = '2.0.0.0'
 	
 	# ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -41,10 +41,10 @@
 	
 	# Modules that must be imported into the global environment prior to importing
 	# this module
-	RequiredModules = @("PSFramework")
+	RequiredModules		    = @(@{ ModuleName='PSFramework'; ModuleVersion='0.9.4.9' })
 	
 	# Assemblies that must be loaded prior to importing this module
-	RequiredAssemblies = @()
+	RequiredAssemblies = @('bin\PSModuleDevelopment.dll')
 	
 	# Script files (.ps1) that are run in the caller's environment prior to
 	# importing this module
@@ -54,7 +54,7 @@
 	TypesToProcess = @()
 	
 	# Format files (.ps1xml) to be loaded when importing this module
-	FormatsToProcess = @()
+	FormatsToProcess = @('xml\PSModuleDevelopment.Format.ps1xml')
 	
 	# Modules to import as nested modules of the module specified in
 	# ModuleToProcess
@@ -62,14 +62,26 @@
 	
 	# Functions to export from this module
     FunctionsToExport = @(
-        'Get-HelpEx',
-        'Get-ModuleDebug',
-        'Import-ModuleDebug',
-        'Measure-CommandEx',
-        'New-PssModuleProject',
-        'Remove-ModuleDebug',
-        'Restart-Shell',
-        'Set-ModuleDebug'
+		'Expand-PSMDTypeName',
+		'Find-PSMDFileContent',
+		'Find-PSMDType',
+		'Get-PSMDAssembly',
+		'Get-PSMDConstructor',
+		'Get-PSMDHelpEx',
+		'Get-PSMDModuleDebug',
+		'Import-PSMDModuleDebug',
+		'Measure-PSMDCommandEx',
+		'New-PSMDHeader',
+		'New-PSMDFormatTableDefinition',
+		'New-PssModuleProject',
+		'Remove-PSMDModuleDebug',
+		'Rename-PSMDParameter',
+		'Restart-PSMDShell',
+		'Set-PSMDModuleDebug',
+		'Set-PSMDCmdletBinding',
+		'Set-PSMDModulePath',
+		'Set-PSMDParameterHelp',
+		'Split-PSMDScriptFile'
     )
 	
 	# Cmdlets to export from this module
@@ -80,8 +92,9 @@
 	
 	# Aliases to export from this module
     AliasesToExport = @(
-        'hex',
-        'Get-ExHelp',
+		'find',
+		'hex',
+		'Restart-Shell',
         'rss',
         'ipmod',
         'smd'

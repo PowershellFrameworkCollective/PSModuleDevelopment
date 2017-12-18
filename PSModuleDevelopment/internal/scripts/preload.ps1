@@ -1,4 +1,17 @@
-﻿#region Ensure Config path exists
+﻿
+#region Configuration
+<#
+Usually configuration is imported after most of the module has been imported.
+This module is an exception to this, since a significant amount of its tasks are performed on import.
+#>
+
+foreach ($file in (Get-ChildItem -Path "$PSModuleDevelopmentModuleRoot\internal\configurations"))
+{
+	. Import-PSMDFile -Path $file.FullName
+}
+#endregion Configuration
+
+#region Ensure Config path exists
 
 # If there is no global override for the config path, use module default path
 # Note: Generally, you shouldn't enforce checking on the global scope for variables. Since importing modules however is a global action, this is an exception
@@ -15,3 +28,6 @@ if (-not (Test-Path $root)) { New-Item $root -ItemType Directory -Force | Out-Nu
 if (-not (Test-Path $PSModuleDevelopment_ModuleConfigPath)) { Export-Clixml -InputObject @() -Path $PSModuleDevelopment_ModuleConfigPath}
 
 #endregion Ensure Config path exists
+
+# Pass on the host UI to the library
+[PSModuleDevelopment.Utility.UtilityHost]::RawUI = $host.UI.RawUI

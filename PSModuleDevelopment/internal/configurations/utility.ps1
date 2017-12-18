@@ -1,0 +1,1 @@
+﻿Set-PSFConfig -Module PSModuleDevelopment -Name "Module.Path" -Value "" -Initialize -Validation "string" -Handler { } -Description "The path to the module currently under development. Used as default path by commnds that work within a module directory."

@@ -1,11 +1,11 @@
-﻿Function Get-HelpEx
+﻿Function Get-PSMDHelpEx
 {
 	<#
 		.SYNOPSIS
 			Displays localized information about Windows PowerShell commands and concepts.
 	
 		.DESCRIPTION
-			The Get-HelpEx function is a wrapper around get-help that allows localizing help queries.
+			The Get-PSMDHelpEx function is a wrapper around get-help that allows localizing help queries.
 			This is especially useful when developing modules with help in multiple languages.
 	
 		.PARAMETER Category
@@ -23,7 +23,7 @@
 		    This parameter is effective only when help files are for the command are installed on the computer. It has no effect on displays of conceptual ("About_") help.
 
 		.PARAMETER Examples
-		    Displays only the name, synopsis, and examples. To display only the examples, type "(Get-HelpEx <cmdlet-name>).Examples".
+		    Displays only the name, synopsis, and examples. To display only the examples, type "(Get-PSMDHelpEx <cmdlet-name>).Examples".
 
 		    This parameter is effective only when help files are for the command are installed on the computer. It has no effect on displays of conceptual ("About_") help.
 
@@ -110,7 +110,7 @@
 		    This parameter is introduced in Windows PowerShell 3.0.
 	
 		.EXAMPLE
-			PS C:\> Get-HelpEx Get-Help "en-us" -Detailed
+			PS C:\> Get-PSMDHelpEx Get-Help "en-us" -Detailed
 	
 			Gets the detailed help text of Get-Help in English
 	
@@ -175,16 +175,16 @@
 	
 	Begin
 	{
-		if ($PSBoundParameters.ContainsKey("SetLanguage")) { $script:set_language = $SetLanguage }
-		if ($PSBoundParameters.ContainsKey("Language"))
+		if (Test-PSFParameterBinding -ParameterName "SetLanguage") { $script:set_language = $SetLanguage }
+		if (Test-PSFParameterBinding -ParameterName "Language")
 		{
 			try { [System.Threading.Thread]::CurrentThread.CurrentUICulture = $Language }
-			catch { Write-Warning "Failed to set language: $($_.Exception.Message)" }
+			catch { Write-PSFMessage -Level Warning -Message "Failed to set language" -ErrorRecord $_ -Tag 'fail','language' }
 		}
 		elseif ($script:set_language)
 		{
 			try { [System.Threading.Thread]::CurrentThread.CurrentUICulture = $script:set_language }
-			catch { Write-Warning "Failed to set language: $($_.Exception.Message)" }
+			catch { Write-PSFMessage -Level Warning -Message "Failed to set language" -ErrorRecord $_ -Tag 'fail', 'language' }
 		}
 		
 		# Prepare Splat for splatting a steppable pipeline
@@ -212,5 +212,4 @@
 		catch { throw }
 	}
 }
-New-Alias -Name Get-ExHelp -Value Get-HelpEx -Scope Global -Option AllScope
-New-Alias -Name hex -Value Get-HelpEx -Scope Global -Option AllScope
+New-Alias -Name hex -Value Get-PSMDHelpEx -Scope Global -Option AllScope

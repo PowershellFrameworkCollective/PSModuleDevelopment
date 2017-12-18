@@ -1,4 +1,4 @@
-﻿function Get-ModuleDebug
+﻿function Get-PSMDModuleDebug
 {
 	<#
 		.SYNOPSIS
@@ -12,7 +12,7 @@
 			A string filter applied to the module name. All modules of matching name (using a -Like comparison) will be returned.
 		
 		.EXAMPLE
-			PS C:\> Get-ModuleDebug -Filter *net*
+			PS C:\> Get-PSMDModuleDebug -Filter *net*
 	
 			Returns the module debugging configuration for all modules with a name that contains "net"
 		

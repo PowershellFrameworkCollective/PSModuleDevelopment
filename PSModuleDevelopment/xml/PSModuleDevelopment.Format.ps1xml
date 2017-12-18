@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<Configuration>
+	<ViewDefinitions>
+		<!-- PSModuleDevelopment.PsmdAssembly.Constructor -->
+		<View>
+			<Name>PSModuleDevelopment.PsmdAssembly.Constructor</Name>
+			<ViewSelectedBy>
+				<TypeName>PSModuleDevelopment.PsmdAssembly.Constructor</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<AutoSize/>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Type</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Definition</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Public</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+	</ViewDefinitions>
+</Configuration>

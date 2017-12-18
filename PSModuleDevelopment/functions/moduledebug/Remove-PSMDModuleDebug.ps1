@@ -1,4 +1,4 @@
-﻿function Remove-ModuleDebug
+﻿function Remove-PSMDModuleDebug
 {
 	<#
 		.SYNOPSIS
@@ -11,7 +11,7 @@
 			Name of modules whose debugging configuration should be removed.
 		
 		.EXAMPLE
-			PS C:\> Remove-ModuleDebug -Name "cPSNetwork"
+			PS C:\> Remove-PSMDModuleDebug -Name "cPSNetwork"
 	
 			Removes all module debugging configuration for the module cPSNetwork
 		
