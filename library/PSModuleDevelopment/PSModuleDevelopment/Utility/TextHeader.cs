@@ -95,11 +95,19 @@ namespace PSModuleDevelopment.Utility
         /// </summary>
         public int Padding;
 
+        /// <summary>
+        /// Creates a new header around the specified string
+        /// </summary>
+        /// <param name="Text">The string to put in a header</param>
         public TextHeader(string Text)
         {
             this.Text = Text;
         }
 
+        /// <summary>
+        /// Converts the header into its string representation
+        /// </summary>
+        /// <returns>The header text to use whereever said header is needed.</returns>
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

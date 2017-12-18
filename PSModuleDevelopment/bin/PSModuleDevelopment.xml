@@ -140,6 +140,18 @@
             Whether the text should be padded on the side it is aligned to
             </summary>
         </member>
+        <member name="M:PSModuleDevelopment.Utility.TextHeader.#ctor(System.String)">
+            <summary>
+            Creates a new header around the specified string
+            </summary>
+            <param name="Text">The string to put in a header</param>
+        </member>
+        <member name="M:PSModuleDevelopment.Utility.TextHeader.ToString">
+            <summary>
+            Converts the header into its string representation
+            </summary>
+            <returns>The header text to use whereever said header is needed.</returns>
+        </member>
         <member name="T:PSModuleDevelopment.Utility.UtilityHost">
             <summary>
             Host class, containing statics in support of the utility namespace
