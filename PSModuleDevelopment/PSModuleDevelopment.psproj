@@ -19,7 +19,6 @@
     <Folder>functions\assembly</Folder>
     <Folder>bin</Folder>
     <Folder>xml</Folder>
-    <Folder>internal\scripts\NewFolder1</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
