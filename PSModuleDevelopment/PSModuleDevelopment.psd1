@@ -64,6 +64,7 @@
     FunctionsToExport = @(
 		'Expand-PSMDTypeName',
 		'Find-PSMDFileContent',
+		'Find-PSMDType',
 		'Get-PSMDAssembly',
 		'Get-PSMDConstructor',
 		'Get-PSMDHelpEx',
