@@ -73,7 +73,7 @@
 		'Measure-PSMDCommandEx',
 		'New-PSMDHeader',
 		'New-PSMDFormatTableDefinition',
-        'New-PssModuleProject',
+		'New-PssModuleProject',
 		'Remove-PSMDModuleDebug',
 		'Rename-PSMDParameter',
 		'Restart-PSMDShell',
