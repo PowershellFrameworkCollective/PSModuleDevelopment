@@ -54,8 +54,8 @@ LONG DESCRIPTION
 	
 	  Register-PSFConfig -FullName 'PSModuleDevelopment.Module.Path'
 	
-	# rss (Restart-PSMDShell #
-	#------------------------#
+	# rss (Restart-PSMDShell) #
+	#-------------------------#
 	
 	The best we to reset your test environment is to start a new console. This
 	can be cumbersome though ... unless you use PSMD, in which case it is a
