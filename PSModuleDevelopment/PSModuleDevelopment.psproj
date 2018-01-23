@@ -1,4 +1,4 @@
-﻿<Project Synchronized="True" SyncFilter="*.ps1;*.psm1;*.psd1;*.psxml;*.psf;*.pss;*.xml; *.txt;*.dll">
+﻿<Project Synchronized="True" SyncFilter="*.ps1;*.psm1;*.psd1;*.psxml;*.psf;*.pss;*.xml; *.txt;*.dll;*.ps1xml;*.md">
   <Version>2.0</Version>
   <FileID>37dd5fce-e7b5-4d57-ac37-832055ce49d6</FileID>
   <ProjectType>1</ProjectType>
@@ -19,6 +19,9 @@
     <Folder>functions\assembly</Folder>
     <Folder>bin</Folder>
     <Folder>xml</Folder>
+    <Folder>tests</Folder>
+    <Folder>tests\functions</Folder>
+    <Folder>tests\general</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
@@ -54,9 +57,18 @@
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Find-PSMDFileContent_ps1">functions\utility\Find-PSMDFileContent.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-utility_ps1">internal\configurations\utility.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-PSMDConstructor_ps1">functions\assembly\Get-PSMDConstructor.ps1</File>
-    <File Build="2">xml\PSModuleDevelopment.Format.ps1xml</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-PSMDAssembly_ps1">functions\assembly\Get-PSMDAssembly.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Find-PSMDType_ps1">functions\assembly\Find-PSMDType.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-pester_ps1">tests\pester.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-FileIntegrity_Exceptions_ps1">tests\general\FileIntegrity.Exceptions.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-FileIntegrity_Tests_ps1">tests\general\FileIntegrity.Tests.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Help_Exceptions_ps1">tests\general\Help.Exceptions.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Help_Tests_ps1">tests\general\Help.Tests.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-manifest_Tests_ps1">tests\general\manifest.Tests.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-PSScriptAnalyzer_Tests_ps1">tests\general\PSScriptAnalyzer.Tests.ps1</File>
+    <File Build="2">tests\readme.md</File>
+    <File Build="2">xml\PSModuleDevelopment.Format.ps1xml</File>
+    <File Build="2">tests\functions\readme.md</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>
