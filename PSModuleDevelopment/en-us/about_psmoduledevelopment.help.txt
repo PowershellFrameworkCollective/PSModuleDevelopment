@@ -165,6 +165,10 @@ LONG DESCRIPTION
 	#                                Changelog                                #
 	#-------------------------------------------------------------------------#
 	
+	2.1.0.1 (???)
+	  - new: Included suite of tests, in order to provide a more reliable user
+	         experience.
+	
 	2.0.0.0 (December 18th, 2017)
 	  - Breaking change: Renamed all commands to include the PSMD prefix
 	  - New function: Find-PSMDFileContent (alias: find), to swiftly search in
