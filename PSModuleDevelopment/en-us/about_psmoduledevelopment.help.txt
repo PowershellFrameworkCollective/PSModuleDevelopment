@@ -165,9 +165,11 @@ LONG DESCRIPTION
 	#                                Changelog                                #
 	#-------------------------------------------------------------------------#
 	
-	2.1.0.1 (???)
+	2.1.0.1 (January 24th, 2018)
 	  - new: Included suite of tests, in order to provide a more reliable user
 	         experience.
+	  - new: Command New-PSMDDotNetProject
+	         A wrapper around dotnet.exe
 	
 	2.0.0.0 (December 18th, 2017)
 	  - Breaking change: Renamed all commands to include the PSMD prefix
