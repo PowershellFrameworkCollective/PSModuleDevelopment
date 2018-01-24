@@ -11,3 +11,16 @@ foreach ($__module in $__modules)
 
 # Import License
 . Import-PSMDFile -Path "$PSModuleRoot\internal\scripts\license.ps1"
+
+# Import maintenance tasks
+foreach ($file in (Get-ChildItem -Path "$PSModuleRoot\internal\maintenance"))
+{
+	. Import-PSMDFile -Path $file.FullName
+}
+
+# Import tab completion
+foreach ($file in (Get-ChildItem -Path "$PSModuleRoot\internal\tabcompletion\scriptblocks"))
+{
+	. Import-PSMDFile -Path $file.FullName
+}
+Import-PSMDFile -Path "$PSModuleRoot\internal\tabcompletion\assignment.ps1"

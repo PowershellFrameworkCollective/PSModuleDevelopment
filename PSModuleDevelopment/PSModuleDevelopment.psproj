@@ -23,6 +23,10 @@
     <Folder>tests\functions</Folder>
     <Folder>tests\general</Folder>
     <Folder>internal\functions</Folder>
+    <Folder>functions\templating</Folder>
+    <Folder>internal\tabcompletion</Folder>
+    <Folder>internal\tabcompletion\scriptblocks</Folder>
+    <Folder>internal\maintenance</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
@@ -70,6 +74,12 @@
     <File Build="2">tests\readme.md</File>
     <File Build="2">xml\PSModuleDevelopment.Format.ps1xml</File>
     <File Build="2">tests\functions\readme.md</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-New-PSMDDotNetProject_ps1">functions\templating\New-PSMDDotNetProject.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-assignment_ps1">internal\tabcompletion\assignment.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-dotNetTemplates_ps1">internal\tabcompletion\scriptblocks\dotNetTemplates.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-dotNetTemplatesUninstall_ps1">internal\tabcompletion\scriptblocks\dotNetTemplatesUninstall.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-dotNetTemplateCache_ps1">internal\maintenance\dotNetTemplateCache.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-dotNetTemplatesInstall_ps1">internal\tabcompletion\scriptblocks\dotNetTemplatesInstall.ps1</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>
