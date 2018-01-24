@@ -5,7 +5,7 @@ Usually configuration is imported after most of the module has been imported.
 This module is an exception to this, since a significant amount of its tasks are performed on import.
 #>
 
-foreach ($file in (Get-ChildItem -Path "$PSModuleDevelopmentModuleRoot\internal\configurations"))
+foreach ($file in (Get-ChildItem -Path "$PSModuleRoot\internal\configurations"))
 {
 	. Import-PSMDFile -Path $file.FullName
 }

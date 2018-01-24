@@ -59,6 +59,10 @@
 			
 			Renames the parameter 'Foo' of the command 'Get-Test' to 'Bar' for all scripts stored in 'C:\Scripts\Modules\MyModule'
 	#>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseSupportsShouldProcess", "")]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseDeclaredVarsMoreThanAssignments", "")]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseOutputTypeCorrectly", "")]
 	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true)]
@@ -265,7 +269,7 @@
 				foreach ($property in $Ast.PSObject.Properties)
 				{
 					if ($property.Name -eq "Parent") { continue }
-					if ($property.Value -eq $null) { continue }
+					if ($null -eq $property.Value) { continue }
 					
 					if (Get-Member -InputObject $property.Value -Name GetEnumerator -MemberType Method)
 					{
@@ -303,7 +307,7 @@
 		if ($name -notlike "-*") { $name = "-$name" }
 		
 		$length = $Ast.Extent.EndOffset - $Ast.Extent.StartOffset
-		if ($Ast.Argument -ne $null) { $length = $Ast.Argument.Extent.StartOffset - $Ast.Extent.StartOffset - 1 }
+		if ($null -ne $Ast.Argument) { $length = $Ast.Argument.Extent.StartOffset - $Ast.Extent.StartOffset - 1 }
 		
 		Add-FileReplacement -Path $Ast.Extent.File -Start $Ast.Extent.StartOffset -Length $length -NewContent $name
 	}
@@ -406,6 +410,7 @@
 	
 	function Apply-FileReplacement
 	{
+		[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseApprovedVerbs", "")]
 		[CmdletBinding()]
 		Param (
 			[bool]
@@ -465,22 +470,6 @@
 			return
 		}
 	}
-	
-	<#
-	$param = $com.Parameters.$Name
-	if ($param -eq $null)
-	{
-		Stop-PSFFunction -Message "Parameter $param not found on command $Command" -EnableException $EnableException -Category ObjectNotFound -Tag "fail", "input"
-		return
-	}
-	
-	$names = @()
-	$names += $param.Name
-	foreach ($alias in $param.Attributes.AliasNames)
-	{
-		if ($alias.Length -gt 0) { $names += $alias }
-	}
-	#>
 	
 	$files = Get-ChildItem -Path $Path -Recurse | Where-Object Extension -Match "\.ps1|\.psm1"
 	

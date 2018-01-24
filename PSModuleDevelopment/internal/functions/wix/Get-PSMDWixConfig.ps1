@@ -1,5 +1,6 @@
 ﻿Function Get-PSMDWixConfig
 {
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingEmptyCatchBlock", "")]
 	[Cmdletbinding()]
 	Param (
 		[Parameter(Mandatory = $false)]

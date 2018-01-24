@@ -1,5 +1,6 @@
 ﻿Function Set-PSMDWixConfig
 {
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 	[Cmdletbinding()]
 	Param (
 		[Parameter(Mandatory = $false)]

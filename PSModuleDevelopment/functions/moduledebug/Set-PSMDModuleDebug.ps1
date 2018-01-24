@@ -28,12 +28,22 @@
 		.PARAMETER PostImportAction
 			Any scriptblock that should run after importing the module.
 			Only used when importing modules using the "Invoke-ModuleDebug" funtion, as his used for modules set to auto-import.
+	
+		.PARAMETER Priority
+			When importing modules in a debugging context, they are imported in the order of their priority.
+			The lower the number, the sooner it is imported.
 		
 		.PARAMETER AllAutoImport
 			Changes all registered modules to automatically import on powershell launch.
 		
 		.PARAMETER NoneAutoImport
 			Changes all registered modules to not automatically import on powershell launch.
+	
+		.PARAMETER Confirm
+			If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.
+		
+		.PARAMETER WhatIf
+			If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.
 		
 		.EXAMPLE
 			PS C:\> Set-PSMDModuleDebug -Name 'cPSNetwork' -AutoImport
@@ -60,7 +70,8 @@
 			Author: Friedrich Weinmann
 			Created on: August 7th, 2016
 	#>
-	[CmdletBinding(DefaultParameterSetName = "Name")]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+	[CmdletBinding(DefaultParameterSetName = "Name", SupportsShouldProcess = $true)]
 	Param (
 		[Parameter(Mandatory = $true, Position = 0, ParameterSetName = "Name")]
 		[Alias('n')]
@@ -106,25 +117,31 @@
 	if ($AllAutoImport)
 	{
 		$allModules = Import-Clixml $PSModuleDevelopment_ModuleConfigPath
-		foreach ($module in $allModules)
+		if ($PSCmdlet.ShouldProcess(($allModules.Name -join ", "), "Configuring modules to automatically import"))
 		{
-			$module.AutoImport = $true
+			foreach ($module in $allModules)
+			{
+				$module.AutoImport = $true
+			}
+			Export-Clixml -InputObject $allModules -Path $PSModuleDevelopment_ModuleConfigPath
 		}
-		Export-Clixml -InputObject $allModules -Path $PSModuleDevelopment_ModuleConfigPath
 	}
 	#endregion AllAutoImport
 	
-	#region AllAutoImport
+	#region NoneAutoImport
 	if ($NoneAutoImport)
 	{
 		$allModules = Import-Clixml $PSModuleDevelopment_ModuleConfigPath
-		foreach ($module in $allModules)
+		if ($PSCmdlet.ShouldProcess(($allModules.Name -join ", "), "Configuring modules to not automatically import"))
 		{
-			$module.AutoImport = $false
+			foreach ($module in $allModules)
+			{
+				$module.AutoImport = $false
+			}
+			Export-Clixml -InputObject $allModules -Path $PSModuleDevelopment_ModuleConfigPath
 		}
-		Export-Clixml -InputObject $allModules -Path $PSModuleDevelopment_ModuleConfigPath
 	}
-	#endregion AllAutoImport
+	#endregion NoneAutoImport
 	
 	#region Name
 	# Import all module-configurations
@@ -133,11 +150,11 @@
 	# If a configuration already exists, change only those values that were specified
 	if ($module = $allModules | Where-Object { $_.Name -eq $Name })
 	{
-		if ($PSBoundParameters.ContainsKey("AutoImport")) { $module.AutoImport = $AutoImport.ToBool() }
-		if ($PSBoundParameters.ContainsKey("DebugMode")) { $module.DebugMode = $DebugMode.ToBool() }
-		if ($PSBoundParameters.ContainsKey("PreImportAction")) { $module.PreImportAction = $PreImportAction }
-		if ($PSBoundParameters.ContainsKey("PostImportAction")) { $module.PostImportAction = $PostImportAction }
-		if ($PSBoundParameters.ContainsKey("Priority")) { $module.Priority = $Priority }
+		if (Test-PSFParameterBinding -ParameterName "AutoImport") { $module.AutoImport = $AutoImport.ToBool() }
+		if (Test-PSFParameterBinding -ParameterName "DebugMode") { $module.DebugMode = $DebugMode.ToBool() }
+		if (Test-PSFParameterBinding -ParameterName "PreImportAction") { $module.PreImportAction = $PreImportAction }
+		if (Test-PSFParameterBinding -ParameterName "PostImportAction") { $module.PostImportAction = $PostImportAction }
+		if (Test-PSFParameterBinding -ParameterName "Priority") { $module.Priority = $Priority }
 	}
 	# If no configuration exists yet, create a new one with all parameters as specified
 	else
@@ -154,7 +171,10 @@
 	
 	# Add new module configuration to all (if any) other previous configurations and export it to config file
 	$newModules = @(($allModules | Where-Object { $_.Name -ne $Name }), $module)
-	Export-Clixml -InputObject $newModules -Path $PSModuleDevelopment_ModuleConfigPath
+	if ($PSCmdlet.ShouldProcess($name, "Changing debug settings for module"))
+	{
+		Export-Clixml -InputObject $newModules -Path $PSModuleDevelopment_ModuleConfigPath
+	}
 	#endregion Name
 }
 Set-Alias -Name smd -Value Set-PSMDModuleDebug -Option AllScope -Scope Global

@@ -47,6 +47,10 @@
 			- Will only process the parameter 'Foo'
 			- And replace the current text with the one specified
 	#>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true)]
@@ -116,7 +120,7 @@
 				foreach ($property in $Ast.PSObject.Properties)
 				{
 					if ($property.Name -eq "Parent") { continue }
-					if ($property.Value -eq $null) { continue }
+					if ($null -eq $property.Value) { continue }
 					
 					if (Get-Member -InputObject $property.Value -Name GetEnumerator -MemberType Method)
 					{
@@ -141,6 +145,7 @@
 	
 	function Update-CommandParameterHelp
 	{
+		[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseDeclaredVarsMoreThanAssignments", "")]
 		[CmdletBinding()]
 		Param (
 			[System.Management.Automation.Language.FunctionDefinitionAst]
@@ -156,6 +161,7 @@
 		#region Find the starting position
 		function Get-StartIndex
 		{
+			[OutputType([System.Int32])]
 			[CmdletBinding()]
 			Param (
 				[System.Management.Automation.Language.FunctionDefinitionAst]
@@ -286,6 +292,7 @@
 	
 	function Apply-FileReplacement
 	{
+		[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseApprovedVerbs", "")]
 		[CmdletBinding()]
 		Param (
 			

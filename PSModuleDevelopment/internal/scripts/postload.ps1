@@ -10,4 +10,4 @@ foreach ($__module in $__modules)
 }
 
 # Import License
-. Import-PSMDFile -Path "$PSModuleDevelopmentModuleRoot\internal\scripts\license.ps1"
+. Import-PSMDFile -Path "$PSModuleRoot\internal\scripts\license.ps1"
