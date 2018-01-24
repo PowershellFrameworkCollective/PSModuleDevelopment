@@ -19,13 +19,19 @@
 			By default, this command caches the results of its execution in the PSFramework result cache.
 			This information can then be retrieved for the last command to do so by running Get-PSFResultCache.
 			Setting this switch disables the caching of data in the cache.
+	
+		.PARAMETER Confirm
+			If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.
+		
+		.PARAMETER WhatIf
+			If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.
 		
 		.EXAMPLE
 			PS C:\> Get-ChildItem .\functions\*\*.ps1 | Set-PSMDCmdletBinding
 	
 			Updates all commands in the module to have a cmdletbinding attribute.
 	#>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess = $true)]
 	Param (
 		[Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
 		[string[]]
@@ -68,7 +74,7 @@
 				"System.Management.Automation.Language.FunctionDefinitionAst"
 				{
 					#region Has a param block, but no cmdletbinding
-					if (($Ast.Body.ParamBlock -ne $null) -and (-not ($Ast.Body.ParamBlock.Attributes | Where-Object TypeName -Like "CmdletBinding")))
+					if (($null -ne $Ast.Body.ParamBlock) -and (-not ($Ast.Body.ParamBlock.Attributes | Where-Object TypeName -Like "CmdletBinding")))
 					{
 						$text = [System.IO.File]::ReadAllText($Ast.Extent.File)
 						
@@ -88,7 +94,7 @@
 					foreach ($property in $Ast.PSObject.Properties)
 					{
 						if ($property.Name -eq "Parent") { continue }
-						if ($property.Value -eq $null) { continue }
+						if ($null -eq $property.Value) { continue }
 						
 						if (Get-Member -InputObject $property.Value -Name GetEnumerator -MemberType Method)
 						{
@@ -143,6 +149,7 @@
 		
 		function Apply-FileReplacement
 		{
+			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseApprovedVerbs", "")]
 			[CmdletBinding()]
 			Param (
 				
@@ -206,7 +213,10 @@
 			$issues += Invoke-AstWalk -Ast $ast -Command $Command -Name $Name -NewName $NewName -IsCommand $false
 			
 			Set-PSFResultCache -InputObject $issues -DisableCache $DisableCache
-			Apply-FileReplacement
+			if ($PSCmdlet.ShouldProcess($path, "Set CmdletBinding attribute"))
+			{
+				Apply-FileReplacement
+			}
 			$issues
 		}
 	}

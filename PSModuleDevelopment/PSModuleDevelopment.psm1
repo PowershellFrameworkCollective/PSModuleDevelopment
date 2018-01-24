@@ -1,5 +1,5 @@
-﻿$script:PSModuleDevelopmentModuleRoot = $PSScriptRoot
-$script:PSModuleDevelopmentModuleVersion = '2.0.0.0'
+﻿$script:PSModuleRoot = $PSScriptRoot
+$script:PSModuleVersion = "2.1.0.1"
 
 $script:doDotSource = $false
 if (Get-PSFConfigValue -Name PSModuleDevelopment.Import.DoDotSource) { $script:doDotSource = $true }
@@ -36,14 +36,14 @@ function Import-PSMDFile
 
 
 # Perform Actions before loading the rest of the content
-. Import-PSMDFile -Path "$PSModuleDevelopmentModuleRoot\internal\scripts\preload.ps1"
+. Import-PSMDFile -Path "$PSModuleRoot\internal\scripts\preload.ps1"
 
 #region Load functions
-foreach ($function in (Get-ChildItem "$PSModuleDevelopmentModuleRoot\functions" -Recurse -File -Filter "*.ps1"))
+foreach ($function in (Get-ChildItem "$PSModuleRoot\functions" -Recurse -File -Filter "*.ps1"))
 {
 	. Import-PSMDFile -Path $function.FullName
 }
 #endregion Load functions
 
 # Perform Actions after loading the module contents
-. Import-PSMDFile -Path "$PSModuleDevelopmentModuleRoot\internal\scripts\postload.ps1"
+. Import-PSMDFile -Path "$PSModuleRoot\internal\scripts\postload.ps1"

@@ -30,6 +30,7 @@
 			Sets the current module path to "C:\github\dbatools"
 			Then stores the setting in registry, causing it to be persisted acros multiple sessions.
 	#>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true)]

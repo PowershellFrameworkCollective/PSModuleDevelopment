@@ -25,7 +25,7 @@
 	{
 		foreach ($item in $InputObject)
 		{
-			if ($item -eq $null) { continue }
+			if ($null -eq $item) { continue }
 			
 			$type = $item.GetType()
 			if ($type.FullName -eq "System.RuntimeType") { $type = $item }

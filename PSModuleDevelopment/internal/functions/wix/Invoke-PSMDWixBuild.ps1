@@ -1,5 +1,6 @@
 ﻿Function Invoke-PSMDWixBuild
 {
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseDeclaredVarsMoreThanAssignments", "")]
 	[Cmdletbinding()]
 	Param (
 		[Parameter(Mandatory = $false, Position = 0)]
@@ -78,6 +79,7 @@
 	#region Helper functions
 	Function ConvertTo-WixNeutralString
 	{
+		[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseLiteralInitializerForHashtable", "")]
 		[CmdletBinding()]
 		Param (
 			[string]
@@ -100,7 +102,7 @@
 		$text
 	}
 	
-	Function Copy-WixSourceFiles
+	Function Copy-WixSourceFile
 	{
 		[Cmdletbinding()]
 		Param (
@@ -122,7 +124,7 @@
 		{
 			if ($object.Attributes -contains 'Directory')
 			{
-				Copy-WixSourceFiles $object.Fullname (Join-path $Destination $object.Name) -Exclude $Exclude
+				Copy-WixSourceFile $object.Fullname (Join-path $Destination $object.Name) -Exclude $Exclude
 			}
 			else
 			{
@@ -205,7 +207,7 @@
 	
 	# Copy Files to tmp dir
 	$tmpSourceDir = Join-Path $tmpDir "files"
-	Copy-WixSourceFiles $Path $tmpSourceDir -Exclude $Exclude
+	Copy-WixSourceFile $Path $tmpSourceDir -Exclude $Exclude
 	
 	# Add license
 	if (test-path $LicenseFile)

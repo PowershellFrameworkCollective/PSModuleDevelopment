@@ -50,6 +50,7 @@
             Release 1.0 (01.03.2017, Friedrich Weinmann)
             - Initial Release
     #>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding(DefaultParameterSetName = "Vanilla")]
     Param (
         [Parameter(Mandatory = $true)]
@@ -165,7 +166,7 @@
 	FunctionsToExport = '*' #For performanace, list functions explicity
 	
 	# Cmdlets to export from this module
-	CmdletsToExport = '*' 
+	CmdletsToExport = '*'
 	
 	# Variables to export from this module
 	VariablesToExport = '*'
