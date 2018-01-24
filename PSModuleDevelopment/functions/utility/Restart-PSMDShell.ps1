@@ -17,6 +17,12 @@
 	
 		.PARAMETER NoProfile
 			The new PowerShell process will not load its profile.
+	
+		.PARAMETER Confirm
+			If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.
+		
+		.PARAMETER WhatIf
+			If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.
         
         .EXAMPLE
             PS C:\> Restart-PSMDShell
@@ -33,7 +39,7 @@
             Author: Friedrich Weinmann
             Created on: August 6th, 2016
     #>
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
 	Param (
 		[Switch]
 		$NoExit,
@@ -45,17 +51,20 @@
 		$NoProfile
 	)
 	
-	if ($NoProfile)
+	if ($PSCmdlet.ShouldProcess("Current shell", "Restart"))
 	{
-		if ($Admin) { Start-Process powershell.exe -Verb RunAs -ArgumentList '-NoProfile' }
-		else { Start-Process powershell.exe -ArgumentList '-NoProfile' }
+		if ($NoProfile)
+		{
+			if ($Admin) { Start-Process powershell.exe -Verb RunAs -ArgumentList '-NoProfile' }
+			else { Start-Process powershell.exe -ArgumentList '-NoProfile' }
+		}
+		else
+		{
+			if ($Admin) { Start-Process powershell.exe -Verb RunAs }
+			else { Start-Process powershell.exe }
+		}
+		if (-not $NoExit) { exit }
 	}
-	else
-	{
-		if ($Admin) { Start-Process powershell.exe -Verb RunAs }
-		else { Start-Process powershell.exe }
-	}
-	if (-not $NoExit) { exit }
 }
 New-Alias -Name Restart-Shell -Value Restart-PSMDShell -Option AllScope -Scope Global
 New-Alias -Name rss -Value Restart-PSMDShell -Option AllScope -Scope Global

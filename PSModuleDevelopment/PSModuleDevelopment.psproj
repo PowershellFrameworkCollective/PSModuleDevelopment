@@ -11,7 +11,7 @@
     <Folder>functions\performance</Folder>
     <Folder>functions\help</Folder>
     <Folder>snippets</Folder>
-    <Folder>functions\wix</Folder>
+    <Folder>internal\functions\wix</Folder>
     <Folder>internal</Folder>
     <Folder>internal\configurations</Folder>
     <Folder>functions\format</Folder>
@@ -22,6 +22,7 @@
     <Folder>tests</Folder>
     <Folder>tests\functions</Folder>
     <Folder>tests\general</Folder>
+    <Folder>internal\functions</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
@@ -38,10 +39,10 @@
     <File Build="2" Shared="False" ReferenceFunction="Invoke-New-PssModuleProject_ps1">functions\utility\New-PssModuleProject.ps1</File>
     <File Build="2">en-us\about_psmoduledevelopment.help.txt</File>
     <File Build="2" Shared="False" ReferenceFunction="Invoke-Set-PSMDModulePath_ps1">functions\utility\Set-PSMDModulePath.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-PSMDWixConfig_ps1">functions\wix\Get-PSMDWixConfig.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-PSMDWixConfig_ps1">functions\wix\Set-PSMDWixConfig.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Invoke-PSMDWixBuild_ps1">functions\wix\Invoke-PSMDWixBuild.ps1</File>
-    <File Build="2" Shared="False" ReferenceFunction="Invoke-Invoke-PSMDWixBuild2_ps1">functions\wix\Invoke-PSMDWixBuild2.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-PSMDWixConfig_ps1">internal\functions\wix\Get-PSMDWixConfig.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-PSMDWixConfig_ps1">internal\functions\wix\Set-PSMDWixConfig.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Invoke-PSMDWixBuild_ps1">internal\functions\wix\Invoke-PSMDWixBuild.ps1</File>
+    <File Build="2" Shared="False" ReferenceFunction="Invoke-Invoke-PSMDWixBuild2_ps1">internal\functions\wix\Invoke-PSMDWixBuild2.ps1</File>
     <File Build="2" Shared="False" ReferenceFunction="Invoke-wix_ps1">internal\configurations\wix.ps1</File>
     <File Build="2" Shared="False" ReferenceFunction="Invoke-debug_ps1">internal\configurations\debug.ps1</File>
     <File Build="2" Shared="False" ReferenceFunction="Invoke-license_ps1">internal\scripts\license.ps1</File>

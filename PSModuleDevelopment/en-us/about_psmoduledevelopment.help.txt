@@ -132,7 +132,7 @@ LONG DESCRIPTION
 	#                           The Need for Speed                            #
 	#-------------------------------------------------------------------------#
 	
-	Speed matters. 
+	Speed matters.
 	In order to develop high performance code however, you need to have the
 	tools to measure speed accurately. PowerShell has out of the box a tool
 	that helps with that: 'Measure-Command'
@@ -206,7 +206,7 @@ LONG DESCRIPTION
 	  - New Alias: hex --> Get-HelpEx
 	    Because getting help should be simple.
 
-	1.2.0.0 (August 15th, 2016): 
+	1.2.0.0 (August 15th, 2016):
 	  - New function: Get-ExHelp
 	    Provides localized help to better test modules with localized help
 		content.

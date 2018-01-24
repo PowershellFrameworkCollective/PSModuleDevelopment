@@ -37,6 +37,7 @@
 	
 			Creates a format xml that only includes the columns LastWriteTime, FullName
 	#>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true, ValueFromPipeline = $true)]

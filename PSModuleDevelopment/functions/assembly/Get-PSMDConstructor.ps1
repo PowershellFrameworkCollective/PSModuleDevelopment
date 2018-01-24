@@ -41,7 +41,7 @@
 	{
 		foreach ($item in $InputObject)
 		{
-			if ($item -eq $null) { continue }
+			if ($null -eq $item) { continue }
 			if ($item -is [System.Type]) { $type = $item }
 			else { $type = $item.GetType() }
 			

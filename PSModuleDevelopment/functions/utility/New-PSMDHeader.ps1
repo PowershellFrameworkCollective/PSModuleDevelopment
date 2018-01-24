@@ -74,6 +74,7 @@
 		 |                                  Example                                   |
 		 \----------------------------------------------------------------------------/
 #>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $true)]
