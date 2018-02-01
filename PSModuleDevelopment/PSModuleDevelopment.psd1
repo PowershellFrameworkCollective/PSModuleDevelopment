@@ -41,7 +41,7 @@
 	
 	# Modules that must be imported into the global environment prior to importing
 	# this module
-	RequiredModules		    = @(@{ ModuleName='PSFramework'; ModuleVersion= '0.9.8.17' })
+	RequiredModules		    = @(@{ ModuleName='PSFramework'; ModuleVersion= '0.9.9.19' })
 	
 	# Assemblies that must be loaded prior to importing this module
 	RequiredAssemblies = @('bin\PSModuleDevelopment.dll')
@@ -74,6 +74,7 @@
 		'New-PSMDDotNetProject',
 		'New-PSMDHeader',
 		'New-PSMDFormatTableDefinition',
+		'New-PSMDModuleNugetPackage',
 		'New-PssModuleProject',
 		'Remove-PSMDModuleDebug',
 		'Rename-PSMDParameter',

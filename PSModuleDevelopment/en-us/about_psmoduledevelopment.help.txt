@@ -165,6 +165,11 @@ LONG DESCRIPTION
 	#                                Changelog                                #
 	#-------------------------------------------------------------------------#
 	
+	2.X.X.X (???)
+	  - new: Command New-PSMDModuleNugetPackage
+	         A command that takes a module and writes it to a Nuget package.
+	  - Upd: Increased PSFramework required version to 0.9.9.19
+	
 	2.1.0.1 (January 24th, 2018)
 	  - new: Included suite of tests, in order to provide a more reliable user
 	         experience.
