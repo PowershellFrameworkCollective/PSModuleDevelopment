@@ -2,29 +2,29 @@
 {
 <#
 	.SYNOPSIS
-	    Creates a nuget package from a PowerShell module.
+		Creates a nuget package from a PowerShell module.
 	
 	.DESCRIPTION
 		This function will take a module and wrap it into a nuget package.
 		This is accomplished by creating a temporary local filesystem repository and using the PowerShellGet module to do the actual writing.
-	
+		
 		Note:
 		- Requires PowerShellGet module
 		- Dependencies must be built first to the same folder
-
+	
 	.PARAMETER ModulePath
-	    Path to the PowerShell module you are creating a Nuget package from
+		Path to the PowerShell module you are creating a Nuget package from
 	
 	.PARAMETER PackagePath
-	    Path where the package file will be copied.
+		Path where the package file will be copied.
 	
 	.PARAMETER EnableException
-        Replaces user friendly yellow warnings with bloody red exceptions of doom!
-        Use this if you want the function to throw terminating errors you want to catch.
-
-	.EXAMPLE
-	    New-PSMDModuleNugetPackage -PackagePath 'c:\temp\package' -ModulePath .\DBOps
+		Replaces user friendly yellow warnings with bloody red exceptions of doom!
+		Use this if you want the function to throw terminating errors you want to catch.
 	
+	.EXAMPLE
+		New-PSMDModuleNugetPackage -PackagePath 'c:\temp\package' -ModulePath .\DBOps
+		
 		Packages the module stored in .\DBOps and stores the nuget file in 'c:\temp\package'
 	
 	.NOTES
@@ -60,12 +60,12 @@
 		catch
 		{
 			$paramStopPSFFunction = @{
-				Message				      = "Failed to detect the PowerShellGet module! The module is required in order to execute this function."
-				EnableException		      = $EnableException
-				Category				  = 'NotInstalled'
-				ErrorRecord			      = $_
-				OverrideExceptionMessage  = $true
-				Tag					      = 'fail', 'validation', 'prerequisites', 'module'
+				Message				       = "Failed to detect the PowerShellGet module! The module is required in order to execute this function."
+				EnableException		       = $EnableException
+				Category				   = 'NotInstalled'
+				ErrorRecord			       = $_
+				OverrideExceptionMessage   = $true
+				Tag					       = 'fail', 'validation', 'prerequisites', 'module'
 			}
 			Stop-PSFFunction @paramStopPSFFunction
 			return
@@ -87,11 +87,11 @@
 		try
 		{
 			$paramRegisterPSRepository = @{
-				Name			    = 'PSModuleDevelopment_TempLocalRepository'
-				PublishLocation	    = $PackagePath
-				SourceLocation	    = $PackagePath
-				InstallationPolicy  = 'Trusted'
-				ErrorAction		    = 'Stop'
+				Name				 = 'PSModuleDevelopment_TempLocalRepository'
+				PublishLocation	     = $PackagePath
+				SourceLocation	     = $PackagePath
+				InstallationPolicy   = 'Trusted'
+				ErrorAction		     = 'Stop'
 			}
 			
 			Register-PSRepository @paramRegisterPSRepository
@@ -109,11 +109,11 @@
 		#region Process Paths
 		foreach ($Path in $ModulePath)
 		{
-			Write-PSFMessage -Level VeryVerbose -Message "Starting to package: $Path" -Tag 'progress','developer' -Target $Path
+			Write-PSFMessage -Level VeryVerbose -Message "Starting to package: $Path" -Tag 'progress', 'developer' -Target $Path
 			
 			if (-not (Test-Path $Path))
 			{
-				Stop-PSFFunction -Message "Path not found: $Path" -EnableException $EnableException -Category InvalidArgument -Tag 'progress','developer','fail' -Target $Path -Continue
+				Stop-PSFFunction -Message "Path not found: $Path" -EnableException $EnableException -Category InvalidArgument -Tag 'progress', 'developer', 'fail' -Target $Path -Continue
 			}
 			
 			try { Publish-Module -Path $Path -Repository 'PSModuleDevelopment_TempLocalRepository' -ErrorAction Stop -Force }
@@ -122,7 +122,7 @@
 				Stop-PSFFunction -Message "Failed to publish module: $Path" -EnableException $EnableException -ErrorRecord $_ -Tag 'progress', 'developer', 'fail' -Target $Path -Continue
 			}
 			
-			Write-PSFMessage -Level Verbose -Message "Finished processing: $Path" -Tag 'progress','developer' -Target $Path
+			Write-PSFMessage -Level Verbose -Message "Finished processing: $Path" -Tag 'progress', 'developer' -Target $Path
 		}
 		#endregion Process Paths
 	}
