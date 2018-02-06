@@ -27,6 +27,7 @@
     <Folder>internal\tabcompletion</Folder>
     <Folder>internal\tabcompletion\scriptblocks</Folder>
     <Folder>internal\maintenance</Folder>
+    <Folder>internal\tabcompletion\assignment</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
@@ -80,6 +81,7 @@
     <File Build="2" Shared="True" ReferenceFunction="Invoke-dotNetTemplatesUninstall_ps1">internal\tabcompletion\scriptblocks\dotNetTemplatesUninstall.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-dotNetTemplateCache_ps1">internal\maintenance\dotNetTemplateCache.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-dotNetTemplatesInstall_ps1">internal\tabcompletion\scriptblocks\dotNetTemplatesInstall.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-New-PSMDModuleNugetPackage_ps1">functions\utility\New-PSMDModuleNugetPackage.ps1</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>

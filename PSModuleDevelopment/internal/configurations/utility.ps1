@@ -1,1 +1,2 @@
 ﻿Set-PSFConfig -Module PSModuleDevelopment -Name "Module.Path" -Value "" -Initialize -Validation "string" -Handler { } -Description "The path to the module currently under development. Used as default path by commnds that work within a module directory."
+Set-PSFConfig -Module PSModuleDevelopment -Name 'Package.Path' -Value "$env:TEMP" -Initialize -Validation "string" -Description "The default output path when exporting a module into a nuget package."
