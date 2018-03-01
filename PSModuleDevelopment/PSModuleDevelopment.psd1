@@ -122,7 +122,7 @@
 			# LicenseUri = ''
 			
 			# A URL to the main website for this project.
-			# ProjectUri = ''
+			ProjectUri = 'https://github.com/PowershellFrameworkCollective/PSModuleDevelopment'
 			
 			# A URL to an icon representing this module.
 			# IconUri = ''
