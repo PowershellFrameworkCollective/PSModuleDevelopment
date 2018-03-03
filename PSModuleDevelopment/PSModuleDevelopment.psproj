@@ -41,9 +41,9 @@
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Import-PSMDModuleDebug_ps1">functions\moduledebug\Import-PSMDModuleDebug.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-PSMDHelpEx_ps1">functions\help\Get-PSMDHelpEx.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Measure-PSMDCommandEx_ps1">functions\performance\Measure-PSMDCommandEx.ps1</File>
-    <File Build="2" Shared="False" ReferenceFunction="Invoke-New-PssModuleProject_ps1">functions\utility\New-PssModuleProject.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-New-PssModuleProject_ps1">functions\utility\New-PssModuleProject.ps1</File>
     <File Build="2">en-us\about_psmoduledevelopment.help.txt</File>
-    <File Build="2" Shared="False" ReferenceFunction="Invoke-Set-PSMDModulePath_ps1">functions\utility\Set-PSMDModulePath.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-PSMDModulePath_ps1">functions\utility\Set-PSMDModulePath.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-PSMDWixConfig_ps1">internal\functions\wix\Get-PSMDWixConfig.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-PSMDWixConfig_ps1">internal\functions\wix\Set-PSMDWixConfig.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Invoke-PSMDWixBuild_ps1">internal\functions\wix\Invoke-PSMDWixBuild.ps1</File>
@@ -82,6 +82,11 @@
     <File Build="2" Shared="True" ReferenceFunction="Invoke-dotNetTemplateCache_ps1">internal\maintenance\dotNetTemplateCache.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-dotNetTemplatesInstall_ps1">internal\tabcompletion\scriptblocks\dotNetTemplatesInstall.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-New-PSMDModuleNugetPackage_ps1">functions\utility\New-PSMDModuleNugetPackage.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-New-PSMDTemplate_ps1">functions\templating\New-PSMDTemplate.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-PSMDTemplate_ps1">functions\templating\Get-PSMDTemplate.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Remove-PSMDTemplate_ps1">functions\templating\Remove-PSMDTemplate.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-template_ps1">internal\configurations\template.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Invoke-PSMDTemplate_ps1">functions\templating\Invoke-PSMDTemplate.ps1</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>
