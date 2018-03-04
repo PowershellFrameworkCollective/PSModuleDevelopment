@@ -31,5 +31,107 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+		
+		<!-- PSModuleDevelopment.Template.Template -->
+		<View>
+			<Name>PSModuleDevelopment.Template.Template</Name>
+			<ViewSelectedBy>
+				<TypeName>PSModuleDevelopment.Template.Template</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<AutoSize/>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Type</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Version</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Description</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		
+		<!-- PSModuleDevelopment.Template.TemplateInfo -->
+		<View>
+			<Name>PSModuleDevelopment.Template.TemplateInfo</Name>
+			<ViewSelectedBy>
+				<TypeName>PSModuleDevelopment.Template.TemplateInfo</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<AutoSize/>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Type</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Version</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Description</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+		
+		<!-- PSModuleDevelopment.Template.TemplateItemBase -->
+		<View>
+			<Name>PSModuleDevelopment.Template.TemplateItemBase</Name>
+			<ViewSelectedBy>
+				<TypeName>PSModuleDevelopment.Template.TemplateItemFile</TypeName>
+				<TypeName>PSModuleDevelopment.Template.TemplateItemFolder</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<AutoSize/>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>RelativePath</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>PlainText</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

@@ -6,4 +6,7 @@ Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.ParameterDefault.Aut
 Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.ParameterDefault.Company' -Value "MyCompany" -Initialize -Validation 'string' -Description "The default value to set for the parameter 'Company'. This same setting can be created for any other parameter name."
 
 # The file extensions that will not be scanned for content replacement and will be stored as bytes
-Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.BinaryExtensions' -Value @('.dll','.exe') -Initialize -Description "When creating a template, files with these extensions will be included as raw bytes and not interpreted for parameter insertion."
+Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.BinaryExtensions' -Value @('.dll', '.exe', '.pdf', '.doc', '.docx', '.xls', '.xlsx') -Initialize -Description "When creating a template, files with these extensions will be included as raw bytes and not interpreted for parameter insertion."
+
+# Define the default store. To add more stores, just add a similar setting with a different last name segment
+Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.Store.Default' -Value "$env:APPDATA\WindowsPowerShell\PSModuleDevelopment\Templates" -Initialize -Validation "string" -Description "Path to the default directory where PSModuleDevelopment will store its templates. You can add additional stores by creating the same setting again, only changing the last name segment to a new name and configuring a separate path."

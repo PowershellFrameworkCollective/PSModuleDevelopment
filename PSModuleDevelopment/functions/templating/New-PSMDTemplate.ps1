@@ -7,15 +7,24 @@
 	.DESCRIPTION
 		This function creates a template based on an existing folder or file.
 		It automatically detects parameters that should be filled in one creation time.
-	
+		
 		# Template reference: #
 		#---------------------#
 		Project templates can be preconfigured by a special reference file in the folder root.
 		This file must be named "PSMDTemplate.ps1" and will not be part of the template.
 		It must emit a single hashtable with various pieces of information.
-	
-		<Insert Details here>
-	
+		
+		This hashtable can have any number of the following values, in any desired combination:
+		- Scripts: A Hashtable, of scriptblocks. These are scripts used for replacement parameters, the key is the name used on insertions.
+		- TemplateName: Name of the template
+		- Version: The version number for the template (See AutoIncrementVersion property)
+		- AutoIncrementVersion: Whether the version number should be incremented
+		- Tags: Tags to add to a template - makes searching and finding templates easier
+		- Author: Name of the author of the template
+		- Description: Description of the template
+		- Exclusions: List of relative file/folder names to not process / skip.
+		Each of those entries can also be overridden by specifying the corresponding parameter of this function.
+		
 		# Parameterizing templates: #
 		#---------------------------#
 		The script will pick up any parameter found in the files and folders (including the file/folder name itself).
@@ -28,13 +37,13 @@
 		Naming Rules:
 		- Parameter names cannot include the characters '!', '{', or '}'
 		- Parameter names cannot include the parameter identifier. This is by default 'þ'.
-		  This identifier can be changed by updating the 'psmoduledevelopment.template.identifier' configuration setting.
+		This identifier can be changed by updating the 'psmoduledevelopment.template.identifier' configuration setting.
 		- Names are not case sensitive.
 		
 		Examples:
 		° Named for replacement:
 		"Test þnameþ" --> "Test <inserted text of parameter>"
-	
+		
 		° Scriptblock replacement:
 		"Test þ{ $env:COMPUTERNAME }þ" --> "Test <Name of invoking computer>"
 		- Important: No space between identifier and curly braces!
@@ -42,33 +51,47 @@
 		
 		° Named Scriptblock replacement:
 		"Test þ!ClosestDomainController!þ" --> "Test <Result of script ClosestDomainController>"
+		- Named Scriptblocks are created by using a template reference file (see section above)
 	
 	.PARAMETER ReferencePath
-		A description of the ReferencePath parameter.
+		Root path in which all files are selected for creating a template project.
+		The folder will not be part of the template, only its content.
 	
 	.PARAMETER FilePath
-		A description of the FilePath parameter.
+		Path to a single file.
+		Used to create a template for that single file, instead of a full-blown project.
+		Note: Does not support template reference files.
 	
 	.PARAMETER TemplateName
-		A description of the TemplateName parameter.
+		Name of the template.
 	
 	.PARAMETER Filter
-		A description of the Filter parameter.
+		Only files matching this filter will be included in the template.
+	
+	.PARAMETER OutStore
+		Where the template will be stored at.
+		By default, it will push the template to the default store (A folder in appdata unless configuration was changed).
+	
+	.PARAMETER OutPath
+		If the template should be written to a specific path instead.
+		Specify a folder.
 	
 	.PARAMETER Exclusions
-		A description of the Exclusions parameter.
+		The relative path of the files or folders to ignore.
+		Ignoring folders will also ignore all items in the folder.
 	
 	.PARAMETER Version
-		A description of the Version parameter.
+		The version of the template.
 	
 	.PARAMETER Tags
-		A description of the Tags parameter.
+		Tags to apply to the template, making it easier to filter & search.
 	
 	.PARAMETER Force
-		A description of the Force parameter.
+		If the template in the specified version in the specified destination already exists, this will fail unless the Force parameter is used.
 	
 	.PARAMETER EnableException
-		A description of the EnableException parameter.
+        Replaces user friendly yellow warnings with bloody red exceptions of doom!
+        Use this if you want the function to throw terminating errors you want to catch.
 	
 	.EXAMPLE
 		PS C:\> New-PSMDTemplate -ReferencePath 'value1'
@@ -91,11 +114,23 @@
 		[string]
 		$Filter = "*",
 		
+		[string]
+		$OutStore = "Default",
+		
+		[string]
+		$OutPath,
+		
 		[string[]]
 		$Exclusions,
 		
 		[version]
 		$Version = "1.0.0.0",
+		
+		[string]
+		$Description,
+		
+		[string]
+		$Author = (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Template.ParameterDefault.Author' -Fallback $env:USERNAME),
 		
 		[string[]]
 		$Tags,
@@ -112,11 +147,14 @@
 		Write-PSFMessage -Level InternalComment -Message "Bound parameters: $($PSBoundParameters.Keys -join ", ")" -Tag 'debug', 'start', 'param'
 		#region Insert basic meta-data
 		$identifier = [regex]::Escape(( Get-PSFConfigValue -FullName 'psmoduledevelopment.template.identifier' -Fallback 'þ' ))
-		$binaryExtensions = Get-PSFConfigValue -FullName 'PSModuleDevelopment.Template.BinaryExtensions' -Fallback @('.dll','.exe')
+		$binaryExtensions = Get-PSFConfigValue -FullName 'PSModuleDevelopment.Template.BinaryExtensions' -Fallback @('.dll', '.exe', '.pdf', '.doc', '.docx', '.xls', '.xlsx')
 		
 		$template = New-Object PSModuleDevelopment.Template.Template
 		$template.Name = $TemplateName
 		$template.Version = $Version
+		$template.Tags = $Tags
+		$template.Description = $Description
+		$template.Author = $Author
 		
 		if ($PSCmdlet.ParameterSetName -eq 'File')
 		{
@@ -126,16 +164,20 @@
 		{
 			$template.Type = 'Project'
 			
-			if (Test-Path (Join-Path $ReferencePath "PSMDTemplate.ps1"))
+			$processedReferencePath = Resolve-Path $ReferencePath
+			
+			if (Test-Path (Join-Path $processedReferencePath "PSMDTemplate.ps1"))
 			{
-				$templateData = & (Join-Path $ReferencePath "PSMDTemplate.ps1")
-				foreach ($item in $templateData.Scripts.Values)
+				$templateData = & (Join-Path $processedReferencePath "PSMDTemplate.ps1")
+				foreach ($key in $templateData.Scripts.Keys)
 				{
-					$template.Scripts[$item.Name] = New-Object PSModuleDevelopment.Template.ParameterScript($item.Name, $item.ScriptBlock)
+					$template.Scripts[$key] = New-Object PSModuleDevelopment.Template.ParameterScript($key, $templateData.Scripts[$key])
 				}
-				if ($templateData.Name -and (Test-PSFParameterBinding -ParameterName Name -Not)) { $template.Name = $templateData.Name }
+				if ($templateData.TemplateName -and (Test-PSFParameterBinding -ParameterName TemplateName -Not)) { $template.Name = $templateData.TemplateName }
 				if ($templateData.Version -and (Test-PSFParameterBinding -ParameterName Version -Not)) { $template.Version = $templateData.Version }
 				if ($templateData.Tags -and (Test-PSFParameterBinding -ParameterName Tags -Not)) { $template.Tags = $templateData.Tags }
+				if ($templateData.Description -and (Test-PSFParameterBinding -ParameterName Description -Not)) { $template.Description = $templateData.Description }
+				if ($templateData.Author -and (Test-PSFParameterBinding -ParameterName Author -Not)) { $template.Author = $templateData.Author }
 				
 				if (-not $template.Name)
 				{
@@ -145,7 +187,7 @@
 				
 				if ($templateData.AutoIncrementVersion)
 				{
-					$oldTemplate = Get-PSMDTemplate -TemplateName $template.Name -WarningAction SilentlyContinue
+					$oldTemplate = Get-PSMDTemplate -TemplateName $template.Name -WarningAction SilentlyContinue | Sort-Object Version | Select-Object -First 1
 					if (($oldTemplate) -and ($oldTemplate.Version -ge $template.Version))
 					{
 						$major = $oldTemplate.Version.Major
@@ -161,9 +203,58 @@
 						$template.Version = "$($major).$($minor).$($revision).$($build)" -replace "\.-1",''
 					}
 				}
+				
+				if ($templateData.Exclusions -and (Test-PSFParameterBinding -ParameterName Exclusions -Not)) { $Exclusions = $templateData.Exclusions }
+			}
+			
+			if ($Exclusions)
+			{
+				$oldExclusions = $Exclusions
+				$Exclusions = @()
+				foreach ($exclusion in $oldExclusions)
+				{
+					$Exclusions += Join-Path $processedReferencePath $exclusion
+				}
 			}
 		}
 		#endregion Insert basic meta-data
+		
+		#region Validate & ensure output folder
+		$fileName = "$($template.Name)-$($template.Version).xml"
+		$infoFileName = "$($template.Name)-$($template.Version)-Info.xml"
+		if ($OutPath) { $exportFolder = $OutPath }
+		else { $exportFolder = Get-PsmdTemplateStore -Filter $OutStore | Select-Object -ExpandProperty Path -First 1 }
+		
+		if (-not $exportFolder)
+		{
+			Stop-PSFFunction -Message "Unable to resolve a path to create the template in. Verify a valid template store or path were specified." -Category InvalidArgument -EnableException $EnableException -Tag 'fail', 'argument', 'path'
+			return
+		}
+		
+		if (-not (Test-Path $exportFolder))
+		{
+			if ($Force)
+			{
+				try { $null = New-Item -Path $exportFolder -ItemType Directory -Force -ErrorAction Stop }
+				catch
+				{
+					Stop-PSFFunction -Message "Failed to create output path: $exportFolder" -ErrorRecord $_ -Tag 'fail', 'folder', 'create' -EnableException $EnableException
+					return
+				}
+			}
+			else
+			{
+				Stop-PSFFunction -Message "Output folder does not exist. Use '-Force' to have this function automatically create it: $exportFolder" -Category InvalidArgument -EnableException $EnableException -Tag 'fail', 'argument', 'path'
+				return
+			}
+		}
+		
+		if ((Test-Path (Join-Path $exportFolder $fileName)) -and (-not $Force))
+		{
+			Stop-PSFFunction -Message "Template already exists in the current version. Use '-Force' if you want to overwrite it!" -Category InvalidArgument -EnableException $EnableException -Tag 'fail', 'argument', 'path'
+			return
+		}
+		#endregion Validate & ensure output folder
 		
 		#region Utility functions
 		function Convert-Item
@@ -173,7 +264,7 @@
 				[System.IO.FileSystemInfo]
 				$Item,
 				
-				[PSModuleDevelopment.Tempalte.TemplateItemBase]
+				[PSModuleDevelopment.Template.TemplateItemBase]
 				$Parent,
 				
 				[string]
@@ -194,6 +285,8 @@
 				[string[]]
 				$BinaryExtensions
 			)
+			
+			if ($Item.FullName -in $Exclusions) { return }
 			
 			#region Regex
 			<#
@@ -257,7 +350,7 @@
 					#endregion Named Scriptblock replacement
 				}
 				
-				foreach ($child in (Get-ChildItem -Path $Item.FullName))
+				foreach ($child in (Get-ChildItem -Path $Item.FullName -Filter $Filter))
 				{
 					$paramConvertItem = @{
 						Item			   = $child
@@ -319,10 +412,76 @@
 				#region File Content
 				if (-not ($Item.Extension -in $BinaryExtensions))
 				{
-					foreach ($find in ([regex]::Matches($name, $pattern, 'IgnoreCase, Multiline')))
+					$text = [System.IO.File]::ReadAllText($Item.FullName)
+					foreach ($find in ([regex]::Matches($text, $pattern, 'IgnoreCase, Multiline')))
 					{
+						#region Fixed string replacement
+						if ($find.Groups[1].Success)
+						{
+							if ($object.FileSystemParameterFlat -notcontains $find.Groups[1].Value)
+							{
+								$null = $object.ContentParameterFlat.Add($find.Groups[1].Value)
+							}
+							if ($Template.Parameters -notcontains $find.Groups[1].Value)
+							{
+								$null = $Template.Parameters.Add($find.Groups[1].Value)
+							}
+						}
+						#endregion Fixed string replacement
 						
+						#region Named Scriptblock replacement
+						if ($find.Groups[2].Success)
+						{
+							$scriptName = $find.Groups[2].Value
+							if ($Template.Scripts.Keys -eq $scriptName)
+							{
+								$object.ContentParameterScript($scriptName)
+							}
+							else
+							{
+								throw "Unknown named scriptblock '$($scriptName)' in name of '$($Item.FullName)'. Make sure the named scriptblock exists in the configuration file."
+							}
+						}
+						#endregion Named Scriptblock replacement
+						
+						#region Live Scriptblock replacement
+						if ($find.Groups[3].Success)
+						{
+							$scriptCode = $find.Groups[3].Value
+							$scriptBlock = [ScriptBlock]::Create($scriptCode)
+							
+							if ($scriptBlock.ToString() -in $Template.Scripts.Values.StringScript)
+							{
+								$scriptName = ($Template.Scripts.Values | Where-Object StringScript -EQ $scriptBlock.ToString() | Select-Object -First 1).Name
+								if ($object.ContentParameterScript -notcontains $scriptName)
+								{
+									$null = $object.ContentParameterScript.Add($scriptName)
+								}
+								$text = $text -replace ([regex]::Escape("$($Identifier){$($scriptCode)}$($Identifier)")), "$($Identifier)!$($scriptName)!$($Identifier)"
+							}
+							
+							else
+							{
+								do
+								{
+									$scriptName = "dynamicscript_$(Get-Random -Minimum 100000 -Maximum 999999)"
+								}
+								until ($Template.Scripts.Keys -notcontains $scriptName)
+								
+								$parameter = New-Object PSModuleDevelopment.Template.ParameterScript($scriptName, ([System.Management.Automation.ScriptBlock]::Create($scriptCode)))
+								$Template.Scripts[$scriptName] = $parameter
+								$null = $object.ContentParameterScript.Add($scriptName)
+								$text = $text -replace ([regex]::Escape("$($Identifier){$($scriptCode)}$($Identifier)")), "$($Identifier)!$($scriptName)!$($Identifier)"
+							}
+						}
+						#endregion Live Scriptblock replacement
 					}
+					$object.Value = $text
+				}
+				else
+				{
+					$bytes = [System.IO.File]::ReadAllBytes($Item.FullName)
+					$object.Value = [System.Convert]::ToBase64String($bytes)
 				}
 				#endregion File Content
 			}
@@ -341,12 +500,15 @@
 	}
 	process
 	{
+		if (Test-PSFFunctionInterrupt) { return }
+		
+		#region Parse content and produce template
 		if ($ReferencePath)
 		{
-			foreach ($item in (Get-ChildItem -Path $ReferencePath -Filter "*"))
+			foreach ($item in (Get-ChildItem -Path $processedReferencePath -Filter $Filter))
 			{
 				if ($item.FullName -in $Exclusions) { continue }
-				Convert-Item -Item $item -Filter $Filter -Exclusions $Exclusions -Template $template -ReferencePath $ReferencePath -Identifier $identifier -BinaryExtensions $binaryExtensions
+				Convert-Item -Item $item -Filter $Filter -Exclusions $Exclusions -Template $template -ReferencePath $processedReferencePath -Identifier $identifier -BinaryExtensions $binaryExtensions
 			}
 		}
 		else
@@ -354,9 +516,15 @@
 			$item = Get-Item -Path $FilePath
 			Convert-Item -Item $item -Template $template -Identifier $identifier -BinaryExtensions $binaryExtensions
 		}
+		#endregion Parse content and produce template
 	}
 	end
 	{
+		if (Test-PSFFunctionInterrupt) { return }
 		
+		$template.CreatedOn = (Get-Date).Date
+		
+		$template | Export-Clixml -Path (Join-Path $exportFolder $fileName)
+		$template.ToTemplateInfo() | Export-Clixml -Path (Join-Path $exportFolder $infoFileName)
 	}
 }

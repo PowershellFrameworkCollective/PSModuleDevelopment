@@ -28,6 +28,7 @@
     <Folder>internal\tabcompletion\scriptblocks</Folder>
     <Folder>internal\maintenance</Folder>
     <Folder>internal\tabcompletion\assignment</Folder>
+    <Folder>internal\functions\template</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
@@ -87,6 +88,7 @@
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Remove-PSMDTemplate_ps1">functions\templating\Remove-PSMDTemplate.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-template_ps1">internal\configurations\template.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Invoke-PSMDTemplate_ps1">functions\templating\Invoke-PSMDTemplate.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-PsmdTemplateStore_ps1">internal\functions\template\Get-PsmdTemplateStore.ps1</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>

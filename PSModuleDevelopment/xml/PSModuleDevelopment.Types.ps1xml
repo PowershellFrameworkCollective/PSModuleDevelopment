@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Types>
+  <!-- PSModuleDevelopment.Template.ParameterScript -->
+  <Type>
+    <Name>Deserialized.PSModuleDevelopment.Template.ParameterScript</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <NoteProperty>
+            <Name>
+              TargetTypeForDeserialization
+            </Name>
+            <Value>
+              PSModuleDevelopment.Template.ParameterScript
+            </Value>
+          </NoteProperty>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
+    <Name>PSModuleDevelopment.Template.ParameterScript</Name>
+    <Members>
+      <CodeProperty IsHidden="true">
+        <Name>SerializationData</Name>
+        <GetCodeReference>
+          <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+          <MethodName>GetSerializationData</MethodName>
+        </GetCodeReference>
+      </CodeProperty>
+    </Members>
+    <TypeConverter>
+      <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+    </TypeConverter>
+  </Type>
+  
+  <!-- PSModuleDevelopment.Template.Template -->
+  <Type>
+    <Name>Deserialized.PSModuleDevelopment.Template.Template</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <NoteProperty>
+            <Name>
+              TargetTypeForDeserialization
+            </Name>
+            <Value>
+              PSModuleDevelopment.Template.Template
+            </Value>
+          </NoteProperty>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
+    <Name>PSModuleDevelopment.Template.Template</Name>
+    <Members>
+      <CodeProperty IsHidden="true">
+        <Name>SerializationData</Name>
+        <GetCodeReference>
+          <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+          <MethodName>GetSerializationData</MethodName>
+        </GetCodeReference>
+      </CodeProperty>
+    </Members>
+    <TypeConverter>
+      <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+    </TypeConverter>
+  </Type>
+
+  <!-- PSModuleDevelopment.Template.TemplateInfo -->
+  <Type>
+    <Name>Deserialized.PSModuleDevelopment.Template.TemplateInfo</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <NoteProperty>
+            <Name>
+              TargetTypeForDeserialization
+            </Name>
+            <Value>
+              PSModuleDevelopment.Template.TemplateInfo
+            </Value>
+          </NoteProperty>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
+    <Name>PSModuleDevelopment.Template.TemplateInfo</Name>
+    <Members>
+      <CodeProperty IsHidden="true">
+        <Name>SerializationData</Name>
+        <GetCodeReference>
+          <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+          <MethodName>GetSerializationData</MethodName>
+        </GetCodeReference>
+      </CodeProperty>
+    </Members>
+    <TypeConverter>
+      <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+    </TypeConverter>
+  </Type>
+
+  <!-- PSModuleDevelopment.Template.TemplateItemFile -->
+  <Type>
+    <Name>Deserialized.PSModuleDevelopment.Template.TemplateItemFile</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <NoteProperty>
+            <Name>
+              TargetTypeForDeserialization
+            </Name>
+            <Value>
+              PSModuleDevelopment.Template.TemplateItemFile
+            </Value>
+          </NoteProperty>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
+    <Name>PSModuleDevelopment.Template.TemplateItemFile</Name>
+    <Members>
+      <CodeProperty IsHidden="true">
+        <Name>SerializationData</Name>
+        <GetCodeReference>
+          <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+          <MethodName>GetSerializationData</MethodName>
+        </GetCodeReference>
+      </CodeProperty>
+    </Members>
+    <TypeConverter>
+      <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+    </TypeConverter>
+  </Type>
+  
+  <!-- PSModuleDevelopment.Template.TemplateItemFolder -->
+  <Type>
+    <Name>Deserialized.PSModuleDevelopment.Template.TemplateItemFolder</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <NoteProperty>
+            <Name>
+              TargetTypeForDeserialization
+            </Name>
+            <Value>
+              PSModuleDevelopment.Template.TemplateItemFolder
+            </Value>
+          </NoteProperty>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
+    <Name>PSModuleDevelopment.Template.TemplateItemFolder</Name>
+    <Members>
+      <CodeProperty IsHidden="true">
+        <Name>SerializationData</Name>
+        <GetCodeReference>
+          <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+          <MethodName>GetSerializationData</MethodName>
+        </GetCodeReference>
+      </CodeProperty>
+    </Members>
+    <TypeConverter>
+      <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+    </TypeConverter>
+  </Type>
+</Types>

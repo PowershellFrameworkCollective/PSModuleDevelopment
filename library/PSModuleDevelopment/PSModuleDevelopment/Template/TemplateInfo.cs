@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +7,10 @@ using System.Threading.Tasks;
 namespace PSModuleDevelopment.Template
 {
     /// <summary>
-    /// The master class containing a template
+    /// Class containing meta information about a template
     /// </summary>
     [Serializable]
-    public class Template
+    public class TemplateInfo
     {
         /// <summary>
         /// The name of the template
@@ -52,34 +51,5 @@ namespace PSModuleDevelopment.Template
         /// List of parameters the template accepts
         /// </summary>
         public List<string> Parameters = new List<string>();
-
-        /// <summary>
-        /// List of scripts that will be invoked on initialization
-        /// </summary>
-        public Dictionary<string, ParameterScript> Scripts = new Dictionary<string, ParameterScript>(StringComparer.OrdinalIgnoreCase);
-
-        /// <summary>
-        /// Items in the root directory of the template (which may contain children themselves).
-        /// </summary>
-        public List<TemplateItemBase> Children = new List<TemplateItemBase>();
-
-        /// <summary>
-        /// Returns the template digest used as index file.
-        /// </summary>
-        /// <returns>A TemplateInfo object describing this template.</returns>
-        public TemplateInfo ToTemplateInfo()
-        {
-            TemplateInfo info = new TemplateInfo();
-            info.Author = Author;
-            info.CreatedOn = CreatedOn;
-            info.Description = Description;
-            info.Name = Name;
-            info.Parameters = Parameters;
-            info.Tags = Tags;
-            info.Type = Type;
-            info.Version = Version;
-
-            return info;
-        }
     }
 }

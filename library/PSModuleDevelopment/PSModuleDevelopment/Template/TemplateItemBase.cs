@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PSModuleDevelopment.Template
 {
     /// <summary>
-    /// Base class for all files & folders that can be part of a template
+    /// Base class for all files &amp; folders that can be part of a template
     /// </summary>
     [Serializable]
     public abstract class TemplateItemBase

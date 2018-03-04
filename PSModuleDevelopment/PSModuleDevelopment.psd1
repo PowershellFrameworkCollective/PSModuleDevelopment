@@ -51,7 +51,7 @@
 	ScriptsToProcess = @()
 	
 	# Type files (.ps1xml) to be loaded when importing this module
-	TypesToProcess = @()
+	TypesToProcess = @('xml\PSModuleDevelopment.Types.ps1xml')
 	
 	# Format files (.ps1xml) to be loaded when importing this module
 	FormatsToProcess = @('xml\PSModuleDevelopment.Format.ps1xml')
@@ -75,6 +75,7 @@
 		'New-PSMDHeader',
 		'New-PSMDFormatTableDefinition',
 		'New-PSMDModuleNugetPackage',
+		'New-PSMDTemplate',
 		'New-PssModuleProject',
 		'Remove-PSMDModuleDebug',
 		'Rename-PSMDParameter',
