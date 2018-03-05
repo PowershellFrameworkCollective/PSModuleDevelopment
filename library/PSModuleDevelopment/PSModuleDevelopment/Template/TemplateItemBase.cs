@@ -23,6 +23,11 @@ namespace PSModuleDevelopment.Template
         public string RelativePath;
 
         /// <summary>
+        /// The string sequence used to identify variables in this file
+        /// </summary>
+        public string Identifier;
+
+        /// <summary>
         /// List of flat string insertion parameters for the filesystem object's name
         /// </summary>
         public List<string> FileSystemParameterFlat = new List<string>();

@@ -487,6 +487,10 @@
 			}
 			#endregion File
 			
+			# Set identifier, so that Invoke-PSMDTemplate knows what to use when creating the item
+			# Needed for sharing templates between users with different identifiers
+			$object.Identifier = $Identifier
+			
 			if ($Parent)
 			{
 				$null = $Parent.Children.Add($object)

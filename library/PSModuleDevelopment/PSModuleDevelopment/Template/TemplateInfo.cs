@@ -51,5 +51,24 @@ namespace PSModuleDevelopment.Template
         /// List of parameters the template accepts
         /// </summary>
         public List<string> Parameters = new List<string>();
+
+        /// <summary>
+        /// The store the template is stored in.
+        /// </summary>
+        public string Store;
+
+        /// <summary>
+        /// The path to the template file
+        /// </summary>
+        public string Path;
+
+        /// <summary>
+        /// The version-qualified name of the template
+        /// </summary>
+        /// <returns>The version-qualified name of the template</returns>
+        public override string ToString()
+        {
+            return String.Format("{0} {1}", Name, Version);
+        }
     }
 }
