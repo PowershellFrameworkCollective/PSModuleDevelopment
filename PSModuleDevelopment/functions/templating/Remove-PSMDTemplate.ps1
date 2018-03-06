@@ -32,6 +32,12 @@
 		Replaces user friendly yellow warnings with bloody red exceptions of doom!
 		Use this if you want the function to throw terminating errors you want to catch.
 	
+	.PARAMETER Confirm
+		If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.
+	
+	.PARAMETER WhatIf
+		If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.
+	
 	.EXAMPLE
 		PS C:\> Remove-PSMDTemplate -TemplateName '*' -Deprecated
 	
@@ -122,7 +128,7 @@
 			)
 			
 			$pathFile = $Template.Path
-			$pathInfo = $Template.Path -replace '\.xml$', '.Info.xml'
+			$pathInfo = $Template.Path -replace '\.xml$', '-Info.xml'
 			
 			Remove-Item $pathInfo -Force -ErrorAction Stop
 			Remove-Item $pathFile -Force -ErrorAction Stop

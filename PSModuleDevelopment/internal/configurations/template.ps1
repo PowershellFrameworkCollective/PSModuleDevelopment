@@ -10,3 +10,7 @@ Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.BinaryExtensions' -V
 
 # Define the default store. To add more stores, just add a similar setting with a different last name segment
 Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.Store.Default' -Value "$env:APPDATA\WindowsPowerShell\PSModuleDevelopment\Templates" -Initialize -Validation "string" -Description "Path to the default directory where PSModuleDevelopment will store its templates. You can add additional stores by creating the same setting again, only changing the last name segment to a new name and configuring a separate path."
+Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.Store.PSModuleDevelopment' -Value "$script:PSModuleRoot\internal\templates" -Initialize -Validation "string" -Description "Path to the templates shipped in PSModuleDevelopment"
+
+# Define the default path to create from templates in
+Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.OutPath' -Value '.' -Initialize -Validation 'string' -Description "The path where new files & projects should be created from templates by default."

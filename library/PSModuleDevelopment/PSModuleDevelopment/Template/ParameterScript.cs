@@ -47,7 +47,8 @@ namespace PSModuleDevelopment.Template
         /// <param name="ScriptBlock"></param>
         public ParameterScript(string Name, ScriptBlock ScriptBlock)
         {
-
+            this.Name = Name;
+            this.ScriptBlock = ScriptBlock;
         }
     }
 }

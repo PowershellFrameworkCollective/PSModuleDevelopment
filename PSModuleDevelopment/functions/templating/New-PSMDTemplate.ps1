@@ -94,7 +94,9 @@
         Use this if you want the function to throw terminating errors you want to catch.
 	
 	.EXAMPLE
-		PS C:\> New-PSMDTemplate -ReferencePath 'value1'
+		PS C:\> New-PSMDTemplate -FilePath .\þnameþ.Test.ps1 -TemplateName functiontest
+	
+		Creates a new template named 'functiontest', based on the content of '.\þnameþ.Test.ps1'
 #>
 	[CmdletBinding(DefaultParameterSetName = 'Project')]
 	param (
@@ -398,7 +400,7 @@
 						$scriptName = $find.Groups[2].Value
 						if ($Template.Scripts.Keys -eq $scriptName)
 						{
-							$object.FileSystemParameterScript($scriptName)
+							$null = $object.FileSystemParameterScript.Add($scriptName)
 						}
 						else
 						{
@@ -435,7 +437,7 @@
 							$scriptName = $find.Groups[2].Value
 							if ($Template.Scripts.Keys -eq $scriptName)
 							{
-								$object.ContentParameterScript($scriptName)
+								$null = $object.ContentParameterScript.Add($scriptName)
 							}
 							else
 							{

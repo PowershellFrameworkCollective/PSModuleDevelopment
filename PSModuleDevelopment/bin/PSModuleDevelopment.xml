@@ -209,6 +209,22 @@
             List of parameters the template accepts
             </summary>
         </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Store">
+            <summary>
+            The store the template is stored in.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Path">
+            <summary>
+            The path to the template file
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.TemplateInfo.ToString">
+            <summary>
+            The version-qualified name of the template
+            </summary>
+            <returns>The version-qualified name of the template</returns>
+        </member>
         <member name="T:PSModuleDevelopment.Template.TemplateItemBase">
             <summary>
             Base class for all files &amp; folders that can be part of a template
@@ -222,6 +238,11 @@
         <member name="F:PSModuleDevelopment.Template.TemplateItemBase.RelativePath">
             <summary>
             The full path from the project root
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateItemBase.Identifier">
+            <summary>
+            The string sequence used to identify variables in this file
             </summary>
         </member>
         <member name="F:PSModuleDevelopment.Template.TemplateItemBase.FileSystemParameterFlat">

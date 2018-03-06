@@ -102,7 +102,9 @@
 				$prospects += $data
 			}
 		}
+		#endregion Scan folders
 		
+		#region Search Stores
 		else
 		{
 			$stores = Get-PsmdTemplateStore -Filter $Store
@@ -111,12 +113,12 @@
 			{
 				if ($item.Ensure())
 				{
-					$templateInfos = Get-ChildItem -Path $item.Path -Filter "$($TemplateName)-*.Info.xml" | Where-Object { ($_.Name -replace "-\d+(\.\d+){0,3}.Info.xml$") -like $TemplateName }
+					$templateInfos = Get-ChildItem -Path $item.Path -Filter "$($TemplateName)-*-Info.xml" | Where-Object { ($_.Name -replace "-\d+(\.\d+){0,3}-Info.xml$") -like $TemplateName }
 					
 					foreach ($info in $templateInfos)
 					{
 						$data = Import-Clixml $info.FullName
-						$data.Path = $info.FullName -replace '\.Info\.xml$', '.xml'
+						$data.Path = $info.FullName -replace '-Info\.xml$', '.xml'
 						$data.Store = $item.Name
 						$prospects += $data
 					}
@@ -129,7 +131,7 @@
 				}
 			}
 		}
-		#endregion Scan folders
+		#endregion Search Stores
 	}
 	end
 	{
