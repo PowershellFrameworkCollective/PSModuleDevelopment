@@ -83,6 +83,13 @@
 	.PARAMETER Version
 		The version of the template.
 	
+	.PARAMETER Author
+		The author of the template.
+	
+	.PARAMETER Description.
+		A description text for the template itself.
+		This will be visible to the user before invoking the template and should describe what this template is for.
+	
 	.PARAMETER Tags
 		Tags to apply to the template, making it easier to filter & search.
 	

@@ -7,7 +7,7 @@
 	.DESCRIPTION
 		This function takes a template and turns it into a finished file&folder structure.
 		It does so by creating the files and folders stored within, replacing all parameters specified with values provided by the user.
-	
+		
 		Missing parameters will be prompted for.
 	
 	.PARAMETER Template
@@ -38,29 +38,32 @@
 		Skip automatic folder creation for project templates.
 		By default, this command will create a folder to place files&folders in when creating a project.
 	
-	.PARAMETER Force
-		If the target path the template should be written to (filename or folder name within $OutPath), then overwrite it.
-		By default, this function will fail if an overwrite is required.
+	.PARAMETER Parameters
+		A Hashtable containing parameters for use in creating the template.
 	
 	.PARAMETER Raw
 		By default, all parameters will be replaced during invocation.
 		In Raw mode, this is skipped, reproducing mostly the original template input (dynamic scriptblocks will now be named scriptblocks)).
 	
+	.PARAMETER Force
+		If the target path the template should be written to (filename or folder name within $OutPath), then overwrite it.
+		By default, this function will fail if an overwrite is required.
+	
 	.PARAMETER Silent
 		This places the function in unattended mode, causing it to error on anything requiring direct user input.
 	
 	.PARAMETER EnableException
-        Replaces user friendly yellow warnings with bloody red exceptions of doom!
-        Use this if you want the function to throw terminating errors you want to catch.
+		Replaces user friendly yellow warnings with bloody red exceptions of doom!
+		Use this if you want the function to throw terminating errors you want to catch.
 	
 	.EXAMPLE
 		PS C:\> Invoke-PSMDTemplate -TemplateName "module"
-	
+		
 		Creates a project based on the module template in the current folder, asking for all details.
 	
 	.EXAMPLE
 		PS C:\> Invoke-PSMDTemplate -TemplateName "module" -Name "MyModule"
-	
+		
 		Creates a project based on the module template with the name "MyModule"
 #>
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
@@ -158,6 +161,7 @@
 		#region Helper function
 		function Invoke-Template
 		{
+			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 			[CmdletBinding()]
 			param (
 				[PSModuleDevelopment.Template.TemplateInfo]
@@ -308,6 +312,7 @@
 		
 		function Write-TemplateItem
 		{
+			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 			[CmdletBinding()]
 			param (
 				[PSModuleDevelopment.Template.TemplateItemBase]
