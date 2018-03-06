@@ -4,7 +4,7 @@
 	RootModule = 'PSModuleDevelopment.psm1'
 	
 	# Version number of this module.
-	ModuleVersion = '2.1.1.3'
+	ModuleVersion = '2.2.0.10'
 	
 	# ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -41,7 +41,7 @@
 	
 	# Modules that must be imported into the global environment prior to importing
 	# this module
-	RequiredModules		    = @(@{ ModuleName='PSFramework'; ModuleVersion= '0.9.9.19' })
+	RequiredModules		    = @(@{ ModuleName='PSFramework'; ModuleVersion= '0.9.10.23' })
 	
 	# Assemblies that must be loaded prior to importing this module
 	RequiredAssemblies = @('bin\PSModuleDevelopment.dll')
@@ -51,7 +51,7 @@
 	ScriptsToProcess = @()
 	
 	# Type files (.ps1xml) to be loaded when importing this module
-	TypesToProcess = @()
+	TypesToProcess = @('xml\PSModuleDevelopment.Types.ps1xml')
 	
 	# Format files (.ps1xml) to be loaded when importing this module
 	FormatsToProcess = @('xml\PSModuleDevelopment.Format.ps1xml')
@@ -69,14 +69,18 @@
 		'Get-PSMDConstructor',
 		'Get-PSMDHelpEx',
 		'Get-PSMDModuleDebug',
+		'Get-PSMDTemplate',
 		'Import-PSMDModuleDebug',
+		'Invoke-PSMDTemplate',
 		'Measure-PSMDCommandEx',
 		'New-PSMDDotNetProject',
 		'New-PSMDHeader',
 		'New-PSMDFormatTableDefinition',
 		'New-PSMDModuleNugetPackage',
+		'New-PSMDTemplate',
 		'New-PssModuleProject',
 		'Remove-PSMDModuleDebug',
+		'Remove-PSMDTemplate',
 		'Rename-PSMDParameter',
 		'Restart-PSMDShell',
 		'Set-PSMDModuleDebug',
