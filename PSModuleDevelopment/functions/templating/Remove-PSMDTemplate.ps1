@@ -121,6 +121,7 @@
 			
 				Removes the template stored in $template
 		#>
+			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 			[CmdletBinding()]
 			Param (
 				[PSModuleDevelopment.Template.TemplateInfo]

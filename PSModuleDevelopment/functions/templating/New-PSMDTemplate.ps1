@@ -98,6 +98,7 @@
 	
 		Creates a new template named 'functiontest', based on the content of '.\þnameþ.Test.ps1'
 #>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 	[CmdletBinding(DefaultParameterSetName = 'Project')]
 	param (
 		[Parameter(Mandatory = $true, Position = 0, ParameterSetName = 'Project')]
