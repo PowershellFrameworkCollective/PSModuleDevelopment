@@ -86,7 +86,7 @@
 	.PARAMETER Author
 		The author of the template.
 	
-	.PARAMETER Description.
+	.PARAMETER Description
 		A description text for the template itself.
 		This will be visible to the user before invoking the template and should describe what this template is for.
 	

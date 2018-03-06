@@ -66,8 +66,7 @@
 		
 		Creates a project based on the module template with the name "MyModule"
 #>
-	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess = $true)]
 	param (
 		[Parameter(Mandatory = $true, ValueFromPipeline = $true, ParameterSetName = 'Template')]
 		[PSModuleDevelopment.Template.TemplateInfo[]]
