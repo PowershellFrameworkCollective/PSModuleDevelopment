@@ -434,3 +434,5 @@
 	
 	}
 }
+
+if (-not (Test-Path Alias:\imt)) { Set-Alias -Name imt -Value Invoke-PSMDTemplate }

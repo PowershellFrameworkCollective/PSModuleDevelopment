@@ -29,6 +29,7 @@
     <Folder>internal\maintenance</Folder>
     <Folder>internal\tabcompletion\assignment</Folder>
     <Folder>internal\functions\template</Folder>
+    <Folder>internal\templates</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
@@ -45,10 +46,6 @@
     <File Build="2" Shared="True" ReferenceFunction="Invoke-New-PssModuleProject_ps1">functions\utility\New-PssModuleProject.ps1</File>
     <File Build="2">en-us\about_psmoduledevelopment.help.txt</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-PSMDModulePath_ps1">functions\utility\Set-PSMDModulePath.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-PSMDWixConfig_ps1">internal\functions\wix\Get-PSMDWixConfig.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Set-PSMDWixConfig_ps1">internal\functions\wix\Set-PSMDWixConfig.ps1</File>
-    <File Build="2" Shared="True" ReferenceFunction="Invoke-Invoke-PSMDWixBuild_ps1">internal\functions\wix\Invoke-PSMDWixBuild.ps1</File>
-    <File Build="2" Shared="False" ReferenceFunction="Invoke-Invoke-PSMDWixBuild2_ps1">internal\functions\wix\Invoke-PSMDWixBuild2.ps1</File>
     <File Build="2" Shared="False" ReferenceFunction="Invoke-wix_ps1">internal\configurations\wix.ps1</File>
     <File Build="2" Shared="False" ReferenceFunction="Invoke-debug_ps1">internal\configurations\debug.ps1</File>
     <File Build="2" Shared="False" ReferenceFunction="Invoke-license_ps1">internal\scripts\license.ps1</File>
@@ -89,6 +86,14 @@
     <File Build="2" Shared="True" ReferenceFunction="Invoke-template_ps1">internal\configurations\template.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Invoke-PSMDTemplate_ps1">functions\templating\Invoke-PSMDTemplate.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-Get-PsmdTemplateStore_ps1">internal\functions\template\Get-PsmdTemplateStore.ps1</File>
+    <File Build="2">xml\PSModuleDevelopment.Types.ps1xml</File>
+    <File Build="2">internal\functions\wix\Get-PSMDWixConfig.txt</File>
+    <File Build="2">internal\functions\wix\Invoke-PSMDWixBuild.txt</File>
+    <File Build="2">internal\functions\wix\Invoke-PSMDWixBuild2.txt</File>
+    <File Build="2">internal\functions\wix\Set-PSMDWixConfig.txt</File>
+    <File Build="2">changelog.md</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-template-store_ps1">internal\tabcompletion\scriptblocks\template-store.ps1</File>
+    <File Build="2" Shared="True" ReferenceFunction="Invoke-template-templatename_ps1">internal\tabcompletion\scriptblocks\template-templatename.ps1</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>
