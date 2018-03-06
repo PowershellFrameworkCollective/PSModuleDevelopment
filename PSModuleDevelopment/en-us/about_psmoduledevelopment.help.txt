@@ -165,7 +165,7 @@ LONG DESCRIPTION
 	#                                Changelog                                #
 	#-------------------------------------------------------------------------#
 	
-	2.2.0.10 (???)
+	2.2.0.10 (March 06th, 2018)
 	  - new: Command New-PSMDTemplate
 	  - new: Command Get-PSMDTemplate
 	  - new: Command Invoke-PSMDTemplate
