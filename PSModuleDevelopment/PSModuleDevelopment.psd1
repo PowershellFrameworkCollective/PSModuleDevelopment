@@ -101,6 +101,7 @@
 		'dotnetnew',
 		'find',
 		'hex',
+		'imt',
 		'Restart-Shell',
         'rss',
         'ipmod',
@@ -126,7 +127,7 @@
 			# LicenseUri = ''
 			
 			# A URL to the main website for this project.
-			ProjectUri = 'https://github.com/PowershellFrameworkCollective/PSModuleDevelopment'
+			ProjectUri = 'http://psframework.org'
 			
 			# A URL to an icon representing this module.
 			# IconUri = ''
