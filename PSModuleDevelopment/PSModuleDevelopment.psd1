@@ -4,7 +4,7 @@
 	RootModule = 'PSModuleDevelopment.psm1'
 	
 	# Version number of this module.
-	ModuleVersion = '2.2.0.10'
+	ModuleVersion = '2.2.0.11'
 	
 	# ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -101,6 +101,7 @@
 		'dotnetnew',
 		'find',
 		'hex',
+		'imt',
 		'Restart-Shell',
         'rss',
         'ipmod',
@@ -126,7 +127,7 @@
 			# LicenseUri = ''
 			
 			# A URL to the main website for this project.
-			ProjectUri = 'https://github.com/PowershellFrameworkCollective/PSModuleDevelopment'
+			ProjectUri = 'http://psframework.org'
 			
 			# A URL to an icon representing this module.
 			# IconUri = ''
