@@ -40,6 +40,271 @@
             </summary>
             <param name="Info">The constructor info object describing the constructor</param>
         </member>
+        <member name="T:PSModuleDevelopment.Template.ParameterScript">
+            <summary>
+            A script used to calculate content to be inserted
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.ParameterScript.Name">
+            <summary>
+            Name of the scriptblock (auto-assigned or specified)
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.ParameterScript.ScriptBlock">
+            <summary>
+            The scriptblock to invoke
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Template.ParameterScript.StringScript">
+            <summary>
+            Direct string representation of the scriptblock.
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.ParameterScript.#ctor">
+            <summary>
+            Creates an empty parameter script. Usually used in serialization.
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.ParameterScript.#ctor(System.String,System.Management.Automation.ScriptBlock)">
+            <summary>
+            Creates a prefilled paramter script. Usually used when creating templates
+            </summary>
+            <param name="Name">The name of the parameter. This is used to insert it into individual files or file names.</param>
+            <param name="ScriptBlock"></param>
+        </member>
+        <member name="T:PSModuleDevelopment.Template.Store">
+            <summary>
+            Class containing information relating to where templates are stored
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Store.Name">
+            <summary>
+            The name of the store
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Store.Path">
+            <summary>
+            The path the store is pointed to
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Template.Store.Directory">
+            <summary>
+            A directory information wrapper to more easily manipulate it
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Template.Store.Exists">
+            <summary>
+            Whether the diretory already exists
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.Store.Ensure">
+            <summary>
+            Ensures the store actually exists
+            </summary>
+            <returns>True if it worked, false otherwise</returns>
+        </member>
+        <member name="T:PSModuleDevelopment.Template.Template">
+            <summary>
+            The master class containing a template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.Name">
+            <summary>
+            The name of the template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.Type">
+            <summary>
+            What kind of template is this?
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.Version">
+            <summary>
+            What version is the template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.Description">
+            <summary>
+            Text describing the template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.Author">
+            <summary>
+            Author of the template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.CreatedOn">
+            <summary>
+            When was the template originally created?
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.Tags">
+            <summary>
+            List of tags that have been assigned to the template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.Parameters">
+            <summary>
+            List of parameters the template accepts
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.Scripts">
+            <summary>
+            List of scripts that will be invoked on initialization
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.Children">
+            <summary>
+            Items in the root directory of the template (which may contain children themselves).
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.Template.ToTemplateInfo">
+            <summary>
+            Returns the template digest used as index file.
+            </summary>
+            <returns>A TemplateInfo object describing this template.</returns>
+        </member>
+        <member name="T:PSModuleDevelopment.Template.TemplateInfo">
+            <summary>
+            Class containing meta information about a template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Name">
+            <summary>
+            The name of the template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Type">
+            <summary>
+            What kind of template is this?
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Version">
+            <summary>
+            What version is the template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Description">
+            <summary>
+            Text describing the template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Author">
+            <summary>
+            Author of the template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.CreatedOn">
+            <summary>
+            When was the template originally created?
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Tags">
+            <summary>
+            List of tags that have been assigned to the template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Parameters">
+            <summary>
+            List of parameters the template accepts
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Store">
+            <summary>
+            The store the template is stored in.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Path">
+            <summary>
+            The path to the template file
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.TemplateInfo.ToString">
+            <summary>
+            The version-qualified name of the template
+            </summary>
+            <returns>The version-qualified name of the template</returns>
+        </member>
+        <member name="T:PSModuleDevelopment.Template.TemplateItemBase">
+            <summary>
+            Base class for all files &amp; folders that can be part of a template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateItemBase.Name">
+            <summary>
+            Name of the item
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateItemBase.RelativePath">
+            <summary>
+            The full path from the project root
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateItemBase.Identifier">
+            <summary>
+            The string sequence used to identify variables in this file
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateItemBase.FileSystemParameterFlat">
+            <summary>
+            List of flat string insertion parameters for the filesystem object's name
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateItemBase.FileSystemParameterScript">
+            <summary>
+            List of script value insertion parameters for the filesystem object's name
+            </summary>
+        </member>
+        <member name="T:PSModuleDevelopment.Template.TemplateItemFile">
+            <summary>
+            Describes a file that is part of a template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateItemFile.Value">
+            <summary>
+            The value of the file. May contain plaintext UTF8 in cases of script files or similar text files. Base64 Encoded string in case of binary files.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateItemFile.PlainText">
+            <summary>
+            Whether the file is interpreted as plain text. If not, it will be assumed to be a Base64 encoded binary file.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateItemFile.ContentParameterFlat">
+            <summary>
+            List of flat string insertion parameters for the plaintext file
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateItemFile.ContentParameterScript">
+            <summary>
+            List of script value insertion parameters for the plaintext file
+            </summary>
+        </member>
+        <member name="T:PSModuleDevelopment.Template.TemplateItemFolder">
+            <summary>
+            Describes a folder that is part of a template
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateItemFolder.Children">
+            <summary>
+            Items under the current item.
+            </summary>
+        </member>
+        <member name="T:PSModuleDevelopment.Template.TemplateType">
+            <summary>
+            Is the template a single file or a project?
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateType.File">
+            <summary>
+            The template consists of a single file
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateType.Project">
+            <summary>
+            The template consists of multiple files
+            </summary>
+        </member>
         <member name="T:PSModuleDevelopment.Utility.TextAlignment">
             <summary>
             What a text can be aligned to
