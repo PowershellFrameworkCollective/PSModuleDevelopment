@@ -1,0 +1,1 @@
+New-PSMDTemplate -ReferencePath "$PSScriptRoot" -OutStore psmoduledevelopment

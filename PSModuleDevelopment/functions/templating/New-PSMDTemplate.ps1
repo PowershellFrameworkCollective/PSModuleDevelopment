@@ -229,6 +229,18 @@
 		}
 		#endregion Insert basic meta-data
 		
+		#region Validation
+		#region Validate FilePath
+		if ($FilePath)
+		{
+			if (-not (Test-Path $FilePath -PathType Leaf))
+			{
+				Stop-PSFFunction -Message "Filepath $FilePath is invalid. Ensure it exists and is a file" -EnableException $EnableException -Category InvalidArgument -Tag 'fail', 'argument', 'path'
+				return
+			}
+		}
+		#endregion Validate FilePath
+		
 		#region Validate & ensure output folder
 		$fileName = "$($template.Name)-$($template.Version).xml"
 		$infoFileName = "$($template.Name)-$($template.Version)-Info.xml"
@@ -265,6 +277,7 @@
 			return
 		}
 		#endregion Validate & ensure output folder
+		#endregion Validation
 		
 		#region Utility functions
 		function Convert-Item
@@ -428,7 +441,7 @@
 						#region Fixed string replacement
 						if ($find.Groups[1].Success)
 						{
-							if ($object.FileSystemParameterFlat -notcontains $find.Groups[1].Value)
+							if ($object.ContentParameterFlat -notcontains $find.Groups[1].Value)
 							{
 								$null = $object.ContentParameterFlat.Add($find.Groups[1].Value)
 							}
@@ -522,6 +535,7 @@
 			foreach ($item in (Get-ChildItem -Path $processedReferencePath -Filter $Filter))
 			{
 				if ($item.FullName -in $Exclusions) { continue }
+				if ($item.Name -eq "PSMDTemplate.ps1") { continue }
 				Convert-Item -Item $item -Filter $Filter -Exclusions $Exclusions -Template $template -ReferencePath $processedReferencePath -Identifier $identifier -BinaryExtensions $binaryExtensions
 			}
 		}

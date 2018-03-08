@@ -1,11 +1,7 @@
 ﻿$script:PSModuleRoot = $PSScriptRoot
-$script:PSModuleVersion = "2.2.1.12"
-
-$script:doDotSource = $false
-if (Get-PSFConfigValue -FullName PSModuleDevelopment.Import.DoDotSource) { $script:doDotSource = $true }
 
 #region Helper function
-function Import-PSMDFile
+function Import-ModuleFile
 {
 	<#
 		.SYNOPSIS
@@ -14,12 +10,14 @@ function Import-PSMDFile
 		.DESCRIPTION
 			This helper function is used during module initialization.
 			It should always be dotsourced itself, in order to proper function.
+			
+			This provides a central location to react to files being imported, if later desired
 		
 		.PARAMETER Path
 			The path to the file to load
 		
 		.EXAMPLE
-			PS C:\> . Import-PSMDFile -File $function.FullName
+			PS C:\> . Import-ModuleFile -File $function.FullName
 	
 			Imports the file stored in $function according to import policy
 	#>
@@ -29,28 +27,25 @@ function Import-PSMDFile
 		$Path
 	)
 	
-	if ($script:doDotSource) { . $Path }
-	else { $ExecutionContext.InvokeCommand.InvokeScript($false, ([scriptblock]::Create([io.file]::ReadAllText($Path))), $null, $null) }
+	if ($script:dontDotSource) { $ExecutionContext.InvokeCommand.InvokeScript($false, ([scriptblock]::Create([io.file]::ReadAllText($Path))), $null, $null) }
+	else { . $Path }
 }
 #endregion Helper function
 
-
 # Perform Actions before loading the rest of the content
-. Import-PSMDFile -Path "$PSModuleRoot\internal\scripts\preload.ps1"
-
-#region Load internal functions
-foreach ($function in (Get-ChildItem "$PSModuleRoot\internal\functions" -Recurse -File -Filter "*.ps1"))
-{
-	. Import-PSMDFile -Path $function.FullName
-}
-#endregion Load internal functions
+. Import-ModuleFile -Path "$PSModuleRoot\internal\scripts\preimport.ps1"
 
 #region Load functions
+foreach ($function in (Get-ChildItem "$PSModuleRoot\internal\functions" -Recurse -File -Filter "*.ps1"))
+{
+	. Import-ModuleFile -Path $function.FullName
+}
+
 foreach ($function in (Get-ChildItem "$PSModuleRoot\functions" -Recurse -File -Filter "*.ps1"))
 {
-	. Import-PSMDFile -Path $function.FullName
+	. Import-ModuleFile -Path $function.FullName
 }
 #endregion Load functions
 
 # Perform Actions after loading the module contents
-. Import-PSMDFile -Path "$PSModuleRoot\internal\scripts\postload.ps1"
+. Import-ModuleFile -Path "$PSModuleRoot\internal\scripts\postimport.ps1"

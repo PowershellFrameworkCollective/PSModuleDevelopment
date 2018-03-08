@@ -1,0 +1,12 @@
+﻿TOPIC
+	about_þnameþ
+	
+SHORT DESCRIPTION
+	A short synopsis of þnameþ
+
+LONG DESCRIPTION
+	A more detailed description of þnameþ,
+	Should tell the user how to get started with this module.
+	
+KEYWORDS
+	module development debugging

@@ -171,7 +171,7 @@
 		#endregion Apply filters
 		
 		#region Return valid templates
-		if ($All) { return $filteredProspects }
+		if ($All) { return $filteredProspects | Sort-Object Type, Name, Version }
 		
 		$prospectHash = @{ }
 		foreach ($prospect in $filteredProspects)
@@ -185,7 +185,7 @@
 				$prospectHash[$prospect.Name] = $prospect
 			}
 		}
-		$prospectHash.Values
+		$prospectHash.Values | Sort-Object Type, Name
 		#endregion Return valid templates
 	}
 }
