@@ -1,112 +1,75 @@
 ﻿@{
-	
 	# Script module or binary module file associated with this manifest
-	RootModule = 'PSModuleDevelopment.psm1'
+	ModuleToProcess = 'þnameþ.psm1'
 	
 	# Version number of this module.
-	ModuleVersion = '2.2.1.12'
+	ModuleVersion = '1.0.0.0'
 	
 	# ID used to uniquely identify this module
-	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
+	GUID = 'þ!guid!þ'
 	
 	# Author of this module
-	Author = 'Friedrich Weinmann'
+	Author = 'þauthorþ'
 	
 	# Company or vendor of this module
-	CompanyName = 'Infernal Associates ltd.'
+	CompanyName = 'þcompanyþ'
 	
 	# Copyright statement for this module
-	Copyright = '(c) 2016. All rights reserved.'
+	Copyright = '(c) þauthorþ. All rights reserved.'
 	
 	# Description of the functionality provided by this module
-	Description = 'A module designed to speed up the development of PowerShell modules'
+	Description = 'þdescriptionþ'
 	
 	# Minimum version of the Windows PowerShell engine required by this module
-	PowerShellVersion = '3.0'
+	PowerShellVersion = '5.0'
 	
 	# Name of the Windows PowerShell host required by this module
-	PowerShellHostName = ''
+	# PowerShellHostName = ''
 	
 	# Minimum version of the Windows PowerShell host required by this module
-	PowerShellHostVersion = ''
+	# PowerShellHostVersion = ''
 	
 	# Minimum version of the .NET Framework required by this module
-	DotNetFrameworkVersion = '2.0'
+	# DotNetFrameworkVersion = '2.0'
 	
 	# Minimum version of the common language runtime (CLR) required by this module
-	CLRVersion = '2.0.50727'
+	# CLRVersion = '2.0.50727'
 	
 	# Processor architecture (None, X86, Amd64, IA64) required by this module
-	ProcessorArchitecture = 'None'
+	# ProcessorArchitecture = 'None'
 	
 	# Modules that must be imported into the global environment prior to importing
 	# this module
-	RequiredModules		    = @(@{ ModuleName='PSFramework'; ModuleVersion= '0.9.10.23' })
+	# RequiredModules = @()
 	
 	# Assemblies that must be loaded prior to importing this module
-	RequiredAssemblies = @('bin\PSModuleDevelopment.dll')
+	# RequiredAssemblies = @()
 	
 	# Script files (.ps1) that are run in the caller's environment prior to
 	# importing this module
-	ScriptsToProcess = @()
+	# ScriptsToProcess = @()
 	
 	# Type files (.ps1xml) to be loaded when importing this module
-	TypesToProcess = @('xml\PSModuleDevelopment.Types.ps1xml')
+	# TypesToProcess = @()
 	
 	# Format files (.ps1xml) to be loaded when importing this module
-	FormatsToProcess = @('xml\PSModuleDevelopment.Format.ps1xml')
+	# FormatsToProcess = @()
 	
 	# Modules to import as nested modules of the module specified in
 	# ModuleToProcess
-	NestedModules = @()
+	# NestedModules = @()
 	
 	# Functions to export from this module
-    FunctionsToExport = @(
-		'Expand-PSMDTypeName',
-		'Find-PSMDFileContent',
-		'Find-PSMDType',
-		'Get-PSMDAssembly',
-		'Get-PSMDConstructor',
-		'Get-PSMDHelpEx',
-		'Get-PSMDModuleDebug',
-		'Get-PSMDTemplate',
-		'Import-PSMDModuleDebug',
-		'Invoke-PSMDTemplate',
-		'Measure-PSMDCommandEx',
-		'New-PSMDDotNetProject',
-		'New-PSMDHeader',
-		'New-PSMDFormatTableDefinition',
-		'New-PSMDModuleNugetPackage',
-		'New-PSMDTemplate',
-		'New-PssModuleProject',
-		'Remove-PSMDModuleDebug',
-		'Remove-PSMDTemplate',
-		'Rename-PSMDParameter',
-		'Restart-PSMDShell',
-		'Set-PSMDModuleDebug',
-		'Set-PSMDCmdletBinding',
-		'Set-PSMDModulePath',
-		'Set-PSMDParameterHelp',
-		'Split-PSMDScriptFile'
-    )
+	FunctionsToExport = ''
 	
 	# Cmdlets to export from this module
-	CmdletsToExport = '' 
+	CmdletsToExport = ''
 	
 	# Variables to export from this module
 	VariablesToExport = ''
 	
 	# Aliases to export from this module
-    AliasesToExport = @(
-		'dotnetnew',
-		'find',
-		'hex',
-		'imt',
-		'Restart-Shell',
-        'rss',
-        'ipmod',
-        'smd'
-    )
+	AliasesToExport = ''
 	
 	# List of all modules packaged with this module
 	ModuleList = @()
@@ -114,20 +77,20 @@
 	# List of all files packaged with this module
 	FileList = @()
 	
-	# Private data to pass to the module specified in ModuleToProcess
+	# Private data to pass to the module specified in ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 	PrivateData = @{
 		
 		#Support for PowerShellGet galleries.
 		PSData = @{
 			
 			# Tags applied to this module. These help with module discovery in online galleries.
-			Tags = @('Development', 'Module')
+			# Tags = @()
 			
 			# A URL to the license for this module.
 			# LicenseUri = ''
 			
 			# A URL to the main website for this project.
-			ProjectUri = 'http://psframework.org'
+			# ProjectUri = ''
 			
 			# A URL to an icon representing this module.
 			# IconUri = ''
@@ -139,10 +102,3 @@
 		
 	} # End of PrivateData hashtable
 }
-
-
-
-
-
-
-

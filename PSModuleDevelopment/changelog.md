@@ -1,4 +1,8 @@
 # Changelog
+## 2.2.1.12 (March 08th, 2018)
+ - Added out-of-the box templates
+ - fix: Verious bugfixes around the template system
+
 ## 2.2.1.11 (March 06th, 2018)
  - new: Alias imt --> Invoke-PSMDTemplate
  - Upd: Added TabCompletion to *-PSMDTemplate commands
