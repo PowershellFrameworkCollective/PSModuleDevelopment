@@ -27,7 +27,6 @@
     <Folder>internal\tabcompletion</Folder>
     <Folder>internal\tabcompletion\scriptblocks</Folder>
     <Folder>internal\maintenance</Folder>
-    <Folder>internal\tabcompletion\assignment</Folder>
     <Folder>internal\functions\template</Folder>
     <Folder>internal\templates</Folder>
   </Folders>
@@ -94,6 +93,12 @@
     <File Build="2">changelog.md</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-template-store_ps1">internal\tabcompletion\scriptblocks\template-store.ps1</File>
     <File Build="2" Shared="True" ReferenceFunction="Invoke-template-templatename_ps1">internal\tabcompletion\scriptblocks\template-templatename.ps1</File>
+    <File Build="2">internal\templates\function-1.0.0.0-Info.xml</File>
+    <File Build="2">internal\templates\function-1.0.0.0.xml</File>
+    <File Build="2">internal\templates\module-1.0.0.0-Info.xml</File>
+    <File Build="2">internal\templates\module-1.0.0.0.xml</File>
+    <File Build="2">internal\templates\PSMDTemplateReference-1.0.0.0-Info.xml</File>
+    <File Build="2">internal\templates\PSMDTemplateReference-1.0.0.0.xml</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>

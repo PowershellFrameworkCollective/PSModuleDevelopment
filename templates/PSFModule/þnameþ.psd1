@@ -40,7 +40,9 @@
 	
 	# Modules that must be imported into the global environment prior to importing
 	# this module
-	# RequiredModules = @()
+	RequiredModules = @(
+		@{ ModuleName='PSFramework'; ModuleVersion='0.9.10.23' }
+	)
 	
 	# Assemblies that must be loaded prior to importing this module
 	# RequiredAssemblies = @()
@@ -50,10 +52,10 @@
 	# ScriptsToProcess = @()
 	
 	# Type files (.ps1xml) to be loaded when importing this module
-	# TypesToProcess = @()
+	# TypesToProcess = @('xml\þnameþ.Types.ps1xml')
 	
 	# Format files (.ps1xml) to be loaded when importing this module
-	# FormatsToProcess = @()
+	# FormatsToProcess = @('xml\þnameþ.Format.ps1xml')
 	
 	# Modules to import as nested modules of the module specified in
 	# ModuleToProcess
