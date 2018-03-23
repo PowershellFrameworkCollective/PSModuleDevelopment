@@ -29,6 +29,7 @@
     <Folder>internal\maintenance</Folder>
     <Folder>internal\functions\template</Folder>
     <Folder>internal\templates</Folder>
+    <Folder>internal\tabcompletion\assignment</Folder>
   </Folders>
   <Files>
     <File Build="2">PSModuleDevelopment.psd1</File>
@@ -99,6 +100,8 @@
     <File Build="2">internal\templates\module-1.0.0.0.xml</File>
     <File Build="2">internal\templates\PSMDTemplateReference-1.0.0.0-Info.xml</File>
     <File Build="2">internal\templates\PSMDTemplateReference-1.0.0.0.xml</File>
+    <File Build="2">internal\templates\PSFModule-1.0.0.0-Info.xml</File>
+    <File Build="2">internal\templates\PSFModule-1.0.0.0.xml</File>
   </Files>
   <StartupScript>F:\Synchronized Data\Scripte\Powershell Studio\Projects\PSModuleDevelopment\Test-Module.ps1</StartupScript>
 </Project>
