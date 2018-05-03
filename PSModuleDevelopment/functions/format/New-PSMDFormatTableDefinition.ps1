@@ -83,7 +83,7 @@
 			</TableControl>
 		</View>
 	</ViewDefinitions>
-<Configuration>
+</Configuration>
 "@
 		$xmlFragment = @"
 		<!-- %TypeName% -->
