@@ -1,4 +1,8 @@
 # Changelog
+## 2.2.2.14 (May 03rd, 2018)
+ - Upd: Find-PSMDType - add `-Attribute` parameter to filter by class attributes (#27)
+ - Fix: Find-PSMDType - suppress error that gets thrown on empty assemblies.
+
 ## 2.2.1.12 (March 08th, 2018)
  - Added out-of-the box templates
  - fix: Verious bugfixes around the template system
