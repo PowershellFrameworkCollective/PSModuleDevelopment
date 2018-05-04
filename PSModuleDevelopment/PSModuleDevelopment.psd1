@@ -4,7 +4,7 @@
 	RootModule = 'PSModuleDevelopment.psm1'
 	
 	# Version number of this module.
-	ModuleVersion = '2.2.1.12'
+	ModuleVersion = '2.2.3.17'
 	
 	# ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -41,7 +41,7 @@
 	
 	# Modules that must be imported into the global environment prior to importing
 	# this module
-	RequiredModules		    = @(@{ ModuleName='PSFramework'; ModuleVersion= '0.9.10.23' })
+	RequiredModules		    = @(@{ ModuleName='PSFramework'; ModuleVersion= '0.9.16.44' })
 	
 	# Assemblies that must be loaded prior to importing this module
 	RequiredAssemblies = @('bin\PSModuleDevelopment.dll')

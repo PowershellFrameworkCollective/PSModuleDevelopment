@@ -37,6 +37,10 @@
 		The type must directly inherit from this type.
 		Accepts wildcards.
 	
+	.PARAMETER Attribute
+		The type must have this attribute assigned.
+		Accepts wildcards.
+	
 	.EXAMPLE
 		Find-PSMDType -Name "*String*"
 	
@@ -70,7 +74,10 @@
 		$Implements,
 		
 		[string]
-		$InheritsFrom
+		$InheritsFrom,
+		
+		[string]
+		$Attribute
 	)
 	
 	begin
@@ -85,11 +92,18 @@
 			if ($boundPublic)
 			{
 				if ($Public) { $types = $item.ExportedTypes }
-				else { $types = $item.GetTypes() | Where-Object IsPublic -EQ $false }
+				else
+				{
+					# Empty Assemblies will error on this, which is not really an issue and can be safely ignored
+					try { $types = $item.GetTypes() | Where-Object IsPublic -EQ $false }
+					catch { Write-PSFMessage -Message "Failed to enumerate types on $item" -Level InternalComment -Tag 'fail','assembly','type','enumerate' -ErrorRecord $_ }
+				}
 			}
 			else
 			{
-				$types = $item.GetTypes()
+				# Empty Assemblies will error on this, which is not really an issue and can be safely ignored
+				try { $types = $item.GetTypes() }
+				catch { Write-PSFMessage -Message "Failed to enumerate types on $item" -Level InternalComment -Tag 'fail', 'assembly', 'type', 'enumerate' -ErrorRecord $_ }
 			}
 			
 			foreach ($type in $types)
@@ -99,6 +113,7 @@
 				if ($Implements -and ($type.ImplementedInterfaces.Name -notcontains $Implements)) { continue }
 				if ($boundEnum -and ($Enum -ne $type.IsEnum)) { continue }
 				if ($InheritsFrom -and ($type.BaseType.FullName -notlike $InheritsFrom)) { continue }
+				if ($Attribute -and ($type.CustomAttributes.AttributeType.Name -notlike $Attribute)) { continue }
 				
 				$type
 			}

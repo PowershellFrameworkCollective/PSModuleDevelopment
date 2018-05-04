@@ -4,6 +4,241 @@
         <name>PSModuleDevelopment</name>
     </assembly>
     <members>
+        <member name="T:PSModuleDevelopment.Format.Column">
+            <summary>
+            A column in a format table definition
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Column.PropertyName">
+            <summary>
+            The name to select a property by. Ignored if a scriptblock is set.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Column.ScriptBlock">
+            <summary>
+            A scriptblock to determine column content at runtime
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Column.Label">
+            <summary>
+            The label to apply to the column
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Column.Width">
+            <summary>
+            Total width of the column. Anything less than one will be ignored.
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Format.Column.SortableName">
+            <summary>
+            Name to show and sort with. Used for sorting and to explicitly assign positions.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Column.Alignment">
+            <summary>
+            How to align the text.
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Format.Column.TextHeader">
+            <summary>
+            The text to use in the definition's header
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Format.Column.TextBody">
+            <summary>
+            The text to use in the definition's body
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Format.Column.CompareTo(System.Object)">
+            <summary>
+            Compares one column with another
+            </summary>
+            <param name="Item">The item to compare the current one with</param>
+            <returns>-1, 0 or 1</returns>
+        </member>
+        <member name="T:PSModuleDevelopment.Format.Alignment">
+            <summary>
+            The way text can be oriented
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Alignment.None">
+            <summary>
+            No alignment implies the property being not set. Instead, it will use the datatype default orientation.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Alignment.Left">
+            <summary>
+            Text is oriented to the left
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Alignment.Center">
+            <summary>
+            Text is centered
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Alignment.Right">
+            <summary>
+            Text is oriented to the right
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Alignment.Undefined">
+            <summary>
+            There was no alignment specified. Used to not apply changes during transformation
+            </summary>
+        </member>
+        <member name="T:PSModuleDevelopment.Format.ColumnTransformation">
+            <summary>
+            A set of transformation rules that determine, wheter a column needs to be updated
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.ColumnTransformation.FilterViewName">
+            <summary>
+            A filter rule, based on the name of the view
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.ColumnTransformation.FilterColumnName">
+            <summary>
+            A filter rule, based on the name of the column
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.ColumnTransformation.Append">
+            <summary>
+            Whether the rule should be added as an additional property, if no matching ColumName was found.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.ColumnTransformation.ScriptBlock">
+            <summary>
+            A scriptblock to determine column content at runtime
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.ColumnTransformation.Label">
+            <summary>
+            The label to apply to the column
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.ColumnTransformation.Width">
+            <summary>
+            Total width of the column. Anything less than one will be ignored.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.ColumnTransformation.Alignment">
+            <summary>
+            How to align the text.
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Format.ColumnTransformation.#ctor">
+            <summary>
+            Empty constructor for manual assembly
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Format.ColumnTransformation.#ctor(System.Collections.Hashtable)">
+            <summary>
+            Hashtable constructor, in order to automatically convert&amp;understand input
+            </summary>
+            <param name="Table">The hashtable to parse</param>
+        </member>
+        <member name="M:PSModuleDevelopment.Format.ColumnTransformation.Apply(PSModuleDevelopment.Format.Column)">
+            <summary>
+            Applies changes to column
+            </summary>
+            <param name="Item">The column to affect</param>
+        </member>
+        <member name="T:PSModuleDevelopment.Format.Document">
+            <summary>
+            A format document. Should be written to a *.Format.ps1xml format.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Document.Name">
+            <summary>
+            Name of the document. Purely cosmetic in nature.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.Document.Views">
+            <summary>
+            List of views stored in this document.
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Format.Document.Text">
+            <summary>
+            The XML definition of this format document
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Format.Document.ToString">
+            <summary>
+            Returns the string representation of the format XML
+            </summary>
+            <returns>The string representation of the format XML</returns>
+        </member>
+        <member name="T:PSModuleDevelopment.Format.TableDefinition">
+            <summary>
+            A Format Table definition
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.TableDefinition.Autosize">
+            <summary>
+            Whether to automatically size the column width
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.TableDefinition.Columns">
+            <summary>
+            List of columns to 
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Format.TableDefinition.TextDefinition">
+            <summary>
+            The string representation of a format table fragment.
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Format.TableDefinition.SetColumnOrder(System.String[])">
+            <summary>
+            Sets the columns to this specified order, using the SortableName property to assign.
+            Not listed properties will be moved to the end of the list.
+            </summary>
+            <param name="Names">The names to sort by</param>
+        </member>
+        <member name="M:PSModuleDevelopment.Format.TableDefinition.TransformColumn(PSModuleDevelopment.Format.ColumnTransformation)">
+            <summary>
+            Applies a transformation rule to the columns stored in this view
+            </summary>
+            <param name="Transform">The transformation rule to apply</param>
+        </member>
+        <member name="M:PSModuleDevelopment.Format.TableDefinition.ToString">
+            <summary>
+            The default string representation of a tableview format definition
+            </summary>
+            <returns>The default string representation of a tableview format definition</returns>
+        </member>
+        <member name="T:PSModuleDevelopment.Format.ViewDefinitionBase">
+            <summary>
+            Base class for format definitions
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.ViewDefinitionBase.Name">
+            <summary>
+            The name of the definition
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.ViewDefinitionBase.ViewSelectedByType">
+            <summary>
+            The typenames selected by
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Format.ViewDefinitionBase.ViewSelectedBySet">
+            <summary>
+            The selectionset to select by
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Format.ViewDefinitionBase.TextDefinition">
+            <summary>
+            The string representation. Must be overridden by all implementing classes.
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Format.ViewDefinitionBase.ToString">
+            <summary>
+            The string representation. Must be overridden by all implementing classes.
+            </summary>
+            <returns>The format string to produce for the format file.</returns>
+        </member>
         <member name="T:PSModuleDevelopment.PsmdAssembly.Constructor">
             <summary>
             Class containing information about a class's constructor
@@ -426,6 +661,19 @@
             <summary>
             Gives access to the host UI, in order to access window information
             </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Utility.UtilityHost.IsLike(System.String,System.String,System.Boolean)">
+            <summary>
+            Implement's VB's Like operator logic.
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Utility.UtilityHost.CharListToSet(System.String)">
+            <summary>
+            Converts a string of characters to a HashSet of characters. If the string
+            contains character ranges, such as A-Z, all characters in the range are
+            also added to the returned set of characters.
+            </summary>
+            <param name="charList">Character list string</param>
         </member>
     </members>
 </doc>
