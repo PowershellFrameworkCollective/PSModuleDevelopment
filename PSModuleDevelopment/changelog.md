@@ -1,7 +1,9 @@
 # Changelog
-## 2.2.2.14 (May 03rd, 2018)
+## 2.2.3.17 (May 04rd, 2018)
+ - Upd: New-PSMDFormatTableDefinition - Major redesign, extensive additional functionality (#29)
  - Upd: Find-PSMDType - add `-Attribute` parameter to filter by class attributes (#27)
  - Fix: Find-PSMDType - suppress error that gets thrown on empty assemblies.
+ - Fix: New-PSMDFormatTableDefinition - Broken closing `<Configuration>` tag (#28)
 
 ## 2.2.1.12 (March 08th, 2018)
  - Added out-of-the box templates

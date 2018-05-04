@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Format\Column.cs" />
+    <Compile Include="Format\Alignment.cs" />
+    <Compile Include="Format\ColumnTransformation.cs" />
+    <Compile Include="Format\Document.cs" />
+    <Compile Include="Format\TableDefinition.cs" />
+    <Compile Include="Format\ViewDefinitionBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PsmdAssembly\Constructor.cs" />
     <Compile Include="Template\ParameterScript.cs" />
