@@ -1,4 +1,7 @@
 # Changelog
+## 2.2.4.18 (May 04rd, 2018)
+ - Upd: New-PSMDFormatTableDefinition - Update to add parameters `-IncludePropertyAttribute` and `-ExcludePropertyAttribute`
+ 
 ## 2.2.3.17 (May 04rd, 2018)
  - Upd: New-PSMDFormatTableDefinition - Major redesign, extensive additional functionality (#29)
  - Upd: Find-PSMDType - add `-Attribute` parameter to filter by class attributes (#27)

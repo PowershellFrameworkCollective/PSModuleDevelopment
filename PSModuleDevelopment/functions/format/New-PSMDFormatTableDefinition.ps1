@@ -11,7 +11,7 @@
 		Note:
 		Loading format files has a measureable impact on module import PER FILE.
 		For the sake of performance, you should only generate a single file for an entire module.
-	
+		
 		You can generate all items in a single call (which will probably be messy on many types at a time)
 		Or you can use the -Fragment parameter to create individual fragments, and combine them by passing
 		those items again to this command (the final time without the -Fragment parameter).
@@ -26,6 +26,12 @@
 	
 	.PARAMETER ExcludeProperty
 		Only properties not in this list will be included.
+	
+	.PARAMETER IncludePropertyAttribute
+		Only properties that have the specified attribute will be included.
+	
+	.PARAMETER ExcludePropertyAttribute
+		Only properties that do NOT have the specified attribute will be included.
 	
 	.PARAMETER Fragment
 		The function will only return a partial Format-XML object (an individual table definition per type).
@@ -67,12 +73,12 @@
 		Label            | string | L / Label
 		Width            |  int   | W / Width
 		Alignment        | string | Align / Alignment
-	
+		
 		Notes:
 		- Append needs to be specified if a new column should be added if no property to override was found.
 		  Use this to add a completely new column with a ScriptBlock.
 		- Alignment: Expects a string, can be any choice of "Left", "Center", "Right"
-	
+		
 		Example:
 		$transform = @{
 		    Type = "System.IO.FileInfo"
@@ -105,6 +111,12 @@
 		
 		[string[]]
 		$ExcludeProperty,
+		
+		[string]
+		$IncludePropertyAttribute,
+		
+		[string]
+		$ExcludePropertyAttribute,
 		
 		[Parameter(ParameterSetName = "fragment")]
 		[switch]
@@ -169,6 +181,20 @@
 			if ($ExcludeProperty)
 			{
 				$propertyNames = $propertyNames | Where-Object { $_ -notin $ExcludeProperty }
+			}
+			if ($IncludePropertyAttribute)
+			{
+				$listToInclude = @()
+				$object.GetType().GetMembers([System.Reflection.BindingFlags]("FlattenHierarchy, Public, Instance")) | Where-Object { ($_.MemberType -match "Property|Field") -and ($_.CustomAttributes.AttributeType.Name -like $IncludePropertyAttribute) } | ForEach-Object { $listToInclude += $_.Name }
+				
+				$propertyNames = $propertyNames | Where-Object { $_ -in $listToInclude }
+			}
+			if ($ExcludePropertyAttribute)
+			{
+				$listToExclude = @()
+				$object.GetType().GetMembers([System.Reflection.BindingFlags]("FlattenHierarchy, Public, Instance")) | Where-Object { ($_.MemberType -match "Property|Field") -and ($_.CustomAttributes.AttributeType.Name -like $ExcludePropertyAttribute) } | ForEach-Object { $listToExclude += $_.Name }
+				
+				$propertyNames = $propertyNames | Where-Object { $_ -notin $listToExclude }
 			}
 			
 			$table = New-Object PSModuleDevelopment.Format.TableDefinition
