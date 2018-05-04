@@ -99,6 +99,7 @@
 		Creates a format xml that only includes the columns LastWriteTime, FullName
 #>
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseDeclaredVarsMoreThanAssignments", "")]
 	[OutputType([PSModuleDevelopment.Format.Document], ParameterSetName = "default")]
 	[OutputType([PSModuleDevelopment.Format.TableDefinition], ParameterSetName = "fragment")]
 	[CmdletBinding(DefaultParameterSetName = "default")]
