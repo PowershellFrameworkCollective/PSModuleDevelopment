@@ -1,4 +1,8 @@
 # Changelog
+## ???
+ - Upd: Template PSFProject - some fixes and improvements to the installer
+ - Fix: Template function - encoding error
+
 ## 2.2.4.18 (May 04rd, 2018)
  - Upd: New-PSMDFormatTableDefinition - Update to add parameters `-IncludePropertyAttribute` and `-ExcludePropertyAttribute`
  
