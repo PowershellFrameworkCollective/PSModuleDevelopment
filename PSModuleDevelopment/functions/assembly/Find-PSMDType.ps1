@@ -70,6 +70,9 @@
 		[switch]
 		$Enum,
 		
+		[switch]
+		$Static,
+		
 		[string]
 		$Implements,
 		
@@ -84,6 +87,7 @@
 	{
 		$boundEnum = Test-PSFParameterBinding -ParameterName Enum
 		$boundPublic = Test-PSFParameterBinding -ParameterName Public
+		$boundStatic = Test-PSFParameterBinding -ParameterName Static
 	}
 	process
 	{
@@ -114,6 +118,7 @@
 				if ($boundEnum -and ($Enum -ne $type.IsEnum)) { continue }
 				if ($InheritsFrom -and ($type.BaseType.FullName -notlike $InheritsFrom)) { continue }
 				if ($Attribute -and ($type.CustomAttributes.AttributeType.Name -notlike $Attribute)) { continue }
+                                if ($boundStatic -and -not($type.IsAbstract -and $type.IsSealed)) { continue }
 				
 				$type
 			}
