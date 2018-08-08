@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PSModuleDevelopment.Template
 {
@@ -54,6 +50,11 @@ namespace PSModuleDevelopment.Template
         public List<string> Parameters = new List<string>();
 
         /// <summary>
+        /// List of descriptions for parameters. Will be displayed if the corresponding parameter is being prompted for
+        /// </summary>
+        public Dictionary<string, string> ParameterDescriptions = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+
+        /// <summary>
         /// List of scripts that will be invoked on initialization
         /// </summary>
         public Dictionary<string, ParameterScript> Scripts = new Dictionary<string, ParameterScript>(StringComparer.OrdinalIgnoreCase);
@@ -62,6 +63,12 @@ namespace PSModuleDevelopment.Template
         /// Items in the root directory of the template (which may contain children themselves).
         /// </summary>
         public List<TemplateItemBase> Children = new List<TemplateItemBase>();
+
+        /// <summary>
+        /// Version of the template schema used to create the template.
+        /// Used to track legacy templates and prevent breaking their invocation.
+        /// </summary>
+        public Version SchemaVersion = new Version(2, 0);
 
         /// <summary>
         /// Returns the template digest used as index file.
@@ -78,6 +85,7 @@ namespace PSModuleDevelopment.Template
             info.Tags = Tags;
             info.Type = Type;
             info.Version = Version;
+            info.SchemaVersion = SchemaVersion;
 
             return info;
         }

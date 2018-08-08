@@ -239,6 +239,13 @@
             </summary>
             <returns>The format string to produce for the format file.</returns>
         </member>
+        <member name="M:PSModuleDevelopment.Format.ViewDefinitionBase.CompareTo(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="Item"></param>
+            <returns></returns>
+        </member>
         <member name="T:PSModuleDevelopment.PsmdAssembly.Constructor">
             <summary>
             Class containing information about a class's constructor
@@ -383,6 +390,11 @@
             List of parameters the template accepts
             </summary>
         </member>
+        <member name="F:PSModuleDevelopment.Template.Template.ParameterDescriptions">
+            <summary>
+            List of descriptions for parameters. Will be displayed if the corresponding parameter is being prompted for
+            </summary>
+        </member>
         <member name="F:PSModuleDevelopment.Template.Template.Scripts">
             <summary>
             List of scripts that will be invoked on initialization
@@ -391,6 +403,12 @@
         <member name="F:PSModuleDevelopment.Template.Template.Children">
             <summary>
             Items in the root directory of the template (which may contain children themselves).
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.SchemaVersion">
+            <summary>
+            Version of the template schema used to create the template.
+            Used to track legacy templates and prevent breaking their invocation.
             </summary>
         </member>
         <member name="M:PSModuleDevelopment.Template.Template.ToTemplateInfo">
@@ -452,6 +470,12 @@
         <member name="F:PSModuleDevelopment.Template.TemplateInfo.Path">
             <summary>
             The path to the template file
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.SchemaVersion">
+            <summary>
+            Version of the template schema used to create the template.
+            Used to track legacy templates and prevent breaking their invocation.
             </summary>
         </member>
         <member name="M:PSModuleDevelopment.Template.TemplateInfo.ToString">

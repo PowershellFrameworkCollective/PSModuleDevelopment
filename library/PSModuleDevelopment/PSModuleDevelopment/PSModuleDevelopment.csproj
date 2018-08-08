@@ -61,6 +61,7 @@
     <Compile Include="Template\TemplateItemBase.cs" />
     <Compile Include="Template\TemplateItemFile.cs" />
     <Compile Include="Template\TemplateItemFolder.cs" />
+    <Compile Include="Template\TemplateItemTemplate.cs" />
     <Compile Include="Template\TemplateType.cs" />
     <Compile Include="Utility\TextAlignment.cs" />
     <Compile Include="Utility\TextHeader.cs" />

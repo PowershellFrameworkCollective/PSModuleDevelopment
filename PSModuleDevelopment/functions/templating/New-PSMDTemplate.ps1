@@ -197,7 +197,7 @@
 				
 				if ($templateData.AutoIncrementVersion)
 				{
-					$oldTemplate = Get-PSMDTemplate -TemplateName $template.Name -WarningAction SilentlyContinue | Sort-Object Version | Select-Object -First 1
+					$oldTemplate = Get-PSMDTemplate -TemplateName $template.Name -WarningAction SilentlyContinue | Sort-Object Version -Descending | Select-Object -First 1
 					if (($oldTemplate) -and ($oldTemplate.Version -ge $template.Version))
 					{
 						$major = $oldTemplate.Version.Major
@@ -287,7 +287,6 @@
 				[System.IO.FileSystemInfo]
 				$Item,
 				
-				[PSModuleDevelopment.Template.TemplateItemBase]
 				$Parent,
 				
 				[string]
@@ -296,7 +295,6 @@
 				[string[]]
 				$Exclusions,
 				
-				[PSModuleDevelopment.Template.Template]
 				$Template,
 				
 				[string]
@@ -552,7 +550,7 @@
 		
 		$template.CreatedOn = (Get-Date).Date
 		
-		$template | Export-Clixml -Path (Join-Path $exportFolder $fileName)
+		[System.IO.File]::WriteAllText((Join-Path (Resolve-Path $exportFolder) $fileName), ([PSFramework.Utility.UtilityHost]::CompressString(([System.Management.Automation.PSSerializer]::Serialize($template)))))
 		$template.ToTemplateInfo() | Export-Clixml -Path (Join-Path $exportFolder $infoFileName)
 	}
 }

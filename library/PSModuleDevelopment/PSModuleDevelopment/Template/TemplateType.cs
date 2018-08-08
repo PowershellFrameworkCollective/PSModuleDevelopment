@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PSModuleDevelopment.Template
+﻿namespace PSModuleDevelopment.Template
 {
     /// <summary>
     /// Is the template a single file or a project?

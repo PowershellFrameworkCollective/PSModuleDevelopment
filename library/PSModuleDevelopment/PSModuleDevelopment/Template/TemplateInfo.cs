@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PSModuleDevelopment.Template
 {
@@ -61,6 +58,12 @@ namespace PSModuleDevelopment.Template
         /// The path to the template file
         /// </summary>
         public string Path;
+
+        /// <summary>
+        /// Version of the template schema used to create the template.
+        /// Used to track legacy templates and prevent breaking their invocation.
+        /// </summary>
+        public Version SchemaVersion;
 
         /// <summary>
         /// The version-qualified name of the template

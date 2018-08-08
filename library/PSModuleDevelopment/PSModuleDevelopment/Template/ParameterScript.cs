@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PSModuleDevelopment.Template
 {
@@ -11,13 +7,8 @@ namespace PSModuleDevelopment.Template
     /// A script used to calculate content to be inserted
     /// </summary>
     [Serializable]
-    public class ParameterScript
+    public class ParameterScript : ParameterBase
     {
-        /// <summary>
-        /// Name of the scriptblock (auto-assigned or specified)
-        /// </summary>
-        public string Name;
-
         /// <summary>
         /// The scriptblock to invoke
         /// </summary>
@@ -44,7 +35,7 @@ namespace PSModuleDevelopment.Template
         /// Creates a prefilled paramter script. Usually used when creating templates
         /// </summary>
         /// <param name="Name">The name of the parameter. This is used to insert it into individual files or file names.</param>
-        /// <param name="ScriptBlock"></param>
+        /// <param name="ScriptBlock">The scriptblock to execute</param>
         public ParameterScript(string Name, ScriptBlock ScriptBlock)
         {
             this.Name = Name;

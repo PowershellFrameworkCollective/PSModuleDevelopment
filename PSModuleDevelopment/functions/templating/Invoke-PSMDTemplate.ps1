@@ -416,7 +416,20 @@
 		{
 			if ($PSCmdlet.ShouldProcess($item, "Invoking template"))
 			{
-				try { Invoke-Template -Template $item -OutPath $resolvedPath.ProviderPath -NoFolder $NoFolder -Parameters $Parameters.Clone() -Raw $Raw -Silent $Silent }
+				try
+				{
+					switch ("$($item.SchemaVersion)")
+					{
+						"2.0"
+						{
+							
+						}
+						default
+						{
+							Invoke-PsmdTemplateV1 -TemplateInfo $item -OutPath $resolvedPath.ProviderPath -NoFolder $NoFolder -Parameters $Parameters.Clone() -Raw $Raw -Silent $Silent
+						}
+					}
+				}
 				catch { Stop-PSFFunction -Message "Failed to invoke template $($item)" -EnableException $EnableException -ErrorRecord $_ -Target $item -Tag 'fail', 'template', 'invoke' -Continue }
 			}
 		}
@@ -424,7 +437,20 @@
 		{
 			if ($PSCmdlet.ShouldProcess($item, "Invoking template"))
 			{
-				try { Invoke-Template -Template $item -OutPath $resolvedPath.ProviderPath -NoFolder $NoFolder -Parameters $Parameters.Clone() -Raw $Raw -Silent $Silent }
+				try
+				{
+					switch ("$($item.SchemaVersion)")
+					{
+						"2.0"
+						{
+							
+						}
+						default
+						{
+							Invoke-PsmdTemplateV1 -TemplateInfo $item -OutPath $resolvedPath.ProviderPath -NoFolder $NoFolder -Parameters $Parameters.Clone() -Raw $Raw -Silent $Silent
+						}
+					}
+				}
 				catch { Stop-PSFFunction -Message "Failed to invoke template $($item)" -EnableException $EnableException -ErrorRecord $_ -Target $item -Tag 'fail', 'template', 'invoke' -Continue }
 			}
 		}
