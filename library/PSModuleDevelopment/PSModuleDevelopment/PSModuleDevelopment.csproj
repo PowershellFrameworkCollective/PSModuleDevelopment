@@ -46,6 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Condition\Condition.cs" />
+    <Compile Include="Condition\ConditionContext.cs" />
+    <Compile Include="Condition\ConditionHost.cs" />
+    <Compile Include="Condition\RuleAnd.cs" />
+    <Compile Include="Condition\RuleBase.cs" />
+    <Compile Include="Condition\RuleLogEntry.cs" />
+    <Compile Include="Condition\RuleParseResult.cs" />
     <Compile Include="Format\Column.cs" />
     <Compile Include="Format\Alignment.cs" />
     <Compile Include="Format\ColumnTransformation.cs" />
@@ -54,7 +61,15 @@
     <Compile Include="Format\ViewDefinitionBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PsmdAssembly\Constructor.cs" />
+    <Compile Include="Template\ConditionalValue.cs" />
+    <Compile Include="Template\FileScriptScope.cs" />
+    <Compile Include="Template\ParameterBase.cs" />
+    <Compile Include="Template\ParameterConditional.cs" />
+    <Compile Include="Template\ParameterFileScript.cs" />
+    <Compile Include="Template\ParameterMultipleChoice.cs" />
     <Compile Include="Template\ParameterScript.cs" />
+    <Compile Include="Template\ParameterType.cs" />
+    <Compile Include="Template\ParameterValue.cs" />
     <Compile Include="Template\Store.cs" />
     <Compile Include="Template\Template.cs" />
     <Compile Include="Template\TemplateInfo.cs" />
