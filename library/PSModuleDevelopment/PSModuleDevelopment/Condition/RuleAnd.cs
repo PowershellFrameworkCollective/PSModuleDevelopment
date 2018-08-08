@@ -93,7 +93,16 @@ namespace PSModuleDevelopment.Condition
         /// <returns>Whetehr all conditions returned true or not.</returns>
         public override bool Validate(object Item)
         {
-            throw new NotImplementedException();
+            foreach (RuleBase rule in Rules)
+            {
+                if (!rule.Validate(Item))
+                {
+                    Condition.WriteLog(Name, Id, false, "", null);
+                    return false;
+                }
+            }
+            Condition.WriteLog(Name, Id, true, "", null);
+            return true;
         }
     }
 }
