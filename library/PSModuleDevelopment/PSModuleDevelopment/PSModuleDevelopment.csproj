@@ -49,10 +49,12 @@
     <Compile Include="Condition\Condition.cs" />
     <Compile Include="Condition\ConditionContext.cs" />
     <Compile Include="Condition\ConditionHost.cs" />
+    <Compile Include="Condition\PSCompareOperator.cs" />
     <Compile Include="Condition\RuleAnd.cs" />
     <Compile Include="Condition\RuleBase.cs" />
     <Compile Include="Condition\RuleLogEntry.cs" />
     <Compile Include="Condition\RuleParseResult.cs" />
+    <Compile Include="Condition\RulePsobjectProperty.cs" />
     <Compile Include="Format\Column.cs" />
     <Compile Include="Format\Alignment.cs" />
     <Compile Include="Format\ColumnTransformation.cs" />
