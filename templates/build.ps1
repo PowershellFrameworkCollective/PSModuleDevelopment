@@ -11,10 +11,7 @@
 [CmdletBinding()]
 param (
 	[string]
-	$Path,
-	
-	[switch]
-	$EnableBug
+	$Path
 )
 
 # Prepare working directories
@@ -68,14 +65,9 @@ while ($listToProcess)
 			Write-PSFMessage -Level Verbose -Message "Copying from $($item.Name): $($_.FullName) to $($item.Parent)\$($item.Path)"
 			
 			#TODO: Debug, delete it
-			$global:transfers[$_.FullName] = "$($staging.FullName)\$($item.Parent)\$($item.Path)"
+			$global:transfers[$_.FullName] = Join-Path (Join-Path $staging.FullName $item.Parent) $item.Path
 			
-			if ($EnableBug) { Copy-Item $_.FullName -Destination "$($staging.FullName)\$($item.Parent)\$($item.Path)" -Force -Recurse }
-			else
-			{
-				$destinationPath = "{0}\{1}\{2}" -f $staging.FullName, $item.Parent, $item.Path
-				Copy-Item $_.FullName -Destination $destinationPath -Force -Recurse
-			}
+			Copy-Item $_.FullName -Destination $global:transfers[$_.FullName] -Force -Recurse
 		}
 	}
 	$listToProcess = $listToProcess | Where-Object { $_ -notin $processingThisTime }
