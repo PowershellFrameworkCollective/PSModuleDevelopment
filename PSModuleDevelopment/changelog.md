@@ -1,5 +1,7 @@
-# Changelog
-## ???
+﻿# Changelog
+## 2.2.5.22
+ - New: Command Read-PSMDScript (Alias: parse)
+ - New: Command Set-PSMDEncoding
  - Upd: Template PSFProject - some fixes and improvements to the installer
  - Fix: Template function - encoding error
 

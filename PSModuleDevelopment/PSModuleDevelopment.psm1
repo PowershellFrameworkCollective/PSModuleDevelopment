@@ -1,5 +1,5 @@
 ﻿$script:PSModuleRoot = $PSScriptRoot
-$script:PSModuleVersion = "2.2.4.18"
+$script:PSModuleVersion = "2.2.5.21"
 
 $script:doDotSource = $false
 if (Get-PSFConfigValue -FullName PSModuleDevelopment.Import.DoDotSource) { $script:doDotSource = $true }

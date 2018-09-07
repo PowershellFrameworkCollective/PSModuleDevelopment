@@ -1,1 +1,4 @@
-New-PSMDTemplate -FilePath "$PSScriptRoot\PSMDTemplate.ps1" -TemplateName PSMDTemplateReference -OutStore psmoduledevelopment -Description "PSModule Development Template Reference file" -Author "Friedrich Weinmann" -Tags 'template','file','configuration'
+﻿param (
+	$Path
+)
+New-PSMDTemplate -FilePath "$PSScriptRoot\PSMDTemplate.ps1" -TemplateName PSMDTemplateReference -OutPath $Path -Description "PSModule Development Template Reference file" -Author "Friedrich Weinmann" -Tags 'template','file','configuration'

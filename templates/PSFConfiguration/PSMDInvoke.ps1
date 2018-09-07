@@ -1,1 +1,5 @@
-New-PSMDTemplate -FilePath "$PSScriptRoot\þnameþ.ps1" -TemplateName function -OutStore psmoduledevelopment -Description "Basic function template" -Author "Friedrich Weinmann" -Tags 'function','file'
+﻿param (
+	$Path
+)
+
+New-PSMDTemplate -FilePath "$PSScriptRoot\þnameþ.ps1" -TemplateName configuration -OutPath $Path -Description "Basic configuration template" -Author "Friedrich Weinmann" -Tags 'configuration','file'

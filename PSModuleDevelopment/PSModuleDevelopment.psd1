@@ -41,7 +41,7 @@
 	
 	# Modules that must be imported into the global environment prior to importing
 	# this module
-	RequiredModules		    = @(@{ ModuleName='PSFramework'; ModuleVersion= '0.9.16.44' })
+	RequiredModules = @(@{ ModuleName='PSFramework'; ModuleVersion= '0.9.25.112' })
 	
 	# Assemblies that must be loaded prior to importing this module
 	RequiredAssemblies = @('bin\PSModuleDevelopment.dll')
@@ -79,10 +79,12 @@
 		'New-PSMDModuleNugetPackage',
 		'New-PSMDTemplate',
 		'New-PssModuleProject',
+		'Read-PSMDScript',
 		'Remove-PSMDModuleDebug',
 		'Remove-PSMDTemplate',
 		'Rename-PSMDParameter',
 		'Restart-PSMDShell',
+		'Set-PSMDEncoding',
 		'Set-PSMDModuleDebug',
 		'Set-PSMDCmdletBinding',
 		'Set-PSMDModulePath',
@@ -102,9 +104,10 @@
 		'find',
 		'hex',
 		'imt',
+		'ipmod',
+		'parse',
 		'Restart-Shell',
         'rss',
-        'ipmod',
         'smd'
     )
 	

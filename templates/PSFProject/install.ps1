@@ -1,4 +1,4 @@
-<#
+﻿<#
 	.SYNOPSIS
 		Installs the þnameþ Module from github
 		

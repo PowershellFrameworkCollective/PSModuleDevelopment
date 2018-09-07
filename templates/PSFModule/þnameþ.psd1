@@ -23,43 +23,20 @@
 	# Minimum version of the Windows PowerShell engine required by this module
 	PowerShellVersion = '5.0'
 	
-	# Name of the Windows PowerShell host required by this module
-	# PowerShellHostName = ''
-	
-	# Minimum version of the Windows PowerShell host required by this module
-	# PowerShellHostVersion = ''
-	
-	# Minimum version of the .NET Framework required by this module
-	# DotNetFrameworkVersion = '2.0'
-	
-	# Minimum version of the common language runtime (CLR) required by this module
-	# CLRVersion = '2.0.50727'
-	
-	# Processor architecture (None, X86, Amd64, IA64) required by this module
-	# ProcessorArchitecture = 'None'
-	
 	# Modules that must be imported into the global environment prior to importing
 	# this module
 	RequiredModules = @(
-		@{ ModuleName='PSFramework'; ModuleVersion='0.9.10.23' }
+		@{ ModuleName='PSFramework'; ModuleVersion='þ!psframework!þ' }
 	)
 	
 	# Assemblies that must be loaded prior to importing this module
-	# RequiredAssemblies = @()
-	
-	# Script files (.ps1) that are run in the caller's environment prior to
-	# importing this module
-	# ScriptsToProcess = @()
+	# RequiredAssemblies = @('bin\þnameþ.dll')
 	
 	# Type files (.ps1xml) to be loaded when importing this module
 	# TypesToProcess = @('xml\þnameþ.Types.ps1xml')
 	
 	# Format files (.ps1xml) to be loaded when importing this module
 	# FormatsToProcess = @('xml\þnameþ.Format.ps1xml')
-	
-	# Modules to import as nested modules of the module specified in
-	# ModuleToProcess
-	# NestedModules = @()
 	
 	# Functions to export from this module
 	FunctionsToExport = ''
