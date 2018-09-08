@@ -1,1 +1,5 @@
-New-PSMDTemplate -ReferencePath "$PSScriptRoot" -OutStore psmoduledevelopment
+﻿param (
+	$Path
+)
+
+New-PSMDTemplate -ReferencePath "$PSScriptRoot" -OutPath $Path

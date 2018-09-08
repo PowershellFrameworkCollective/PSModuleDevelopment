@@ -40,11 +40,11 @@ Describe "Verifying integrity of module files" {
 			$name = $file.FullName.Replace("$moduleRoot\", '')
 			
 			It "[$name] Should have UTF8 encoding" {
-				Get-FileEncoding -Path $file.FullName | Should Be 'UTF8'
+				Get-FileEncoding -Path $file.FullName | Should -Be 'UTF8'
 			}
 			
 			It "[$name] Should have no trailing space" {
-				($file | Select-String "\s$" | Where-Object { $_.Line.Trim().Length -gt 0} | Measure-Object).Count | Should Be 0
+				($file | Select-String "\s$" | Where-Object { $_.Line.Trim().Length -gt 0}).LineNumber | Should -BeNullOrEmpty
 			}
 			
 			$tokens = $null
@@ -60,13 +60,13 @@ Describe "Verifying integrity of module files" {
 				if ($global:MayContainCommand["$command"] -notcontains $file.Name)
 				{
 					It "[$name] Should not use $command" {
-						$tokens | Where-Object Text -EQ $command | Should Be $null
+						$tokens | Where-Object Text -EQ $command | Should -BeNullOrEmpty
 					}
 				}
 			}
 			
 			It "[$name] Should not contain aliases" {
-				$tokens | Where-Object TokenFlags -eq CommandName | Where-Object { Test-Path "alias:\$($_.Text)" } | Measure-Object | Select-Object -ExpandProperty Count | Should Be 0
+				$tokens | Where-Object TokenFlags -eq CommandName | Where-Object { Test-Path "alias:\$($_.Text)" } | Measure-Object | Select-Object -ExpandProperty Count | Should -Be 0
 			}
 		}
 	}
@@ -79,11 +79,11 @@ Describe "Verifying integrity of module files" {
 			$name = $file.FullName.Replace("$moduleRoot\", '')
 			
 			It "[$name] Should have UTF8 encoding" {
-				Get-FileEncoding -Path $file.FullName | Should Be 'UTF8'
+				Get-FileEncoding -Path $file.FullName | Should -Be 'UTF8'
 			}
 			
 			It "[$name] Should have no trailing space" {
-				($file | Select-String "\s$" | Where-Object { $_.Line.Trim().Length -gt 0 } | Measure-Object).Count | Should Be 0
+				($file | Select-String "\s$" | Where-Object { $_.Line.Trim().Length -gt 0 } | Measure-Object).Count | Should -Be 0
 			}
 		}
 	}

@@ -1,6 +1,6 @@
-@{
+﻿@{
 	TemplateName = 'module'
-	Version = "1.0.0.0"
+	Version = "1.1.0.0"
 	AutoIncrementVersion = $true
 	Tags = 'module'
 	Author = 'Friedrich Weinmann'
@@ -9,6 +9,12 @@
 	Scripts = @{
 		guid = {
 			[System.Guid]::NewGuid().ToString()
+		}
+		year = {
+			Get-Date -Format "yyyy"
+		}
+		psfversion = {
+			(Get-Module PSFramework).Version.ToString()
 		}
 	}
 }

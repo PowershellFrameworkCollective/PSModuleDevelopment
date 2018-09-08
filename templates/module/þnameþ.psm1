@@ -1,4 +1,4 @@
-﻿$script:PSModuleRoot = $PSScriptRoot
+﻿$script:ModuleRoot = $PSScriptRoot
 
 #region Helper function
 function Import-ModuleFile
@@ -33,19 +33,19 @@ function Import-ModuleFile
 #endregion Helper function
 
 # Perform Actions before loading the rest of the content
-. Import-ModuleFile -Path "$PSModuleRoot\internal\scripts\preimport.ps1"
+. Import-ModuleFile -Path "$ModuleRoot\internal\scripts\preimport.ps1"
 
 #region Load functions
-foreach ($function in (Get-ChildItem "$PSModuleRoot\internal\functions" -Recurse -File -Filter "*.ps1"))
+foreach ($function in (Get-ChildItem "$ModuleRoot\internal\functions" -Recurse -File -Filter "*.ps1"))
 {
 	. Import-ModuleFile -Path $function.FullName
 }
 
-foreach ($function in (Get-ChildItem "$PSModuleRoot\functions" -Recurse -File -Filter "*.ps1"))
+foreach ($function in (Get-ChildItem "$ModuleRoot\functions" -Recurse -File -Filter "*.ps1"))
 {
 	. Import-ModuleFile -Path $function.FullName
 }
 #endregion Load functions
 
 # Perform Actions after loading the module contents
-. Import-ModuleFile -Path "$PSModuleRoot\internal\scripts\postimport.ps1"
+. Import-ModuleFile -Path "$ModuleRoot\internal\scripts\postimport.ps1"
