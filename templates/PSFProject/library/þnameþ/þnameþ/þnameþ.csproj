@@ -1,12 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net4.5.2</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\..\þnameþ\bin</OutputPath>
-    <DocumentationFile>..\..\..\þnameþ\bin\netstandard2.0\þnameþ.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\þnameþ\bin\þnameþ.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Release)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\..\þnameþ\bin</OutputPath>
+    <DocumentationFile>..\..\..\þnameþ\bin\þnameþ.xml</DocumentationFile>
   </PropertyGroup>
   
   <PropertyGroup>

@@ -117,8 +117,4 @@
 		}
 		#endregion Process by Computer Name
 	}
-	end
-	{
-		
-	}
 }

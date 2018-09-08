@@ -1,15 +1,17 @@
 ﻿param (
-	$Show = "None"
+	$TestGeneral = $true,
+	
+	$TestFunctions = $true,
+	
+	[ValidateSet('None', 'Default', 'Passed', 'Failed', 'Pending', 'Skipped', 'Inconclusive', 'Describe', 'Context', 'Summary', 'Header', 'Fails', 'All')]
+	$Show = "None",
+	
+	$Include = "*",
+	
+	$Exclude = ""
 )
 
-Write-Host "Starting Tests" -ForegroundColor Green
-if ($env:BUILD_BUILDURI -like "vstfs*")
-{
-	Write-Host "Installing Pester" -ForegroundColor Cyan
-    Install-Module Pester -Force -SkipPublisherCheck
-	Write-Host "Installing PSFramework" -ForegroundColor Cyan
-	Invoke-WebRequest "https://raw.githubusercontent.com/PowershellFrameworkCollective/psframework/master/install.ps1" -UseBasicParsing | Invoke-Expression
-}
+Write-PSFMessage -Level Important -Message "Starting Tests"
 
 Write-PSFMessage -Level Important -Message "Importing Module"
 
@@ -22,6 +24,7 @@ $totalRun = 0
 
 $testresults = @()
 
+#region Run General Tests
 Write-PSFMessage -Level Important -Message "Modules imported, proceeding with general tests"
 foreach ($file in (Get-ChildItem "$PSScriptRoot\general" -Filter "*.Tests.ps1"))
 {
@@ -43,10 +46,15 @@ foreach ($file in (Get-ChildItem "$PSScriptRoot\general" -Filter "*.Tests.ps1"))
 		}
 	}
 }
+#endregion Run General Tests
 
+#region Test Commands
 Write-PSFMessage -Level Important -Message "Proceeding with individual tests"
-foreach ($file in (Get-ChildItem "$PSScriptRoot\functions" -Recurse -File -Filter "*Tests..ps1"))
+foreach ($file in (Get-ChildItem "$PSScriptRoot\functions" -Recurse -File -Filter "*Tests.ps1"))
 {
+	if ($file.Name -notlike $Include) { continue }
+	if ($file.Name -like $Exclude) { continue }
+	
 	Write-PSFMessage -Level Significant -Message "  Executing $($file.Name)"
 	$results = Invoke-Pester -Script $file.FullName -Show None -PassThru
 	foreach ($result in $results)
@@ -65,6 +73,7 @@ foreach ($file in (Get-ChildItem "$PSScriptRoot\functions" -Recurse -File -Filte
 		}
 	}
 }
+#endregion Test Commands
 
 $testresults | Sort-Object Describe, Context, Name, Result, Message | Format-List
 

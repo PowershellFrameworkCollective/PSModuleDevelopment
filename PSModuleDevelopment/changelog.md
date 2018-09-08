@@ -1,4 +1,14 @@
-# Changelog
+﻿# Changelog
+## 2.2.5.26 (September 06th, 2018)
+ - New: Command Read-PSMDScript (Alias: parse)
+ - New: Command Set-PSMDEncoding
+ - New: Template PSFTests - Default module tests
+ - New: Template CommandTest - A tempalte that generate a test from an already existing command.
+ - Upd: Template PSFModule - some fixes
+ - Upd: Template PSFProject - some fixes and improvements to the installer
+ - Fix: Template function - encoding error
+ - Fix: New-PSMDTemplate - now properly selects scriptblocks across multiple lines
+
 ## 2.2.4.18 (May 04rd, 2018)
  - Upd: New-PSMDFormatTableDefinition - Update to add parameters `-IncludePropertyAttribute` and `-ExcludePropertyAttribute`
  

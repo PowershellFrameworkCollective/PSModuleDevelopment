@@ -1,9 +1,9 @@
-<#
+﻿<#
 	.SYNOPSIS
-		Installs the PSModuleDevelopment Module from github
+		Installs the þnameþ Module from github
 		
 	.DESCRIPTION
-		This script installs the PSModuleDevelopment Module from github.
+		This script installs the þnameþ Module from github.
 		
 		It does so by ...
 		- downloading the specified branch as zip to $env:TEMP
@@ -2378,7 +2378,7 @@ try
 	
 	# Determine output path
 	$path = "$($env:ProgramFiles)\WindowsPowerShell\Modules\$($ModuleName)"
-	if ($UserMode) { $path = "$($HOME)\Documents\WindowsPowerShell\Modules\$($ModuleName)" }
+	if ($doUserMode) { $path = "$(Split-Path $profile.CurrentUserAllHosts)\Modules\$($ModuleName)" }
 	if ($PSVersionTable.PSVersion.Major -ge 5) { $path += "\$moduleVersion" }
 	
 	if ((Test-Path $path) -and (-not $Force))
