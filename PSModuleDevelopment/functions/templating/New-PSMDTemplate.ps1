@@ -324,7 +324,7 @@
 			
 				Chained together in a logical or, in order to avoid combination issues.
 			#>
-			$pattern = "$($Identifier)([^{}!]+?)$($Identifier)|$($Identifier)!([^{}!]+?)!$($Identifier)|$($Identifier){(.+?)}$($Identifier)"
+			$pattern = "$($Identifier)([^{}!]+?)$($Identifier)|$($Identifier)!([^{}!]+?)!$($Identifier)|(?ms)$($Identifier){(.+?)}$($Identifier)"
 			#endregion Regex
 			
 			$name = $Item.Name
