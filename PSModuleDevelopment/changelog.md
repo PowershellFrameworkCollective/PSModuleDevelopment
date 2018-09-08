@@ -1,4 +1,7 @@
 ﻿# Changelog
+## 2.2.5.28 (September 08th, 2018)
+ - Fix: Template CommandTest would throw an exception due to missing quotes on a string index
+
 ## 2.2.5.27 (September 08th, 2018)
  - Fix: Fixes in the build task
 
