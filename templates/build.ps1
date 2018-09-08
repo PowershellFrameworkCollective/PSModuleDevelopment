@@ -49,8 +49,6 @@ $templateJoinList = $templateJoinList | Where-Object {
 }
 
 $listToProcess = $templateJoinList
-#TODO: Debug, delete it
-$global:transfers = @{ }
 while ($listToProcess)
 {
 	$processingThisTime = $listToProcess | Where-Object Name -NotIn $listToProcess.Parent
@@ -63,11 +61,15 @@ while ($listToProcess)
 	{
 		Get-ChildItem -Path "$($staging.FullName)\$($item.Name)\*" | Where-Object Name -NotMatch '\.PSMDDependency|PSMDInvoke\.ps1|PSMDTemplate\.ps1' | ForEach-Object {
 			Write-PSFMessage -Level Verbose -Message "Copying from $($item.Name): $($_.FullName) to $($item.Parent)\$($item.Path)"
-			
-			#TODO: Debug, delete it
-			$global:transfers[$_.FullName] = Join-Path (Join-Path $staging.FullName $item.Parent) $item.Path
-			
-			Copy-Item $_.FullName -Destination $global:transfers[$_.FullName] -Force -Recurse
+			Copy-Item $_.FullName -Destination (Join-Path (Join-Path $staging.FullName $item.Parent) $item.Path) -Force -Recurse
+		}
+		
+		# Exception to counter weird copy bug
+		if ($item.Name -eq "PSFTests")
+		{
+			$source = "$($staging.FullName)\$($item.Name)\functions"
+			$destination = (Join-Path (Join-Path $staging.FullName $item.Parent) $item.Path)
+			Copy-Item -Path $source -Destination $destination -Recurse -Force
 		}
 	}
 	$listToProcess = $listToProcess | Where-Object { $_ -notin $processingThisTime }
