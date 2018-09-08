@@ -1,5 +1,8 @@
 ﻿# Changelog
-## 2.2.5.26 (September 06th, 2018)
+## 2.2.5.27 (September 08th, 2018)
+ - Fix: Fixes in the build task
+
+## 2.2.5.26 (September 08th, 2018)
  - New: Command Read-PSMDScript (Alias: parse)
  - New: Command Set-PSMDEncoding
  - New: Template PSFTests - Default module tests

@@ -28,7 +28,7 @@ Copy-Item -Path "$($templateBuild.FullName)\output\*" -Destination "$($item.Full
 if ($env:BUILD_BUILDURI -like "vstfs*")
 {
 	Write-PSFMessage -Level Host -Message "Publishing to gallery"
-	if ($WhatIf -or -not $ApiKey) { Publish-Module -Path "$($env:SYSTEM_DEFAULTWORKINGDIRECTORY)\PSModuleDevelopment" -NuGetApiKey $ApiKey -Force -WhatIf }
-	else { Publish-Module -Path "$($env:SYSTEM_DEFAULTWORKINGDIRECTORY)\PSModuleDevelopment" -NuGetApiKey $ApiKey -Force }
+	if ($WhatIf -or -not $ApiKey) { Publish-Module -Path "$($item.FullName)\PSModuleDevelopment" -NuGetApiKey $ApiKey -Force -WhatIf }
+	else { Publish-Module -Path "$($item.FullName)\PSModuleDevelopment" -NuGetApiKey $ApiKey -Force }
 }
 else { Write-PSFMessage -Level Host -Message "Skipping publish to gallery" }
