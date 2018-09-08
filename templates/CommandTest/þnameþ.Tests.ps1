@@ -13,11 +13,11 @@
 		
 þ{
 			$lines = @()
-			$commonParameters = 'Verbose', 'Debug', 'ErrorAction', 'WarningAction', 'InformationAction', 'ErrorVariable', 'WarningVariable', 'InformationVariable', 'OutVariable', 'OutBuffer', 'PipelineVariable'
+			$commonParameters = 'Verbose', 'Debug', 'ErrorAction', 'WarningAction', 'InformationAction', 'ErrorVariable', 'WarningVariable', 'InformationVariable', 'OutVariable', 'OutBuffer', 'PipelineVariable', 'Confirm', 'WhatIf'
 			foreach ($parameter in ((Get-Command $Parameters.Name).Parameters.Values | Where-Object Name -NotIn $commonParameters))
 			{
 				$lines += "		It 'Should habe the expected parameter $($parameter.Name)' {"
-				$lines += "			`$parameter = (Get-Command $($Parameters.Name)).Parameters[$($parameter.Name)]"
+				$lines += "			`$parameter = (Get-Command $($Parameters.Name)).Parameters['$($parameter.Name)']"
 				$lines += "			`$parameter.Name | Should -Be '$($parameter.Name)'"
 				$lines += "			`$parameter.ParameterType.ToString() | Should -Be $($parameter.ParameterType.ToString())"
 				$lines += "			`$parameter.IsDynamic | Should -Be `$$($parameter.IsDynamic)"
@@ -38,7 +38,7 @@
 	}
 	
 þ{
-		$commonParameters = 'Verbose', 'Debug', 'ErrorAction', 'WarningAction', 'InformationAction', 'ErrorVariable', 'WarningVariable', 'InformationVariable', 'OutVariable', 'OutBuffer', 'PipelineVariable'
+		$commonParameters = 'Verbose', 'Debug', 'ErrorAction', 'WarningAction', 'InformationAction', 'ErrorVariable', 'WarningVariable', 'InformationVariable', 'OutVariable', 'OutBuffer', 'PipelineVariable', 'Confirm', 'WhatIf'
 		foreach ($parameterSet in (Get-Command $Parameters.Name).ParameterSets)
 		{
 			$name = $parameterSet.Name
