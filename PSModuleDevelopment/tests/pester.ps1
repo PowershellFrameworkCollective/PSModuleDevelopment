@@ -11,13 +11,16 @@
     $Filter = "*.Tests.ps1"
 )
 
-Write-Host "Starting Tests" -ForegroundColor Green
+Write-PSFMessage -Level Host -Message "Starting Tests"
 
-Write-Host "Importing Module" -ForegroundColor Cyan
+Write-PSFMessage -Level Host -Message "Importing Module"
 
 Remove-Module PSModuleDevelopment -ErrorAction Ignore
 Import-Module "$PSScriptRoot\..\PSModuleDevelopment.psd1"
 Import-Module "$PSScriptRoot\..\PSModuleDevelopment.psm1" -Force
+
+Write-PSFMessage -Level Host -Message "Creating test result folder"
+$null = New-Item -Path "$PSScriptRoot\..\.." -Name TestResults -ItemType Directory -Force
 
 $totalFailed = 0
 $totalRun = 0
