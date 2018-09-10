@@ -29,7 +29,7 @@ function Import-PSMDFile
 		$Path
 	)
 	
-	if ($script:doDotSource) { . $Path }
+	if ($script:doDotSource) { . (Resolve-Path $Path) }
 	else { $ExecutionContext.InvokeCommand.InvokeScript($false, ([scriptblock]::Create([io.file]::ReadAllText($(Resolve-Path $Path)))), $null, $null) }
 }
 #endregion Helper function
