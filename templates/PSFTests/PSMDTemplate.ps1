@@ -10,5 +10,13 @@
 		guid = {
 			[System.Guid]::NewGuid().ToString()
 		}
+		testfolder = {
+			
+		}
+		testresults = {
+			@'
+$results = Invoke-Pester -Script $file.FullName -Show $Show -PassThru
+'@
+		}
 	} # Insert additional scriptblocks as needed. Each scriptblock will be executed once only on create, no matter how often it is referenced.
 }
