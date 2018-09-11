@@ -19,6 +19,8 @@ Remove-Module þnameþ -ErrorAction Ignore
 Import-Module "$PSScriptRoot\..\þnameþ.psd1"
 Import-Module "$PSScriptRoot\..\þnameþ.psm1" -Force
 
+þ!testfolder!þ
+
 $totalFailed = 0
 $totalRun = 0
 
@@ -29,7 +31,7 @@ Write-PSFMessage -Level Important -Message "Modules imported, proceeding with ge
 foreach ($file in (Get-ChildItem "$PSScriptRoot\general" -Filter "*.Tests.ps1"))
 {
 	Write-PSFMessage -Level Significant -Message "  Executing <c='em'>$($file.Name)</c>"
-	$results = Invoke-Pester -Script $file.FullName -Show $Show -PassThru
+	þ!testresults!þ
 	foreach ($result in $results)
 	{
 		$totalRun += $result.TotalCount
@@ -56,7 +58,7 @@ foreach ($file in (Get-ChildItem "$PSScriptRoot\functions" -Recurse -File -Filte
 	if ($file.Name -like $Exclude) { continue }
 	
 	Write-PSFMessage -Level Significant -Message "  Executing $($file.Name)"
-	$results = Invoke-Pester -Script $file.FullName -Show None -PassThru
+	þ!testresults!þ
 	foreach ($result in $results)
 	{
 		$totalRun += $result.TotalCount

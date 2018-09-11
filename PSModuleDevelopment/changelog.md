@@ -1,4 +1,7 @@
 ﻿# Changelog
+## 2.2.5.29
+ - Upd: Template integrated NUnit Test Reporting
+
 ## 2.2.5.28 (September 08th, 2018)
  - Fix: Template CommandTest would throw an exception due to missing quotes on a string index
 

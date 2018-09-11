@@ -27,8 +27,8 @@ function Import-ModuleFile
 		$Path
 	)
 	
-	if ($doDotSource) { . $Path }
-	else { $ExecutionContext.InvokeCommand.InvokeScript($false, ([scriptblock]::Create([io.file]::ReadAllText($Path))), $null, $null) }
+	if ($doDotSource) { . (Resolve-Path $Path) }
+	else { $ExecutionContext.InvokeCommand.InvokeScript($false, ([scriptblock]::Create([io.file]::ReadAllText((Resolve-Path $Path)))), $null, $null) }
 }
 
 # Detect whether at some level dotsourcing was enforced
