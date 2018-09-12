@@ -9,8 +9,6 @@ Param (
 
 if ($SkipTest) { return }
 
-if ($env:BUILD_BUILDURI -like "vstfs*") { Install-Module PSScriptAnalyzer -Force -SkipPublisherCheck }
-
 $list = New-Object System.Collections.ArrayList
 
 Describe 'Invoking PSScriptAnalyzer against commandbase' {

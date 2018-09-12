@@ -28,7 +28,7 @@ function Get-FileEncoding
 	elseif ($byte[0] -eq 0xfe -and $byte[1] -eq 0xff) { 'Unicode' }
 	elseif ($byte[0] -eq 0 -and $byte[1] -eq 0 -and $byte[2] -eq 0xfe -and $byte[3] -eq 0xff) { 'UTF32' }
 	elseif ($byte[0] -eq 0x2b -and $byte[1] -eq 0x2f -and $byte[2] -eq 0x76) { 'UTF7' }
-	else { 'Unknown, possible ASCII' }
+	else { 'Unknown' }
 }
 
 Describe "Verifying integrity of module files" {
