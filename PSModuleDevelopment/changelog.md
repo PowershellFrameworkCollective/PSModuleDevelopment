@@ -1,5 +1,5 @@
 ﻿# Changelog
-## 2.2.5.30
+## 2.2.5.30 (September 12th, 2018)
  - Upd: Template integrated NUnit Test Reporting
  - Upd: Template support for compiled module files
 
