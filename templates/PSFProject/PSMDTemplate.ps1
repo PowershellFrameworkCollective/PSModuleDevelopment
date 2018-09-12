@@ -28,5 +28,17 @@
 		psframework = {
 			(Get-Module PSFramework).Version.ToString()
 		}
+		testfolder = {
+			@'
+Write-PSFMessage -Level Important -Message "Creating test result folder"
+$null = New-Item -Path "$PSScriptRoot\..\.." -Name TestResults -ItemType Directory -Force
+'@
+		}
+		testresults = {
+			@'
+$TestOuputFile = Join-Path "$PSScriptRoot\..\..\TestResults" "TEST-$($file.BaseName).xml"
+    $results = Invoke-Pester -Script $file.FullName -Show $Show -PassThru -OutputFile $TestOuputFile -OutputFormat NUnitXml
+'@
+		}
 	}
 }

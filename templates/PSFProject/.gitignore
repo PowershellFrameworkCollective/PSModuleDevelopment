@@ -14,3 +14,9 @@ library/þnameþ/þnameþ/obj/*
 þnameþ/þnameþ.psproj.bak
 þnameþ/þnameþ.psprojs
 þnameþ/þnameþ.psproj
+
+# ignore the TestResults
+TestResults/*
+
+# ignore the publishing Directory
+publish/*

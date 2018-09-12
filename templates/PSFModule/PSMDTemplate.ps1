@@ -19,5 +19,13 @@
 		psframework = {
 			(Get-Module PSFramework).Version.ToString()
 		}
+		testfolder = {
+			
+		}
+		testresults = {
+			@'
+$results = Invoke-Pester -Script $file.FullName -Show $Show -PassThru
+'@
+		}
 	}
 }
