@@ -20,3 +20,7 @@ Register-PSFTeppArgumentCompleter -Name PSMD_templatestore -Command Remove-PSMDT
 Register-PSFTeppArgumentCompleter -Name PSMD_templatename -Command Remove-PSMDTemplate -Parameter TemplateName
 
 #endregion Templates
+
+#region Refactor
+Register-PSFTeppArgumentCompleter -Name psframework-encoding -Command Set-PSMDEncoding -Parameter Encoding
+#endregion Refactor
