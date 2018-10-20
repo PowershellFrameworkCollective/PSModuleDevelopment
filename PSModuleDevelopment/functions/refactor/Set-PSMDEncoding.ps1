@@ -40,8 +40,8 @@
 		[string[]]
 		$Path,
 		
-		[System.Text.Encoding]
-		$Encoding = [System.Text.Encoding]::UTF8,
+		[PSFEncoding]
+		$Encoding = (Get-PSFConfigValue -FullName 'psframework.text.encoding.defaultwrite' -Fallback 'utf-8'),
 		
 		[switch]
 		$EnableException
