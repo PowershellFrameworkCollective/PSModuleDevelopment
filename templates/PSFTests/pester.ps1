@@ -27,23 +27,26 @@ $totalRun = 0
 $testresults = @()
 
 #region Run General Tests
-Write-PSFMessage -Level Important -Message "Modules imported, proceeding with general tests"
-foreach ($file in (Get-ChildItem "$PSScriptRoot\general" -Filter "*.Tests.ps1"))
+if ($TestGeneral)
 {
-	Write-PSFMessage -Level Significant -Message "  Executing <c='em'>$($file.Name)</c>"
-	þ!testresults!þ
-	foreach ($result in $results)
+	Write-PSFMessage -Level Important -Message "Modules imported, proceeding with general tests"
+	foreach ($file in (Get-ChildItem "$PSScriptRoot\general" -Filter "*.Tests.ps1"))
 	{
-		$totalRun += $result.TotalCount
-		$totalFailed += $result.FailedCount
-		$result.TestResult | Where-Object { -not $_.Passed } | ForEach-Object {
-			$name = $_.Name
-			$testresults += [pscustomobject]@{
-				Describe  = $_.Describe
-				Context   = $_.Context
-				Name	  = "It $name"
-				Result    = $_.Result
-				Message   = $_.FailureMessage
+		Write-PSFMessage -Level Significant -Message "  Executing <c='em'>$($file.Name)</c>"
+		þ!testresults!þ
+		foreach ($result in $results)
+		{
+			$totalRun += $result.TotalCount
+			$totalFailed += $result.FailedCount
+			$result.TestResult | Where-Object { -not $_.Passed } | ForEach-Object {
+				$name = $_.Name
+				$testresults += [pscustomobject]@{
+					Describe = $_.Describe
+					Context  = $_.Context
+					Name	 = "It $name"
+					Result   = $_.Result
+					Message  = $_.FailureMessage
+				}
 			}
 		}
 	}
@@ -51,26 +54,29 @@ foreach ($file in (Get-ChildItem "$PSScriptRoot\general" -Filter "*.Tests.ps1"))
 #endregion Run General Tests
 
 #region Test Commands
-Write-PSFMessage -Level Important -Message "Proceeding with individual tests"
-foreach ($file in (Get-ChildItem "$PSScriptRoot\functions" -Recurse -File -Filter "*Tests.ps1"))
+if ($TestFunctions)
 {
-	if ($file.Name -notlike $Include) { continue }
-	if ($file.Name -like $Exclude) { continue }
-	
-	Write-PSFMessage -Level Significant -Message "  Executing $($file.Name)"
-	þ!testresults!þ
-	foreach ($result in $results)
+Write-PSFMessage -Level Important -Message "Proceeding with individual tests"
+	foreach ($file in (Get-ChildItem "$PSScriptRoot\functions" -Recurse -File -Filter "*Tests.ps1"))
 	{
-		$totalRun += $result.TotalCount
-		$totalFailed += $result.FailedCount
-		$result.TestResult | Where-Object { -not $_.Passed } | ForEach-Object {
-			$name = $_.Name
-			$testresults += [pscustomobject]@{
-				Describe   = $_.Describe
-				Context    = $_.Context
-				Name	   = "It $name"
-				Result	   = $_.Result
-				Message    = $_.FailureMessage
+		if ($file.Name -notlike $Include) { continue }
+		if ($file.Name -like $Exclude) { continue }
+		
+		Write-PSFMessage -Level Significant -Message "  Executing $($file.Name)"
+		þ!testresults!þ
+		foreach ($result in $results)
+		{
+			$totalRun += $result.TotalCount
+			$totalFailed += $result.FailedCount
+			$result.TestResult | Where-Object { -not $_.Passed } | ForEach-Object {
+				$name = $_.Name
+				$testresults += [pscustomobject]@{
+					Describe = $_.Describe
+					Context  = $_.Context
+					Name	 = "It $name"
+					Result   = $_.Result
+					Message  = $_.FailureMessage
+				}
 			}
 		}
 	}
