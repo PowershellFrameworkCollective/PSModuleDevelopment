@@ -1,4 +1,12 @@
 ﻿# Changelog
+## 2.2.5.37 ( October 20th, 2018)
+ - Upd: Set-PSMDModulePath - add `-Module` parameter to persist the setting
+ - Upd: Set-PSMDModulePath - add `-Register` parameter for integrated persistence
+ - Upd: Set-PSMDEncoding - use `PSFEncoding` parameter class & tabcompletion
+ - Upd: Template PSFProject - build directly into psm1
+ - Upd: Template PSFProject, PSFModule - automatically read version in psm1 from psd1, rather than requiring explicit maintenance.
+ - Fix: Template PSFTest - use category exclusions
+
 ## 2.2.5.31 (September 29th, 2018)
  - Fix: Template PSFProject dependencies installed correctly
  

@@ -1,4 +1,5 @@
 ﻿# Add all things you want to run after importing the main code
+# If you add entries to this file, you aslo need to edit the .\build\filesAfter.txt
 
 # Load Configurations
 foreach ($file in (Get-ChildItem "$ModuleRoot\internal\configurations\*.ps1" -ErrorAction Ignore)) {
