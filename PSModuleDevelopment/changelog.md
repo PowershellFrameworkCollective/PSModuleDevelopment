@@ -1,5 +1,5 @@
 ﻿# Changelog
-## 2.2.?.?
+## 2.2.5.37 ( October 20th, 2018)
  - Upd: Set-PSMDModulePath - add `-Module` parameter to persist the setting
  - Upd: Set-PSMDModulePath - add `-Register` parameter for integrated persistence
  - Upd: Set-PSMDEncoding - use `PSFEncoding` parameter class & tabcompletion
