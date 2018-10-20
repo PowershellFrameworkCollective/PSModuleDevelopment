@@ -13,19 +13,11 @@ Write-PSFMessage -Level Important -Message "Creating and populating publishing d
 $publishDir = New-Item -Path $env:SYSTEM_DEFAULTWORKINGDIRECTORY -Name publish -ItemType Directory
 Copy-Item -Path "$($env:SYSTEM_DEFAULTWORKINGDIRECTORY)\þnameþ" -Destination $publishDir.FullName -Recurse -Force
 
-# Create commands.ps1
+#region Gather text data to compile
 $text = @()
-Get-ChildItem -Path "$($publishDir.FullName)\þnameþ\internal\functions\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
-	$text += [System.IO.File]::ReadAllText($_.FullName)
-}
-Get-ChildItem -Path "$($publishDir.FullName)\þnameþ\functions\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
-	$text += [System.IO.File]::ReadAllText($_.FullName)
-}
-$text -join "`n`n" | Set-Content -Path "$($publishDir.FullName)\þnameþ\commands.ps1"
-
-# Create resourcesBefore.ps1
 $processed = @()
-$text = @()
+
+# Gather Stuff to run before
 foreach ($line in (Get-Content "$($PSScriptRoot)\filesBefore.txt" | Where-Object { $_ -notlike "#*" }))
 {
 	if ([string]::IsNullOrWhiteSpace($line)) { continue }
@@ -40,11 +32,16 @@ foreach ($line in (Get-Content "$($PSScriptRoot)\filesBefore.txt" | Where-Object
 		$processed += $item.FullName
 	}
 }
-if ($text) { $text -join "`n`n" | Set-Content -Path "$($publishDir.FullName)\þnameþ\resourcesBefore.ps1" }
 
-# Create resourcesAfter.ps1
-$processed = @()
-$text = @()
+# Gather commands
+Get-ChildItem -Path "$($publishDir.FullName)\þnameþ\internal\functions\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
+	$text += [System.IO.File]::ReadAllText($_.FullName)
+}
+Get-ChildItem -Path "$($publishDir.FullName)\þnameþ\functions\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
+	$text += [System.IO.File]::ReadAllText($_.FullName)
+}
+
+# Gather stuff to run afterwards
 foreach ($line in (Get-Content "$($PSScriptRoot)\filesAfter.txt" | Where-Object { $_ -notlike "#*" }))
 {
 	if ([string]::IsNullOrWhiteSpace($line)) { continue }
@@ -59,7 +56,14 @@ foreach ($line in (Get-Content "$($PSScriptRoot)\filesAfter.txt" | Where-Object 
 		$processed += $item.FullName
 	}
 }
-if ($text) { $text -join "`n`n" | Set-Content -Path "$($publishDir.FullName)\þnameþ\resourcesAfter.ps1" }
+#endregion Gather text data to compile
+
+#region Update the psm1 file
+$fileData = Get-Content -Path "$($publishDir.FullName)\þnameþ\þnameþ.psm1" -Raw
+$fileData = $fileData -replace '"<was not compiled>"', '"<was compiled>"'
+$fileData = $fileData -replace '"<compile code into here>"', ($text -join "`n`n")
+[System.IO.File]::WriteAllText("$($publishDir.FullName)\þnameþ\þnameþ.psm1", $fileData, [System.Text.Encoding]::UTF8)
+#endregion Update the psm1 file
 
 # Publish to Gallery
 Publish-Module -Path "$($publishDir.FullName)\þnameþ" -NuGetApiKey $ApiKey -Force
