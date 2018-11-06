@@ -14,8 +14,11 @@
 
         If there is parameter value present, you have to use the opposite quote strategy to encapsulate the string correctly
 
-        E.g. -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"'
-        E.g. -CommandText "Emport-D365Bacpac -ExportModeTier2 -SqlUser 'sqladmin' -SqlPwd 'XyzXyz' -BacpacFile2 'C:\temp\uat.bacpac'"
+        E.g. for double quotes
+        -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"'
+        
+        E.g. for single quotes
+        -CommandText "Import-D365Bacpac -ExportModeTier2 -SqlUser 'sqladmin' -SqlPwd 'XyzXyz' -BacpacFile2 'C:\temp\uat.bacpac'"
 
     .PARAMETER Mode
         The operation mode of the cmdlet / function
@@ -31,14 +34,16 @@
         PS C:\> Show-PSMDSyntax -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"' -Mode "Validate"
 
         This will validate all the parameters that have been passed to the Import-D365Bacpac cmdlet.
+        All supplied parameters that matches a parameter will be marked with an asterisk.
         
     .EXAMPLE
         PS C:\> Show-PSMDSyntax -CommandText 'Import-D365Bacpac' -Mode "ShowParameters"
 
-        This will validate all the parameters that have been passed to the Import-D365Bacpac cmdlet.
+        This will display all the parameter sets and their individual parameters.
 
     .NOTES
         Author: Mötz Jensen (@Splaxi)
+
 #>
     [CmdletBinding()]
     
