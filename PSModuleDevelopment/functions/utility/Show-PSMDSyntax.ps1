@@ -42,6 +42,8 @@
 
     .NOTES
         Author: Mötz Jensen (@Splaxi)
+        Twitter: https://twitter.com/splaxi
+        Original github project: https://github.com/d365collaborative/d365fo.tools
 
 #>
     [CmdletBinding()]
