@@ -114,7 +114,7 @@
             }
  
             foreach ($parmSet in (Get-Command $commandName).ParameterSets) {
-                $null = $sb = New-Object System.Text.StringBuilder
+                $sb = New-Object System.Text.StringBuilder
                 $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($parmSet.Name)</c> - Validated List")
                 $null = $sb.Append("<c='$colorCommandName'>$commandName </c>")
  
@@ -163,7 +163,7 @@
         "ShowParameters" {
             foreach ($parmSet in (Get-Command $commandName).ParameterSets) {
                 # (Get-Command $commandName).ParameterSets | ForEach-Object {
-                $null = $sb = New-Object System.Text.StringBuilder
+                $sb = New-Object System.Text.StringBuilder
                 $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($parmSet.Name)</c> - Parameter List")
                 $null = $sb.Append("<c='$colorCommandName'>$commandName </c>")
  
