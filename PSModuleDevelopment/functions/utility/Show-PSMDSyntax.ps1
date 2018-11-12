@@ -14,10 +14,10 @@
         If there is parameter value present, you have to use the opposite quote strategy to encapsulate the string correctly
 
         E.g. for double quotes
-        -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"'
+        -CommandText 'New-Item -Path "c:\temp\newfile.txt"'
         
         E.g. for single quotes
-        -CommandText "Import-D365Bacpac -ExportModeTier2 -SqlUser 'sqladmin' -SqlPwd 'XyzXyz' -BacpacFile2 'C:\temp\uat.bacpac'"
+        -CommandText "New-Item -Path 'c:\temp\newfile.txt'"
 
     .PARAMETER Mode
         The operation mode of the cmdlet / function
@@ -26,17 +26,17 @@
         - Validate
         - ShowParameters
 
-    .PARAMETER IncludeHelp
-        Switch to instruct the cmdlet / function to output a simple guide with the colors in it
+    .PARAMETER Legend
+        Include a legend explaining the color mapping
 
     .EXAMPLE
-        PS C:\> Show-PSMDSyntax -CommandText 'Import-D365Bacpac -ImportModeTier2 -SqlUser "sqladmin" -SqlPwd "XyzXyz" -BacpacFile2 "C:\temp\uat.bacpac"' -Mode "Validate"
+        PS C:\> Show-PSMDSyntax -CommandText "New-Item -Path 'c:\temp\newfile.txt'" -Mode "Validate"
 
         This will validate all the parameters that have been passed to the Import-D365Bacpac cmdlet.
         All supplied parameters that matches a parameter will be marked with an asterisk.
         
     .EXAMPLE
-        PS C:\> Show-PSMDSyntax -CommandText 'Import-D365Bacpac' -Mode "ShowParameters"
+        PS C:\> Show-PSMDSyntax -CommandText "New-Item" -Mode "ShowParameters"
 
         This will display all the parameter sets and their individual parameters.
 
@@ -54,7 +54,7 @@
         [ValidateSet('Validate', 'ShowParameters')]
         [string] $Mode,
 
-        [switch] $IncludeHelp
+        [switch] $Legend
     )
 
     $commonParameters = 'Verbose', 'Debug', 'ErrorAction', 'WarningAction', 'InformationAction', 'ErrorVariable', 'WarningVariable', 'InformationVariable', 'OutVariable', 'OutBuffer', 'PipelineVariable', 'Confirm', 'WhatIf'

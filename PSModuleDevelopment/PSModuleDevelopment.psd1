@@ -89,6 +89,7 @@
 		'Set-PSMDCmdletBinding',
 		'Set-PSMDModulePath',
 		'Set-PSMDParameterHelp',
+		'Show-PSMDSyntax',
 		'Split-PSMDScriptFile'
     )
 	
