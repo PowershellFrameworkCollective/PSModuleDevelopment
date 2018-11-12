@@ -87,10 +87,9 @@
         Stop-PSFFunction -Message "Stopping because command name didn't return any help."
         return
     }
-
  
-    $null = $sbHelp = New-Object System.Text.StringBuilder
-    $null = $sbParmsNotFound = New-Object System.Text.StringBuilder
+    $sbHelp = New-Object System.Text.StringBuilder
+    $sbParmsNotFound = New-Object System.Text.StringBuilder
  
     switch ($Mode) {
         "Validate" {
