@@ -98,6 +98,7 @@
                      
             if (-not ($null -eq $inputParameterMatch)) {
                 $inputParameterNames = $inputParameterMatch.Value.Trim("-", " ")
+                Write-PSFMessage -Level Verbose -Message "All input parameters - $($inputParameterNames -join ",")" -Target ($inputParameterNames -join ",")
             }
             else {
                 Write-PSFMessage -Level Host -Message "The function was unable to extract any parameters from the supplied command text. Please try again."
@@ -106,13 +107,17 @@
             }
  
             $availableParameterNames = (Get-Command $commandName).Parameters.keys | Where-Object {$commonParameters -NotContains $_}
+            Write-PSFMessage -Level Verbose -Message "Available parameters - $($availableParameterNames -join ",")" -Target ($availableParameterNames -join ",")
+
             $inputParameterNotFound = $inputParameterNames | Where-Object {$availableParameterNames -NotContains $_}
  
-            $null = $sbParmsNotFound.AppendLine("Parameters that <c='em'>don't exists</c>")
-            $inputParameterNotFound | ForEach-Object {
-                $null = $sbParmsNotFound.AppendLine("<c='$colorParmsNotFound'>$($_)</c>")
+            if ($inputParameterNotFound.Length -gt 0) {
+                $null = $sbParmsNotFound.AppendLine("Parameters that <c='em'>don't exists</c>")
+                $inputParameterNotFound | ForEach-Object {
+                    $null = $sbParmsNotFound.AppendLine("<c='$colorParmsNotFound'>$($_)</c>")
+                }
             }
- 
+            
             foreach ($parmSet in (Get-Command $commandName).ParameterSets) {
                 $sb = New-Object System.Text.StringBuilder
                 $null = $sb.AppendLine("ParameterSet Name: <c='em'>$($parmSet.Name)</c> - Validated List")
@@ -193,7 +198,7 @@
         Default {}
     }
  
-    if ($sbParmsNotFound.Length -gt 0) {
+    if ($sbParmsNotFound.ToString().Trim().Length -gt 0) {
         Write-PSFHostColor -String "$($sbParmsNotFound.ToString())"
     }
  
