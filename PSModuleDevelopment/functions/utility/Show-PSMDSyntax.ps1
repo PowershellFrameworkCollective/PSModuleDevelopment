@@ -130,12 +130,10 @@
                     $null = $sb.Append("<c='$color'>-$($parameter.Name)</c>")
          
                     if ($parmFoundInCommandText) {
-                        $color = "$colorFoundAsterisk"
-                        $null = $sb.Append("<c='$color'>* </c>")
+                        $null = $sb.Append("<c='$colorFoundAsterisk'>* </c>")
                     }
                     elseif ($parameter.IsMandatory -eq $true) {
-                        $color = "$colorNotFoundAsterisk"
-                        $null = $sb.Append("<c='$color'>* </c>")
+                        $null = $sb.Append("<c='$colorNotFoundAsterisk'>* </c>")
                     }
                     else {
                         $null = $sb.Append(" ")
@@ -147,7 +145,7 @@
                 }
          
                 $null = $sb.AppendLine("")
-                Write-PSFMessage -Level Host -Message "$($sb.ToString())"
+                Write-PSFHostColor -String "$($sb.ToString())"
             }
  
             $null = $sbHelp.AppendLine("")
@@ -183,7 +181,7 @@
                 }
          
                 $null = $sb.AppendLine("")
-                Write-PSFMessage -Level Host -Message "$($sb.ToString())"
+                Write-PSFHostColor -String "$($sb.ToString())"
             }
  
             $null = $sbHelp.AppendLine("")
@@ -196,10 +194,10 @@
     }
  
     if ($sbParmsNotFound.Length -gt 0) {
-        Write-PSFMessage -Level Host -Message "$($sbParmsNotFound.ToString())"
+        Write-PSFHostColor -String "$($sbParmsNotFound.ToString())"
     }
  
-    if ($IncludeHelp) {
-        Write-PSFMessage -Level Host -Message "$($sbHelp.ToString())"
+    if ($Legend) {
+        Write-PSFHostColor -String "$($sbHelp.ToString())"
     }
 }
