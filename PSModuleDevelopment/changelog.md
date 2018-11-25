@@ -1,4 +1,7 @@
 ﻿# Changelog
+## ????
+ - New: Command Show-PSMDSyntax, used to show the parameter syntax with proper highlighting
+ 
 ## 2.2.5.37 ( October 20th, 2018)
  - Upd: Set-PSMDModulePath - add `-Module` parameter to persist the setting
  - Upd: Set-PSMDModulePath - add `-Register` parameter for integrated persistence
