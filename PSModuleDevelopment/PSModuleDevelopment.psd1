@@ -68,6 +68,7 @@
 		'Get-PSMDAssembly',
 		'Get-PSMDConstructor',
 		'Get-PSMDHelpEx',
+		'Get-PSMDMember',
 		'Get-PSMDModuleDebug',
 		'Get-PSMDTemplate',
 		'Import-PSMDModuleDebug',
