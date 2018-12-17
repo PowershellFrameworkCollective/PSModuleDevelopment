@@ -1,10 +1,10 @@
 ﻿# Changelog
-## ????
+## 2.2.5.40 (December 17th, 2018)
  - New: Command Show-PSMDSyntax, used to show the parameter syntax with proper highlighting
  - New: Command Get-PSMDMember, used to show the members in a more organic and useful way
  - Fix: Template PSFProject build step was broken
  
-## 2.2.5.37 ( October 20th, 2018)
+## 2.2.5.37 (October 20th, 2018)
  - Upd: Set-PSMDModulePath - add `-Module` parameter to persist the setting
  - Upd: Set-PSMDModulePath - add `-Register` parameter for integrated persistence
  - Upd: Set-PSMDEncoding - use `PSFEncoding` parameter class & tabcompletion
