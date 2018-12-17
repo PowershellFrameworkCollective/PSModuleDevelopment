@@ -26,7 +26,7 @@
 		$ArgumentType,
 		
 		[string]
-		$ReturnType,		
+		$ReturnType,
 		
 		[switch]
 		$Static,
