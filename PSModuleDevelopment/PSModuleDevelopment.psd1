@@ -4,7 +4,7 @@
 	RootModule = 'PSModuleDevelopment.psm1'
 	
 	# Version number of this module.
-	ModuleVersion = '2.2.5.37'
+	ModuleVersion = '2.2.5.40'
 	
 	# ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -68,6 +68,7 @@
 		'Get-PSMDAssembly',
 		'Get-PSMDConstructor',
 		'Get-PSMDHelpEx',
+		'Get-PSMDMember',
 		'Get-PSMDModuleDebug',
 		'Get-PSMDTemplate',
 		'Import-PSMDModuleDebug',
