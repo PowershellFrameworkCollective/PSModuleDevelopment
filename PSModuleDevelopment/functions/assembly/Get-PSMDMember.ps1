@@ -44,8 +44,8 @@
 			{
 				$PSBoundParameters['OutBuffer'] = 1
 			}
-			if ($ArgumentType) { $PSBoundParameters.Remove("ArgumentType") }
-			if ($ReturnType) { $PSBoundParameters.Remove("ReturnType") }
+			if ($ArgumentType) { $null = $PSBoundParameters.Remove("ArgumentType") }
+			if ($ReturnType) { $null = $PSBoundParameters.Remove("ReturnType") }
 			$wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('Microsoft.PowerShell.Utility\Get-Member', [System.Management.Automation.CommandTypes]::Cmdlet)
 			$scriptCmd = { & $wrappedCmd @PSBoundParameters }
 			$steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
