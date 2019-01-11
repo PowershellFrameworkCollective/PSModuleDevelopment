@@ -65,6 +65,7 @@
 		'Expand-PSMDTypeName',
 		'Find-PSMDFileContent',
 		'Find-PSMDType',
+		'Format-PSMDParameter',
 		'Get-PSMDAssembly',
 		'Get-PSMDConstructor',
 		'Get-PSMDHelpEx',
