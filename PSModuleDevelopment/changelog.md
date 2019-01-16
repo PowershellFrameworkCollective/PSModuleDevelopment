@@ -1,4 +1,9 @@
 ﻿# Changelog
+##
+ - New: Format-PSMDParameter - updates legacy parameter notation
+ - New: Search-PSMDPropertyValue - search objects for values in properties
+ - Fix: New-PSMDTemplate records binary files as text files
+
 ## 2.2.5.37 ( October 20th, 2018)
  - Upd: Set-PSMDModulePath - add `-Module` parameter to persist the setting
  - Upd: Set-PSMDModulePath - add `-Register` parameter for integrated persistence

@@ -84,6 +84,7 @@
 		'Remove-PSMDTemplate',
 		'Rename-PSMDParameter',
 		'Restart-PSMDShell',
+		'Search-PSMDPropertyValue',
 		'Set-PSMDEncoding',
 		'Set-PSMDModuleDebug',
 		'Set-PSMDCmdletBinding',
