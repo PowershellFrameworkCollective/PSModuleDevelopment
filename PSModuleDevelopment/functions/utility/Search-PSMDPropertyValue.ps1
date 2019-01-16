@@ -69,8 +69,6 @@
 			
 			foreach ($property in $Object.PSObject.Properties)
 			{
-				if ($path) { $tempPath = $path, $property.Name -join "." }
-				else { $tempPath = $property.Name }
 				if ($Match)
 				{
 					if ($property.Value -match $Value)
