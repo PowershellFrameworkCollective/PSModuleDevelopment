@@ -1,5 +1,6 @@
 ﻿# List of functions that should be ignored
 $global:FunctionHelpTestExceptions = @(
+	'Get-PSMDMember'
 	'Measure-PSMDCommandEx'
 )
 

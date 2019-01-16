@@ -4,6 +4,14 @@
  - New: Search-PSMDPropertyValue - search objects for values in properties
  - Fix: New-PSMDTemplate records binary files as text files
 
+## 2.2.5.41 (December 18th, 2018)
+ - Fix: Get-PSMDMember - dropping the unintentional bool return
+
+## 2.2.5.40 (December 17th, 2018)
+ - New: Command Show-PSMDSyntax, used to show the parameter syntax with proper highlighting
+ - New: Command Get-PSMDMember, used to show the members in a more organic and useful way
+ - Fix: Template PSFProject build step was broken
+
 ## 2.2.5.37 ( October 20th, 2018)
  - Upd: Set-PSMDModulePath - add `-Module` parameter to persist the setting
  - Upd: Set-PSMDModulePath - add `-Register` parameter for integrated persistence

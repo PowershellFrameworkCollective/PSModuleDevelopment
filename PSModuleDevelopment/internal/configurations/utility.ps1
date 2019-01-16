@@ -1,2 +1,10 @@
 ﻿Set-PSFConfig -Module PSModuleDevelopment -Name "Module.Path" -Value "" -Initialize -Validation "string" -Handler { } -Description "The path to the module currently under development. Used as default path by commnds that work within a module directory."
 Set-PSFConfig -Module PSModuleDevelopment -Name 'Package.Path' -Value "$env:TEMP" -Initialize -Validation "string" -Description "The default output path when exporting a module into a nuget package."
+
+Set-PSFConfig -Module PSModuleDevelopment -Name "ShowSyntax.ParmsNotFound" -Value "Red" -Initialize -Validation "string" -Handler { } -Description "The color to be used for the parameters that could not be found."
+Set-PSFConfig -Module PSModuleDevelopment -Name "ShowSyntax.CommandName" -Value "Green" -Initialize -Validation "string" -Handler { } -Description "The color to be used for the command name extracted from the command text."
+Set-PSFConfig -Module PSModuleDevelopment -Name "ShowSyntax.MandatoryParam" -Value "Yellow" -Initialize -Validation "string" -Handler { } -Description "The color to be used for the mandatory parameters from the commands parameter sets."
+Set-PSFConfig -Module PSModuleDevelopment -Name "ShowSyntax.NonMandatoryParam" -Value "DarkGray" -Initialize -Validation "string" -Handler { } -Description "The color to be used for the non mandatory parameters from the commands parameter sets."
+Set-PSFConfig -Module PSModuleDevelopment -Name "ShowSyntax.FoundAsterisk" -Value "Green" -Initialize -Validation "string" -Handler { } -Description "The color to be used for the asterisk that indicates a parameter has been filled / supplied."
+Set-PSFConfig -Module PSModuleDevelopment -Name "ShowSyntax.NotFoundAsterisk" -Value "Magenta" -Initialize -Validation "string" -Handler { } -Description "The color to be used for the asterisk that indicates a mandatory parameter has not been filled / supplied."
+Set-PSFConfig -Module PSModuleDevelopment -Name "ShowSyntax.ParmValue" -Value "DarkCyan" -Initialize -Validation "string" -Handler { } -Description "The color to be used for the parameter value."
