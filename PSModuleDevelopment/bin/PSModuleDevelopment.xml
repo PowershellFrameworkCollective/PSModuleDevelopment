@@ -239,6 +239,13 @@
             </summary>
             <returns>The format string to produce for the format file.</returns>
         </member>
+        <member name="M:PSModuleDevelopment.Format.ViewDefinitionBase.CompareTo(System.Object)">
+            <summary>
+            Implement IComparable
+            </summary>
+            <param name="Item">The item to compare the current instance with</param>
+            <returns>1, 0 or -1</returns>
+        </member>
         <member name="T:PSModuleDevelopment.PsmdAssembly.Constructor">
             <summary>
             Class containing information about a class's constructor
