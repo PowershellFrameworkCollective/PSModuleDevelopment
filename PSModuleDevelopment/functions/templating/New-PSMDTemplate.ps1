@@ -505,6 +505,7 @@
 				{
 					$bytes = [System.IO.File]::ReadAllBytes($Item.FullName)
 					$object.Value = [System.Convert]::ToBase64String($bytes)
+					$object.PlainText = $false
 				}
 				#endregion File Content
 			}

@@ -62,6 +62,7 @@
     <Compile Include="Template\TemplateItemFile.cs" />
     <Compile Include="Template\TemplateItemFolder.cs" />
     <Compile Include="Template\TemplateType.cs" />
+    <Compile Include="Utility\PropertySearchResult.cs" />
     <Compile Include="Utility\TextAlignment.cs" />
     <Compile Include="Utility\TextHeader.cs" />
     <Compile Include="Utility\UtilityHost.cs" />

@@ -239,6 +239,13 @@
             </summary>
             <returns>The format string to produce for the format file.</returns>
         </member>
+        <member name="M:PSModuleDevelopment.Format.ViewDefinitionBase.CompareTo(System.Object)">
+            <summary>
+            Implement IComparable
+            </summary>
+            <param name="Item">The item to compare the current instance with</param>
+            <returns>1, 0 or -1</returns>
+        </member>
         <member name="T:PSModuleDevelopment.PsmdAssembly.Constructor">
             <summary>
             Class containing information about a class's constructor
@@ -539,6 +546,65 @@
             <summary>
             The template consists of multiple files
             </summary>
+        </member>
+        <member name="T:PSModuleDevelopment.Utility.PropertySearchResult">
+            <summary>
+            The result object returned by Search-PSMDPropertyValue
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Utility.PropertySearchResult.Path">
+            <summary>
+            Path notation on nested properties
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.PropertySearchResult.Name">
+            <summary>
+            The name of the property found
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Utility.PropertySearchResult.FullName">
+            <summary>
+            The full name of the property
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.PropertySearchResult.PathElements">
+            <summary>
+            Individual property names on a found nested property.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.PropertySearchResult.Value">
+            <summary>
+            The actual value found
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Utility.PropertySearchResult.Type">
+            <summary>
+            The type of the value found
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Utility.PropertySearchResult.Depth">
+            <summary>
+            How deeply nested was the property found.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.PropertySearchResult.InputObject">
+            <summary>
+            The original input object
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Utility.PropertySearchResult.#ctor">
+            <summary>
+            Creates an empty object. Only used for serialization support.
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Utility.PropertySearchResult.#ctor(System.String,System.String[],System.Object,System.Object)">
+            <summary>
+            Creates a full report object from using Search-PSMDPropertyValue
+            </summary>
+            <param name="Name">The name of the property</param>
+            <param name="PathElements">The path elements if it is a nested property</param>
+            <param name="Value">The actual value found</param>
+            <param name="InputObject">The original input object offered to the command.</param>
         </member>
         <member name="T:PSModuleDevelopment.Utility.TextAlignment">
             <summary>

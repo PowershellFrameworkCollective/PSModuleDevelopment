@@ -137,5 +137,40 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
+		
+		<!-- PSModuleDevelopment.Utility.PropertySearchResult -->
+        <View>
+            <Name>PSModuleDevelopment.Utility.PropertySearchResult</Name>
+            <ViewSelectedBy>
+                <TypeName>PSModuleDevelopment.Utility.PropertySearchResult</TypeName>
+            </ViewSelectedBy>
+            <TableControl>
+                <AutoSize/>
+                <TableHeaders>
+                    <TableColumnHeader/>
+                    <TableColumnHeader/>
+                    <TableColumnHeader/>
+                    <TableColumnHeader/>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>Path</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Depth</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Name</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Value</PropertyName>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
 	</ViewDefinitions>
 </Configuration>
