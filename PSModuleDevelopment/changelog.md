@@ -2,6 +2,8 @@
 ##
  - New: Format-PSMDParameter - updates legacy parameter notation
  - New: Search-PSMDPropertyValue - search objects for values in properties
+ - Upd: Template PSFTest - adding WMI commands to list of forbidden commands
+ - Upd: Template PSFModule - adding changelog
  - Fix: New-PSMDTemplate records binary files as text files
 
 ## 2.2.5.41 (December 18th, 2018)
