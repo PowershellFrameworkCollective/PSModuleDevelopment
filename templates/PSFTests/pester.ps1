@@ -30,7 +30,7 @@ $testresults = @()
 if ($TestGeneral)
 {
 	Write-PSFMessage -Level Important -Message "Modules imported, proceeding with general tests"
-	foreach ($file in (Get-ChildItem "$PSScriptRoot\general" -Filter "*.Tests.ps1"))
+	foreach ($file in (Get-ChildItem "$PSScriptRoot\general" | Where-Object Name -like "*.Tests.ps1"))
 	{
 		Write-PSFMessage -Level Significant -Message "  Executing <c='em'>$($file.Name)</c>"
 		þ!testresults!þ
@@ -57,7 +57,7 @@ if ($TestGeneral)
 if ($TestFunctions)
 {
 Write-PSFMessage -Level Important -Message "Proceeding with individual tests"
-	foreach ($file in (Get-ChildItem "$PSScriptRoot\functions" -Recurse -File -Filter "*Tests.ps1"))
+	foreach ($file in (Get-ChildItem "$PSScriptRoot\functions" -Recurse -File | Where-Object Name -like "*Tests.ps1"))
 	{
 		if ($file.Name -notlike $Include) { continue }
 		if ($file.Name -like $Exclude) { continue }

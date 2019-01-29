@@ -4,6 +4,10 @@
  - New: Search-PSMDPropertyValue - search objects for values in properties
  - Upd: Template PSFTest - adding WMI commands to list of forbidden commands
  - Upd: Template PSFModule - adding changelog
+ - Upd: Template PSFModule - adding strings for localization
+ - Upd: Template PSFModule - adding scriptblocks
+ - Upd: Template PSFProject - updated build txt files to include new module content
+ - Fix: Template PSMTest - replacing all -Filter calls on Get-ChildItem
  - Fix: New-PSMDTemplate records binary files as text files
 
 ## 2.2.5.41 (December 18th, 2018)
