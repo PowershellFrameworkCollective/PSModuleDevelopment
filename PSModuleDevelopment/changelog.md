@@ -1,5 +1,5 @@
 ﻿# Changelog
-##
+## 2.2.6.51 (January 29th, 2019)
  - New: Format-PSMDParameter - updates legacy parameter notation
  - New: Measure-PSMDLinesOfCode - Measures the lines of code in a scriptfile.
  - New: Search-PSMDPropertyValue - search objects for values in properties
