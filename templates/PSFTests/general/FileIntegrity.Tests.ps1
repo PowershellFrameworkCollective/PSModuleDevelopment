@@ -33,7 +33,7 @@ function Get-FileEncoding
 
 Describe "Verifying integrity of module files" {
 	Context "Validating PS1 Script files" {
-		$allFiles = Get-ChildItem -Path $moduleRoot -Recurse -Filter "*.ps1" | Where-Object FullName -NotLike "$moduleRoot\tests\*"
+		$allFiles = Get-ChildItem -Path $moduleRoot -Recurse | Where-Object Name -like "*.ps1" | Where-Object FullName -NotLike "$moduleRoot\tests\*"
 		
 		foreach ($file in $allFiles)
 		{
@@ -72,7 +72,7 @@ Describe "Verifying integrity of module files" {
 	}
 	
 	Context "Validating help.txt help files" {
-		$allFiles = Get-ChildItem -Path $moduleRoot -Recurse -Filter "*.help.txt" | Where-Object FullName -NotLike "$moduleRoot\tests\*"
+		$allFiles = Get-ChildItem -Path $moduleRoot -Recurse | Where-Object Name -like "*.help.txt" | Where-Object FullName -NotLike "$moduleRoot\tests\*"
 		
 		foreach ($file in $allFiles)
 		{

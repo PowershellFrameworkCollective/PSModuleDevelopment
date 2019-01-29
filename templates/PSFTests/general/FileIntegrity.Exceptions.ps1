@@ -6,7 +6,14 @@ $global:BannedCommands = @(
 	'Write-Error',
 	'Write-Output',
 	'Write-Information',
-	'Write-Debug'
+	'Write-Debug',
+	
+	# Use CIM instead where possible
+	'Get-WmiObject',
+	'Invoke-WmiMethod',
+	'Register-WmiEvent',
+	'Remove-WmiObject',
+	'Set-WmiInstance'
 )
 
 <#

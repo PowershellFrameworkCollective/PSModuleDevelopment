@@ -2,7 +2,7 @@
 	$moduleRoot = (Resolve-Path "$PSScriptRoot\..\..").Path
 	$manifest = ((Get-Content "$moduleRoot\þnameþ.psd1") -join "`n") | Invoke-Expression
 	Context "Basic resources validation" {
-		$files = Get-ChildItem "$moduleRoot\functions" -Recurse -File -Filter "*.ps1"
+		$files = Get-ChildItem "$moduleRoot\functions" -Recurse -File | Where-Object Name -like "*.ps1"
 		It "Exports all functions in the public folder" {
 			
 			$functions = (Compare-Object -ReferenceObject $files.BaseName -DifferenceObject $manifest.FunctionsToExport | Where-Object SideIndicator -Like '<=').InputObject

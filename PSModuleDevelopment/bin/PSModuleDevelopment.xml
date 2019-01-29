@@ -547,6 +547,36 @@
             The template consists of multiple files
             </summary>
         </member>
+        <member name="T:PSModuleDevelopment.Utility.LinesOfCode">
+            <summary>
+            The lines of code in a scanned script
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.LinesOfCode.Count">
+            <summary>
+            The number of lines found
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.LinesOfCode.Path">
+            <summary>
+            The path to the file that was scanned
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.LinesOfCode.Success">
+            <summary>
+            Whether the file could be successfully scanned
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.LinesOfCode.Lines">
+            <summary>
+            The individual lines that contained code
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Utility.LinesOfCode.Ast">
+            <summary>
+            The ast of the script that was scanned
+            </summary>
+        </member>
         <member name="T:PSModuleDevelopment.Utility.PropertySearchResult">
             <summary>
             The result object returned by Search-PSMDPropertyValue

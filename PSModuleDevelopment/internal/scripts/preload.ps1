@@ -5,11 +5,14 @@ Usually configuration is imported after most of the module has been imported.
 This module is an exception to this, since a significant amount of its tasks are performed on import.
 #>
 
-foreach ($file in (Get-ChildItem -Path "$PSModuleRoot\internal\configurations"))
+foreach ($file in (Get-ChildItem -Path "$script:PSModuleRoot\internal\configurations"))
 {
 	. Import-PSMDFile -Path $file.FullName
 }
 #endregion Configuration
+
+# Load strings
+. Import-PSMDFile -Path "$script:PSModuleRoot\internal\scripts\strings.ps1"
 
 #region Ensure Config path exists
 
