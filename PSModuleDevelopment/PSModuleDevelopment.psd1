@@ -75,6 +75,7 @@
 		'Import-PSMDModuleDebug',
 		'Invoke-PSMDTemplate',
 		'Measure-PSMDCommandEx',
+		'Measure-PSMDLinesOfCode',
 		'New-PSMDDotNetProject',
 		'New-PSMDHeader',
 		'New-PSMDFormatTableDefinition',

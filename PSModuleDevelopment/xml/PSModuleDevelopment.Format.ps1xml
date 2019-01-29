@@ -138,6 +138,37 @@
 			</TableControl>
 		</View>
 		
+		<!-- PSModuleDevelopment.Utility.LinesOfCode -->
+        <View>
+            <Name>PSModuleDevelopment.Utility.LinesOfCode</Name>
+            <ViewSelectedBy>
+                <TypeName>PSModuleDevelopment.Utility.LinesOfCode</TypeName>
+            </ViewSelectedBy>
+            <TableControl>
+                <AutoSize/>
+                <TableHeaders>
+                    <TableColumnHeader/>
+                    <TableColumnHeader/>
+                    <TableColumnHeader/>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>Success</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Count</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Path</PropertyName>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+		
 		<!-- PSModuleDevelopment.Utility.PropertySearchResult -->
         <View>
             <Name>PSModuleDevelopment.Utility.PropertySearchResult</Name>
