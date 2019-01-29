@@ -174,4 +174,39 @@
       <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
     </TypeConverter>
   </Type>
+  
+  <!-- PSModuleDevelopment.Utility.LinesOfCode -->
+  <Type>
+    <Name>Deserialized.PSModuleDevelopment.Utility.LinesOfCode</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <NoteProperty>
+            <Name>
+              TargetTypeForDeserialization
+            </Name>
+            <Value>
+              PSModuleDevelopment.Utility.LinesOfCode
+            </Value>
+          </NoteProperty>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
+    <Name>PSModuleDevelopment.Utility.LinesOfCode</Name>
+    <Members>
+      <CodeProperty IsHidden="true">
+        <Name>SerializationData</Name>
+        <GetCodeReference>
+          <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+          <MethodName>GetSerializationData</MethodName>
+        </GetCodeReference>
+      </CodeProperty>
+    </Members>
+    <TypeConverter>
+      <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
+    </TypeConverter>
+  </Type>
 </Types>

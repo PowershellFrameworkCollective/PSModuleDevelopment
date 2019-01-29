@@ -4,7 +4,7 @@
 	RootModule = 'PSModuleDevelopment.psm1'
 	
 	# Version number of this module.
-	ModuleVersion = '2.2.5.41'
+	ModuleVersion = '2.2.6.51'
 	
 	# ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -41,7 +41,9 @@
 	
 	# Modules that must be imported into the global environment prior to importing
 	# this module
-	RequiredModules = @(@{ ModuleName='PSFramework'; ModuleVersion= '0.9.25.112' })
+	RequiredModules	       = @(
+		@{ ModuleName = 'PSFramework'; ModuleVersion = '0.10.31.176' }
+	)
 	
 	# Assemblies that must be loaded prior to importing this module
 	RequiredAssemblies = @('bin\PSModuleDevelopment.dll')
@@ -65,6 +67,7 @@
 		'Expand-PSMDTypeName',
 		'Find-PSMDFileContent',
 		'Find-PSMDType',
+		'Format-PSMDParameter',
 		'Get-PSMDAssembly',
 		'Get-PSMDConstructor',
 		'Get-PSMDHelpEx',
@@ -74,6 +77,7 @@
 		'Import-PSMDModuleDebug',
 		'Invoke-PSMDTemplate',
 		'Measure-PSMDCommandEx',
+		'Measure-PSMDLinesOfCode',
 		'New-PSMDDotNetProject',
 		'New-PSMDHeader',
 		'New-PSMDFormatTableDefinition',
@@ -85,6 +89,7 @@
 		'Remove-PSMDTemplate',
 		'Rename-PSMDParameter',
 		'Restart-PSMDShell',
+		'Search-PSMDPropertyValue',
 		'Set-PSMDEncoding',
 		'Set-PSMDModuleDebug',
 		'Set-PSMDCmdletBinding',

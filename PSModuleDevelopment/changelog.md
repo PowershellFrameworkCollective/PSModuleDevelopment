@@ -1,4 +1,16 @@
 ﻿# Changelog
+## 2.2.6.51 (January 29th, 2019)
+ - New: Format-PSMDParameter - updates legacy parameter notation
+ - New: Measure-PSMDLinesOfCode - Measures the lines of code in a scriptfile.
+ - New: Search-PSMDPropertyValue - search objects for values in properties
+ - Upd: Template PSFTest - adding WMI commands to list of forbidden commands
+ - Upd: Template PSFModule - adding changelog
+ - Upd: Template PSFModule - adding strings for localization
+ - Upd: Template PSFModule - adding scriptblocks
+ - Upd: Template PSFProject - updated build txt files to include new module content
+ - Fix: Template PSMTest - replacing all -Filter calls on Get-ChildItem
+ - Fix: New-PSMDTemplate records binary files as text files
+
 ## 2.2.5.41 (December 18th, 2018)
  - Fix: Get-PSMDMember - dropping the unintentional bool return
 
@@ -6,8 +18,8 @@
  - New: Command Show-PSMDSyntax, used to show the parameter syntax with proper highlighting
  - New: Command Get-PSMDMember, used to show the members in a more organic and useful way
  - Fix: Template PSFProject build step was broken
- 
-## 2.2.5.37 (October 20th, 2018)
+
+## 2.2.5.37 ( October 20th, 2018)
  - Upd: Set-PSMDModulePath - add `-Module` parameter to persist the setting
  - Upd: Set-PSMDModulePath - add `-Register` parameter for integrated persistence
  - Upd: Set-PSMDEncoding - use `PSFEncoding` parameter class & tabcompletion
