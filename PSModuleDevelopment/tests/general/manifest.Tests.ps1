@@ -1,7 +1,6 @@
 Describe "Validating the module manifest" {
 	$moduleRoot = (Resolve-Path "$PSScriptRoot\..\..").Path
 	$manifest = ((Get-Content "$moduleRoot\PSModuleDevelopment.psd1") -join "`n") | Invoke-Expression
-	[version]$moduleVersion = Get-Item "$moduleRoot\PSModuleDevelopment.psm1" | Select-String -Pattern '\$script:PSModuleVersion = "(.*?)"' | ForEach-Object { $_.Matches[0].Groups[1].Value }
 	Context "Basic resources validation" {
 		It "Exports all functions in the public folder" {
 			$files = Get-ChildItem "$moduleRoot\functions" -Recurse -File -Filter "*.ps1"
@@ -12,10 +11,6 @@ Describe "Validating the module manifest" {
 		It "Exports none of its internal functions" {
 			$files = Get-ChildItem "$moduleRoot\internal\functions" -Recurse -File -Filter "*.ps1"
 			$files | Where-Object BaseName -In $manifest.FunctionsToExport | Should Be $null
-		}
-
-		It "Has the same version as the psm1 file" {
-			([version]$manifest.ModuleVersion) | Should Be $moduleVersion
 		}
 	}
 
