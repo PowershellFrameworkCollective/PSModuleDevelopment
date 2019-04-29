@@ -81,15 +81,20 @@
 				return
 			}
 		}
+		$resolvedPath = (Get-Item -Path $PackagePath).FullName
 		#endregion Input validation and prerequisites check
 		
 		#region Prepare local Repository
 		try
 		{
+			if (Get-PSRepository | Where-Object Name -EQ 'PSModuleDevelopment_TempLocalRepository')
+			{
+				Unregister-PSRepository -Name 'PSModuleDevelopment_TempLocalRepository'
+			}
 			$paramRegisterPSRepository = @{
 				Name				 = 'PSModuleDevelopment_TempLocalRepository'
-				PublishLocation	     = $PackagePath
-				SourceLocation	     = $PackagePath
+				PublishLocation	     = $resolvedPath
+				SourceLocation	     = $resolvedPath
 				InstallationPolicy   = 'Trusted'
 				ErrorAction		     = 'Stop'
 			}
