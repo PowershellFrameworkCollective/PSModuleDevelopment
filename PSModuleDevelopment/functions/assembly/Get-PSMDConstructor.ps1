@@ -15,6 +15,9 @@
 		
 		.PARAMETER InputObject
 			The object the constructor of which should be retrieved.
+	
+		.PARAMETER NonPublic
+			Show non-public constructors instead.
 		
 		.EXAMPLE
 			Get-ChildItem | Get-PSMDConstructor
@@ -30,7 +33,10 @@
 	[CmdletBinding()]
 	Param (
 		[Parameter(ValueFromPipeline = $true)]
-		$InputObject
+		$InputObject,
+		
+		[switch]
+		$NonPublic
 	)
 	
 	begin
@@ -47,16 +53,22 @@
 			
 			if ($processedTypes -contains $type) { continue }
 			
-			foreach ($constructor in $type.GetConstructors())
+			if ($NonPublic)
 			{
-				New-Object PSModuleDevelopment.PsmdAssembly.Constructor($constructor)
+				foreach ($constructor in $type.GetConstructors([System.Reflection.BindingFlags]'NonPublic, Instance'))
+				{
+					New-Object PSModuleDevelopment.PsmdAssembly.Constructor($constructor)
+				}
+			}
+			else
+			{
+				foreach ($constructor in $type.GetConstructors())
+				{
+					New-Object PSModuleDevelopment.PsmdAssembly.Constructor($constructor)
+				}
 			}
 			
 			$processedTypes += $type
 		}
-	}
-	end
-	{
-		
 	}
 }

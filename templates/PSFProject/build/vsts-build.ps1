@@ -7,8 +7,18 @@ Insert any build steps you may need to take before publishing it here.
 param (
 	$ApiKey,
 	
-	$WorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY
+	$WorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY,
+	
+	[switch]
+	$LocalRepo,
+	
+	[switch]
+	$AutoVersion
 )
+
+#region Repository
+$repositoryName = 'PSGallery'
+#endregion Repository
 
 # Prepare publish folder
 Write-PSFMessage -Level Important -Message "Creating and populating publishing directory"
@@ -67,5 +77,38 @@ $fileData = $fileData.Replace('"<compile code into here>"', ($text -join "`n`n")
 [System.IO.File]::WriteAllText("$($publishDir.FullName)\þnameþ\þnameþ.psm1", $fileData, [System.Text.Encoding]::UTF8)
 #endregion Update the psm1 file
 
-# Publish to Gallery
-Publish-Module -Path "$($publishDir.FullName)\þnameþ" -NuGetApiKey $ApiKey -Force
+#region Updating the Module Version
+if ($AutoVersion)
+{
+	Write-PSFMessage -Level Important -Message "Updating module version numbers."
+	try { [version]$remoteVersion = (Find-Module 'þnameþ' -Repository $repositoryName -ErrorAction Stop).Version }
+	catch
+	{
+		Stop-PSFFunction -Message "Failed to access $($repositoryName)" -EnableException $true -ErrorRecord $_
+	}
+	if (-not $remoteVersion)
+	{
+		Stop-PSFFunction -Message "Couldn't find þnameþ on repository $($repositoryName)" -EnableException $true
+	}
+	$newBuildNumber = $remoteVersion.Build + 1
+	[version]$localVersion = (Import-PowerShellDataFile -Path "$($publishDir.FullName)\þnameþ\þnameþ.psd1").ModuleVersion
+	Update-ModuleManifest -Path "$($publishDir.FullName)\þnameþ\þnameþ.psd1" -ModuleVersion "$($localVersion.Major).$($localVersion.Minor).$($newBuildNumber)"
+}
+#endregion Updating the Module Version
+
+#region Publish
+if ($LocalRepo)
+{
+	# Dependencies must go first
+	Write-PSFMessage -Level Important -Message "Creating Nuget Package for module: PSFramework"
+	New-PSMDModuleNugetPackage -ModulePath (Get-Module -Name PSFramework).ModuleBase -PackagePath .
+	Write-PSFMessage -Level Important -Message "Creating Nuget Package for module: þnameþ"
+	New-PSMDModuleNugetPackage -ModulePath "$($publishDir.FullName)\þnameþ" -PackagePath .
+}
+else
+{
+	# Publish to Gallery
+	Write-PSFMessage -Level Important -Message "Publishing the þnameþ module to $($repositoryName)"
+	Publish-Module -Path "$($publishDir.FullName)\þnameþ" -NuGetApiKey $ApiKey -Force -Repository $repositoryName
+}
+#endregion Publish
