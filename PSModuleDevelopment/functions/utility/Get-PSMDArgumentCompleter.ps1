@@ -1,4 +1,4 @@
-function Get-PSMDArgumentCompleter
+﻿function Get-PSMDArgumentCompleter
 {
 <#
 	.SYNOPSIS

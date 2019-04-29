@@ -1,6 +1,16 @@
 ﻿# Changelog
 ##
- - Mew: Get-PSMDArgumentCompleter - lists registered argument completers on PS5+
+ - New: Get-PSMDArgumentCompleter - Lists registered argument completers on PS5+
+ - New: Template: PSFLoggingProvider - Creates a custom logfile logging provider for module specific logging.
+ - Upd: Template: PSFTest - Adding test against module tags with whitespace
+ - Upd: Get-PSMDConstructor - Added `-NonPublic` parameter to show hidden constructors.
+ - Upd: Template: PSFModule - Improved import speed.
+ - Upd: Template: PSFProject - Add parameter `-LocalRepo`
+ - Upd: Template: PSFProject - Add parameter `-AutoVersion`
+ - Fix: New-PSMDModuleNugetPackage - Resolving input path.
+ - Fix: New-PSMDModuleNugetPackage - Reregistering temp export repository if accidentally not cleaned up.
+ - Fix: Template: PSFModule - Fixed format xml closing tag
+ - Fix: Template: PSFModule - Fixed import from network share.
  
 ## 2.2.6.51 (January 29th, 2019)
  - New: Format-PSMDParameter - updates legacy parameter notation

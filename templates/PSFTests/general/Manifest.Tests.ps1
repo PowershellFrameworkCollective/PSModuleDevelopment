@@ -44,5 +44,12 @@
 				Test-Path "$moduleRoot\$assembly" | Should -Be $true
 			}
 		}
+		
+		foreach ($tag in $manifest.PrivateData.PSData.Tags)
+		{
+			It "Tags should have no spaces in name" {
+				$tag -match " " | Should -Be $false
+			}
+		}
 	}
 }
