@@ -1,0 +1,1 @@
+Import-Module "$PSScriptRoot\Modules\þnameþ\þnameþ.psd1" -Scope Global

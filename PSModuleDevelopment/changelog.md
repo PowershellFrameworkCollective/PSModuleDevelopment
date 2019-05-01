@@ -1,5 +1,8 @@
 ﻿# Changelog
 ##
+ - Upd: Template: PSFProject added Azure Functions Project CI/CD integration
+
+## 2.2.6.62 (April 30th, 2019)
  - New: Get-PSMDArgumentCompleter - Lists registered argument completers on PS5+
  - New: Template: PSFLoggingProvider - Creates a custom logfile logging provider for module specific logging.
  - Upd: Template: PSFTest - Adding test against module tags with whitespace
