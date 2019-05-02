@@ -38,6 +38,11 @@
 		Skip automatic folder creation for project templates.
 		By default, this command will create a folder to place files&folders in when creating a project.
 	
+	.PARAMETER Encoding
+		The encoding to apply to text files.
+		The default setting for this can be configured by updating the 'PSFramework.Text.Encoding.DefaultWrite' configuration setting.
+		The initial default value is utf8 with BOM.
+	
 	.PARAMETER Parameters
 		A Hashtable containing parameters for use in creating the template.
 	
@@ -75,14 +80,14 @@
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSPossibleIncorrectUsageOfAssignmentOperator", "")]
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param (
-		[Parameter(Mandatory = $true, ValueFromPipeline = $true, ParameterSetName = 'Template')]
-		[PSModuleDevelopment.Template.TemplateInfo[]]
-		$Template,
-		
 		[Parameter(Mandatory = $true, Position = 0, ParameterSetName = 'NameStore')]
 		[Parameter(Mandatory = $true, Position = 0, ParameterSetName = 'NamePath')]
 		[string]
 		$TemplateName,
+		
+		[Parameter(Mandatory = $true, ValueFromPipeline = $true, ParameterSetName = 'Template')]
+		[PSModuleDevelopment.Template.TemplateInfo[]]
+		$Template,
 		
 		[Parameter(ParameterSetName = 'NameStore')]
 		[string]
@@ -99,6 +104,9 @@
 		[Parameter(Position = 1)]
 		[string]
 		$Name,
+		
+		[PSFEncoding]
+		$Encoding = (Get-PSFConfigValue -FullName 'PSFramework.Text.Encoding.DefaultWrite'),
 		
 		[switch]
 		$NoFolder,
@@ -176,6 +184,9 @@
 				[string]
 				$OutPath,
 				
+				[PSFEncoding]
+				$Encoding,
+				
 				[bool]
 				$NoFolder,
 				
@@ -237,7 +248,7 @@
 				{
 					foreach ($child in $templateData.Children)
 					{
-						Write-TemplateItem -Item $child -Path $OutPath -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
+						Write-TemplateItem -Item $child -Path $OutPath -Encoding $Encoding -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
 					}
 					if ($Raw -and $templateData.Scripts.Values)
 					{
@@ -272,7 +283,7 @@
 					
 					foreach ($child in $templateData.Children)
 					{
-						Write-TemplateItem -Item $child -Path $newFolder.FullName -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
+						Write-TemplateItem -Item $child -Path $newFolder.FullName -Encoding $Encoding -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
 					}
 					
 					#region Write Config File (Raw)
@@ -308,7 +319,7 @@
 						}
 						
 						$configFile = Join-Path $newFolder.FullName "PSMDTemplate.ps1"
-						Set-Content -Path $configFile -Value $optionsTemplate -Encoding UTF8
+						Set-Content -Path $configFile -Value $optionsTemplate -Encoding ([PSFEncoding]'utf-8').Encoding
 					}
 					#endregion Write Config File (Raw)
 				}
@@ -326,6 +337,9 @@
 				
 				[string]
 				$Path,
+				
+				[PSFEncoding]
+				$Encoding,
 				
 				[hashtable]
 				$ParameterFlat,
@@ -373,7 +387,7 @@
 							$text = $text -replace "$($identifier)!$([regex]::Escape($param))!$($identifier)", $ParameterScript[$param]
 						}
 					}
-					[System.IO.File]::WriteAllText($destPath, $text)
+					[System.IO.File]::WriteAllText($destPath, $text, $Encoding)
 				}
 				else
 				{
@@ -417,7 +431,7 @@
 		{
 			if ($PSCmdlet.ShouldProcess($item, "Invoking template"))
 			{
-				try { Invoke-Template -Template $item -OutPath $resolvedPath.ProviderPath -NoFolder $NoFolder -Parameters $Parameters.Clone() -Raw $Raw -Silent $Silent }
+				try { Invoke-Template -Template $item -OutPath $resolvedPath.ProviderPath -NoFolder $NoFolder -Encoding $Encoding -Parameters $Parameters.Clone() -Raw $Raw -Silent $Silent }
 				catch { Stop-PSFFunction -Message "Failed to invoke template $($item)" -EnableException $EnableException -ErrorRecord $_ -Target $item -Tag 'fail', 'template', 'invoke' -Continue }
 			}
 		}
@@ -425,14 +439,10 @@
 		{
 			if ($PSCmdlet.ShouldProcess($item, "Invoking template"))
 			{
-				try { Invoke-Template -Template $item -OutPath $resolvedPath.ProviderPath -NoFolder $NoFolder -Parameters $Parameters.Clone() -Raw $Raw -Silent $Silent }
+				try { Invoke-Template -Template $item -OutPath $resolvedPath.ProviderPath -NoFolder $NoFolder -Encoding $Encoding -Parameters $Parameters.Clone() -Raw $Raw -Silent $Silent }
 				catch { Stop-PSFFunction -Message "Failed to invoke template $($item)" -EnableException $EnableException -ErrorRecord $_ -Target $item -Tag 'fail', 'template', 'invoke' -Continue }
 			}
 		}
-	}
-	end
-	{
-	
 	}
 }
 

@@ -1,6 +1,8 @@
 ﻿# Changelog
 ##
- - Upd: Template: PSFProject added Azure Functions Project CI/CD integration
+ - New: Template: AzureFunctionRest - creates an azure function designed for rest API trigger.
+ - Upd: Template: PSFProject added Azure Functions Project CI/CD integration.
+ - Upd: Invoke-PSMDTemplate supports `-Encoding` parameter, defaulting to utf8 with BOM.
 
 ## 2.2.6.62 (April 30th, 2019)
  - New: Get-PSMDArgumentCompleter - Lists registered argument completers on PS5+
