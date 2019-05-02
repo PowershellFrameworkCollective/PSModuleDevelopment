@@ -416,7 +416,7 @@
 				
 				foreach ($child in $Item.Children)
 				{
-					Write-TemplateItem -Item $child -Path $folder.FullName -ParameterFlat $ParameterFlat -ParameterScript $ParameterScript -Raw $Raw
+					Write-TemplateItem -Item $child -Path $folder.FullName -Encoding $Encoding -ParameterFlat $ParameterFlat -ParameterScript $ParameterScript -Raw $Raw
 				}
 			}
 			#endregion Folder
