@@ -14,6 +14,7 @@ Register-PSFTeppArgumentCompleter -Name PSMD_templatename -Command Get-PSMDTempl
 # Invoke-PSMDTemplate
 Register-PSFTeppArgumentCompleter -Name PSMD_templatestore -Command Invoke-PSMDTemplate -Parameter Store
 Register-PSFTeppArgumentCompleter -Name PSMD_templatename -Command Invoke-PSMDTemplate -Parameter TemplateName
+Register-PSFTeppArgumentCompleter -Name psframework-encoding -Command Invoke-PSMDTemplate -Parameter Encoding
 
 # Remove-PSMDTemplate
 Register-PSFTeppArgumentCompleter -Name PSMD_templatestore -Command Remove-PSMDTemplate -Parameter Store
