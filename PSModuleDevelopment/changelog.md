@@ -1,5 +1,5 @@
 ﻿# Changelog
-##
+## 2.2.6.65 (May 2nd, 2019)
  - New: Template: AzureFunctionRest - creates an azure function designed for rest API trigger.
  - Upd: Template: PSFProject added Azure Functions Project CI/CD integration.
  - Upd: Invoke-PSMDTemplate supports `-Encoding` parameter, defaulting to utf8 with BOM.
