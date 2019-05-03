@@ -50,6 +50,7 @@ foreach ($dependency in (Import-PowerShellDataFile -Path "$moduleRoot\$moduleNam
 
 # Generate function configuration
 Write-PSFMessage -Level Host -Message 'Generating function configuration'
+$runTemplate = Get-Content -Path "$($WorkingDirectory)\azFunctionResources\run.ps1" -Raw
 foreach ($functionName in (Get-ChildItem -Path "$($moduleRoot)\$moduleName\functions" -Recurse -Filter '*.ps1'))
 {
 	Write-PSFMessage -Level Host -Message "  Processing function: $functionName"
@@ -58,8 +59,6 @@ foreach ($functionName in (Get-ChildItem -Path "$($moduleRoot)\$moduleName\funct
 	
 	Set-Content -Path "$($functionFolder.FullName)\function.json" -Value @"
 {
-    "entryPoint": "$($functionName.BaseName)",
-    "scriptFile": "../Modules/$($moduleName)/$($moduleName).psm1",
     "bindings": [
         {
         "authLevel": "function",
@@ -81,22 +80,43 @@ foreach ($functionName in (Get-ChildItem -Path "$($moduleRoot)\$moduleName\funct
 }
 "@
 	# Implement overrides where specified by the user
-	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\$($functionName.BaseName).json")
+	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionName.BaseName).json")
 	{
-		Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\$($functionName.BaseName).json" -Destination "$($functionFolder.FullName)\function.json" -Force
+		Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionName.BaseName).json" -Destination "$($functionFolder.FullName)\function.json" -Force
 	}
-	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\$($condensedName).json")
+	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($condensedName).json")
 	{
-		Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\$($condensedName).json" -Destination "$($functionFolder.FullName)\function.json" -Force
+		Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($condensedName).json" -Destination "$($functionFolder.FullName)\function.json" -Force
 	}
+	$override = @{ }
+	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionName.BaseName).psd1")
+	{
+		$override = Import-PowerShellDataFile -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionName.BaseName).psd1"
+	}
+	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($condensedName).psd1")
+	{
+		$override = Import-PowerShellDataFile -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($condensedName).psd1"
+	}
+	
+	# Generate the run.ps1 file
+	$runText = $runTemplate -replace '%functionname%', $functionName.BaseName
+	if ($override.NoSerialize) { $runText -replace '\$serialize = \$true', '\$serialize = \$false' }
+	$runText | Set-Content -Path "$($functionFolder.FullName)\run.ps1" -Encoding UTF8
 }
 
 # Transfer common files
 Write-PSFMessage -Level Host -Message "Transfering core function data"
 Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\host.json" -Destination "$($workingroot.FullName)\"
 Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\local.settings.json" -Destination "$($workingroot.FullName)\"
-Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\profile.ps1" -Destination "$($workingroot.FullName)\"
-Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\root.psm1" -Destination "$($workingroot.FullName)\"
+
+# Build the profile file
+$text = @()
+$text += Get-Content -Path "$($WorkingDirectory)\azFunctionResources\profile.ps1" -Raw
+foreach ($functionFile in (Get-ChildItem "$($WorkingDirectory)\azFunctionResources\profileFunctions" -Recurse))
+{
+	$text += Get-Content -Path $functionFile.FullName -Raw
+}
+$text -join "`n`n" | Set-Content "$($workingroot.FullName)\profile.ps1"
 
 # Zip It
 Write-PSFMessage -Level Host -Message "Creating function archive in '$($WorkingDirectory)\$moduleName.zip'"

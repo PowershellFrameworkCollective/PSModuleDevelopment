@@ -1,4 +1,7 @@
 ﻿# Changelog
+## 2.2.6.68 (May 3rd, 2019)
+ - Upd: Template PSFProject - Improved Azure Functions creation experience
+
 ## 2.2.6.67 (May 2nd, 2019)
  - Upd: Invoke-PSMDTemplate adding tab completion
  - Fix: Invoke-PSMDTemplate fails to create templates
