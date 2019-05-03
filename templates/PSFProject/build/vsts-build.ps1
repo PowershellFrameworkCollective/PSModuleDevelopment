@@ -9,16 +9,14 @@ param (
 	
 	$WorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY,
 	
+	$Repository = 'PSGallery',
+	
 	[switch]
 	$LocalRepo,
 	
 	[switch]
 	$AutoVersion
 )
-
-#region Repository
-$repositoryName = 'PSGallery'
-#endregion Repository
 
 # Prepare publish folder
 Write-PSFMessage -Level Important -Message "Creating and populating publishing directory"
@@ -81,14 +79,14 @@ $fileData = $fileData.Replace('"<compile code into here>"', ($text -join "`n`n")
 if ($AutoVersion)
 {
 	Write-PSFMessage -Level Important -Message "Updating module version numbers."
-	try { [version]$remoteVersion = (Find-Module 'þnameþ' -Repository $repositoryName -ErrorAction Stop).Version }
+	try { [version]$remoteVersion = (Find-Module 'þnameþ' -Repository $Repository -ErrorAction Stop).Version }
 	catch
 	{
-		Stop-PSFFunction -Message "Failed to access $($repositoryName)" -EnableException $true -ErrorRecord $_
+		Stop-PSFFunction -Message "Failed to access $($Repository)" -EnableException $true -ErrorRecord $_
 	}
 	if (-not $remoteVersion)
 	{
-		Stop-PSFFunction -Message "Couldn't find þnameþ on repository $($repositoryName)" -EnableException $true
+		Stop-PSFFunction -Message "Couldn't find þnameþ on repository $($Repository)" -EnableException $true
 	}
 	$newBuildNumber = $remoteVersion.Build + 1
 	[version]$localVersion = (Import-PowerShellDataFile -Path "$($publishDir.FullName)\þnameþ\þnameþ.psd1").ModuleVersion
@@ -108,7 +106,7 @@ if ($LocalRepo)
 else
 {
 	# Publish to Gallery
-	Write-PSFMessage -Level Important -Message "Publishing the þnameþ module to $($repositoryName)"
-	Publish-Module -Path "$($publishDir.FullName)\þnameþ" -NuGetApiKey $ApiKey -Force -Repository $repositoryName
+	Write-PSFMessage -Level Important -Message "Publishing the þnameþ module to $($Repository)"
+	Publish-Module -Path "$($publishDir.FullName)\þnameþ" -NuGetApiKey $ApiKey -Force -Repository $Repository
 }
 #endregion Publish
