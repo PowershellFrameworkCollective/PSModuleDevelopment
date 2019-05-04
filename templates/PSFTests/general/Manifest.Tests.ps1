@@ -40,10 +40,17 @@
 		
 		foreach ($assembly in $manifest.RequiredAssemblies)
 		{
-			It "The file $assembly should exist" {
-				Test-Path "$moduleRoot\$assembly" | Should -Be $true
-			}
-		}
+            if ($assembly -contains ".dll") {
+                It "The file $assembly should exist" {
+                    Test-Path "$moduleRoot\$assembly" | Should -Be $true
+                }
+            }
+            else {
+                It "The file $assembly should load from the GAC" {
+                    { Add-Type -AssemblyName $assembly } | Should -Not -Throw
+                }
+            }
+        }
 		
 		foreach ($tag in $manifest.PrivateData.PSData.Tags)
 		{
