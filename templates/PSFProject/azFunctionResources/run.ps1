@@ -4,14 +4,8 @@
 	$TriggerMetadata
 )
 
-$parameters = Convert-AzureFunctionParameter -Request $Request
-if ($parameters.__PSSerialize)
-{
-	$usePSSerialize = $true
-	$parameters.Remove('__PSSerialize')
-}
-else { $usePSSerialize = $false }
-
+$parameterObject = Convert-AzureFunctionParameter -Request $Request
+$parameters = $parameterObject.Parameters
 try { $data = %functionname% @parameters }
 catch
 {
@@ -19,4 +13,4 @@ catch
 	return
 }
 
-Write-AzureFunctionOutput -Value $data -Serialize:$usePSSerialize
+Write-AzureFunctionOutput -Value $data -Serialize:$parameterObject.Serialize

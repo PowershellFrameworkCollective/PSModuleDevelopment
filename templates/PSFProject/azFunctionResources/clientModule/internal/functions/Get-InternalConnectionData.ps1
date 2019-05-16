@@ -61,10 +61,10 @@
 			Method  = $Method
 			Uri	    = $uri
 			Headers = $header
-			Body    = @{
+			Body    = (@{
 				__SerializedParameters = ($Parameters | ConvertTo-PSFHashtable | ConvertTo-PSFClixml)
 				__PSSerialize		   = $true
-			}
+			} | ConvertTo-Json)
 		}
 	}
 }

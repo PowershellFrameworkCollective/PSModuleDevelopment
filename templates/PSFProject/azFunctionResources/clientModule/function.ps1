@@ -5,6 +5,6 @@
 	process
 	{
 		$invokeParameters = Get-InternalConnectionData -Method '%method%' -Parameter $PSBoundParameters -FunctionName '%condensedname%'
-		Invoke-RestMethod @invokeParameters
+		Invoke-RestMethod @invokeParameters | ConvertFrom-PSFClixml
 	}
 }

@@ -66,18 +66,22 @@ if (-not $WorkingDirectory)
 }
 #endregion Handle Working Directory Defaults
 
+Write-PSFMessage -Level Host -Message 'Starting Build: Client Module'
 $parentModule = 'þnameþ'
 if (-not $ModuleName) { $ModuleName = 'þnameþ.Client' }
+Write-PSFMessage -Level Host -Message 'Creating Folder Structure'
 $workingRoot = New-Item -Path $WorkingDirectory -Name $ModuleName -ItemType Directory
 $publishRoot = Join-Path -Path $WorkingDirectory -ChildPath 'publish\þnameþ'
-$functionFolder = Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\clientModule\functions" -Destination "$($workingRoot.FullName)\" -Recurse -PassThru
+Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\clientModule\functions" -Destination "$($workingRoot.FullName)\" -Recurse
 Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\clientModule\internal" -Destination "$($workingRoot.FullName)\" -Recurse
 Copy-Item -Path "$($publishRoot)\en-us" -Destination "$($workingRoot.FullName)\" -Recurse
+$functionFolder = Get-Item -Path "$($workingRoot.FullName)\functions"
 
 #region Create Functions
 $encoding = [PSFEncoding]'utf8'
 $functionsText = Get-Content -Path "$($WorkingDirectory)\azFunctionResources\clientModule\function.ps1" -Raw
 
+Write-PSFMessage -Level Host -Message 'Creating Functions'
 foreach ($functionSourceFile in (Get-ChildItem -Path "$($publishRoot)\functions" -Recurse -Filter '*.ps1'))
 {
 	Write-PSFMessage -Level Host -Message "  Processing function: $($functionSourceFile.BaseName)"
@@ -106,9 +110,17 @@ foreach ($functionSourceFile in (Get-ChildItem -Path "$($publishRoot)\functions"
 		Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionSourceFile.BaseName).ps1" -Destination $functionFolder.FullName
 		continue
 	}
+	
+	# Figure out the Rest Method to use
+	$methodName = 'Post'
+	if ($override.RestMethods)
+	{
+		$methodName = $override.RestMethods | Where-Object { $_ -ne 'Get' } | Select-Object -First 1
+	}
+	
 	#endregion Load Overrides
 	
-	$currentFunctionsText = $functionsText -replace '%functionname%', $functionSourceFile.BaseName -replace '%condensedname%', $condensedName
+	$currentFunctionsText = $functionsText -replace '%functionname%', $functionSourceFile.BaseName -replace '%condensedname%', $condensedName -replace '%method%', $methodName
 	
 	$parsedFunction = Read-PSMDScript -Path $functionSourceFile.FullName
 	$functionAst = $parsedFunction.Ast.EndBlock.Statements | Where-Object {
@@ -119,6 +131,7 @@ foreach ($functionSourceFile in (Get-ChildItem -Path "$($publishRoot)\functions"
 	$start = $functionAst.Body.Extent.StartOffSet + 1
 	$currentFunctionsText = $currentFunctionsText.Replace('%parameter%', $functionAst.Body.Extent.Text.SubString(1, ($end - $start)))
 	
+	Write-PSFMessage -Level Host -Message "    Creating file: $($functionFolder.FullName)\$($functionSourceFile.Name)"
 	[System.IO.File]::WriteAllText("$($functionFolder.FullName)\$($functionSourceFile.Name)", $currentFunctionsText, $encoding)
 }
 $functionsToExport = (Get-ChildItem -Path $functionFolder.FullName -Recurse -Filter *.ps1).BaseName | Sort-Object
@@ -136,6 +149,8 @@ $paramNewModuleManifest = @{
 	FunctionsToExport = $functionsToExport
 	CompanyName	      = $originalManifestData.CompanyName
 	Author		      = $originalManifestData.Author
+	Description	      = $originalManifestData.Description
+	ModuleVersion	  = $originalManifestData.ModuleVersion
 	RootModule	      = ('{0}.psm1' -f $ModuleName)
 	Copyright		  = $originalManifestData.Copyright
 	TypesToProcess    = @()
@@ -143,15 +158,16 @@ $paramNewModuleManifest = @{
 	RequiredAssemblies = @()
 	RequiredModules   = @($prereqHash)
 	CompatiblePSEditions = 'Core', 'Desktop'
-	PowerShellVersion = 5.0
+	PowerShellVersion = '5.1'
 }
 
 if ($IncludeAssembly) { $paramNewModuleManifest.RequiredAssemblies = $originalManifestData.RequiredAssemblies }
 if ($IncludeFormat) { $paramNewModuleManifest.FormatsToProcess = $originalManifestData.FormatsToProcess }
 if ($IncludeType) { $paramNewModuleManifest.TypesToProcess = $originalManifestData.TypesToProcess }
-
+Write-PSFMessage -Level Host -Message "Creating Module Manifest for module: $ModuleName"
 New-ModuleManifest @paramNewModuleManifest
 
+Write-PSFMessage -Level Host -Message "Copying additional module files"
 Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\clientModule\moduleroot.psm1" -Destination "$($workingRoot.FullName)\$($ModuleName).psm1"
 Copy-Item -Path "$($WorkingDirectory)\LICENSE" -Destination "$($workingRoot.FullName)\"
 #endregion Create Core Module Files
@@ -172,14 +188,14 @@ if ($LocalRepo)
 {
 	# Dependencies must go first
 	Write-PSFMessage -Level Important -Message "Creating Nuget Package for module: PSFramework"
-	New-PSMDModuleNugetPackage -ModulePath (Get-Module -Name PSFramework).ModuleBase -PackagePath .
+	New-PSMDModuleNugetPackage -ModulePath (Get-Module -Name PSFramework).ModuleBase -PackagePath . -WarningAction SilentlyContinue
 	Write-PSFMessage -Level Important -Message "Creating Nuget Package for module: þnameþ"
-	New-PSMDModuleNugetPackage -ModulePath "$($publishDir.FullName)\þnameþ" -PackagePath .
+	New-PSMDModuleNugetPackage -ModulePath $workingRoot.FullName -PackagePath . -EnableException
 }
 else
 {
 	# Publish to Gallery
 	Write-PSFMessage -Level Important -Message "Publishing the þnameþ module to $($Repository)"
-	Publish-Module -Path "$($publishDir.FullName)\þnameþ" -NuGetApiKey $ApiKey -Force -Repository $Repository
+	Publish-Module -Path $workingRoot.FullName -NuGetApiKey $ApiKey -Force -Repository $Repository
 }
 #endregion Publish

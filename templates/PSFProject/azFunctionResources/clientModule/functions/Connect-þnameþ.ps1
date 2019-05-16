@@ -47,7 +47,7 @@
 			Set-PSFConfig -Module 'þnameþ' -Name 'Client.UnprotectedToken' -Value $UnprotectedToken
 			if ($Register) { Register-PSFConfig -Module 'þnameþ' -Name 'Client.UnprotectedToken' }
 		}
-		if (Test-PSFParameterBinding -ParameterName Url)
+		if (Test-PSFParameterBinding -ParameterName Uri)
 		{
 			Set-PSFConfig -Module 'þnameþ' -Name 'Client.Uri' -Value $Uri
 			if ($Register) { Register-PSFConfig -Module 'þnameþ' -Name 'Client.Uri' }
