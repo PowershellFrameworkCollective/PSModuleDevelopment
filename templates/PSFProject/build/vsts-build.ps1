@@ -7,7 +7,7 @@ Insert any build steps you may need to take before publishing it here.
 param (
 	$ApiKey,
 	
-	$WorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY,
+	$WorkingDirectory,
 	
 	$Repository = 'PSGallery',
 	
@@ -15,8 +15,22 @@ param (
 	$LocalRepo,
 	
 	[switch]
+	$SkipPublish,
+	
+	[switch]
 	$AutoVersion
 )
+
+#region Handle Working Directory Defaults
+if (-not $WorkingDirectory)
+{
+	if ($env:RELEASE_PRIMARYARTIFACTSOURCEALIAS)
+	{
+		$WorkingDirectory = Join-Path -Path $env:SYSTEM_DEFAULTWORKINGDIRECTORY -ChildPath $env:RELEASE_PRIMARYARTIFACTSOURCEALIAS
+	}
+	else { $WorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY }
+}
+#endregion Handle Working Directory Defaults
 
 # Prepare publish folder
 Write-PSFMessage -Level Important -Message "Creating and populating publishing directory"
@@ -95,6 +109,7 @@ if ($AutoVersion)
 #endregion Updating the Module Version
 
 #region Publish
+if ($SkipPublish) { return }
 if ($LocalRepo)
 {
 	# Dependencies must go first

@@ -16,6 +16,7 @@
 	
 		Converts the $request object into a regular hashtable.
 #>
+	[OutputType([System.Collections.Hashtable])]
 	[CmdletBinding()]
 	param (
 		$Request

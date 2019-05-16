@@ -51,11 +51,27 @@ foreach ($dependency in (Import-PowerShellDataFile -Path "$moduleRoot\$moduleNam
 # Generate function configuration
 Write-PSFMessage -Level Host -Message 'Generating function configuration'
 $runTemplate = Get-Content -Path "$($WorkingDirectory)\azFunctionResources\run.ps1" -Raw
-foreach ($functionName in (Get-ChildItem -Path "$($moduleRoot)\$moduleName\functions" -Recurse -Filter '*.ps1'))
+foreach ($functionSourceFile in (Get-ChildItem -Path "$($moduleRoot)\$moduleName\functions" -Recurse -Filter '*.ps1'))
 {
-	Write-PSFMessage -Level Host -Message "  Processing function: $functionName"
-	$condensedName = $functionName.BaseName -replace '-', ''
+	Write-PSFMessage -Level Host -Message "  Processing function: $functionSourceFile"
+	$condensedName = $functionSourceFile.BaseName -replace '-', ''
 	$functionFolder = New-Item -Path $workingRoot.FullName -Name $condensedName -ItemType Directory
+	
+	#region Load Overrides
+	$override = @{ }
+	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionSourceFile.BaseName).psd1")
+	{
+		$override = Import-PowerShellDataFile -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionSourceFile.BaseName).psd1"
+	}
+	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($condensedName).psd1")
+	{
+		$override = Import-PowerShellDataFile -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($condensedName).psd1"
+	}
+	#endregion Load Overrides
+	
+	#region Create Function Configuration
+	$restMethods = 'get', 'post'
+	if ($override.RestMethods) { $restMethods = $override.RestMethods }
 	
 	Set-Content -Path "$($functionFolder.FullName)\function.json" -Value @"
 {
@@ -66,8 +82,8 @@ foreach ($functionName in (Get-ChildItem -Path "$($moduleRoot)\$moduleName\funct
         "direction": "in",
         "name": "Request",
         "methods": [
-            "get",
-            "post"
+            "$($restMethods -join "`",
+            `"")"
         ]
         },
         {
@@ -79,28 +95,21 @@ foreach ($functionName in (Get-ChildItem -Path "$($moduleRoot)\$moduleName\funct
     "disabled": false
 }
 "@
-	# Implement overrides where specified by the user
-	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionName.BaseName).json")
+	#endregion Create Function Configuration
+	
+	#region Override Function Configuration
+	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionSourceFile.BaseName).json")
 	{
-		Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionName.BaseName).json" -Destination "$($functionFolder.FullName)\function.json" -Force
+		Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionSourceFile.BaseName).json" -Destination "$($functionFolder.FullName)\function.json" -Force
 	}
 	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($condensedName).json")
 	{
 		Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($condensedName).json" -Destination "$($functionFolder.FullName)\function.json" -Force
 	}
-	$override = @{ }
-	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionName.BaseName).psd1")
-	{
-		$override = Import-PowerShellDataFile -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($functionName.BaseName).psd1"
-	}
-	if (Test-Path -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($condensedName).psd1")
-	{
-		$override = Import-PowerShellDataFile -Path "$($WorkingDirectory)\azFunctionResources\functionOverride\$($condensedName).psd1"
-	}
+	#endregion Override Function Configuration
 	
 	# Generate the run.ps1 file
-	$runText = $runTemplate -replace '%functionname%', $functionName.BaseName
-	if ($override.NoSerialize) { $runText -replace '\$serialize = \$true', '\$serialize = \$false' }
+	$runText = $runTemplate -replace '%functionname%', $functionSourceFile.BaseName
 	$runText | Set-Content -Path "$($functionFolder.FullName)\run.ps1" -Encoding UTF8
 }
 

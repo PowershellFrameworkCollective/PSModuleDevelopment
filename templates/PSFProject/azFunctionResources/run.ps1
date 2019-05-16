@@ -5,6 +5,12 @@
 )
 
 $parameters = Convert-AzureFunctionParameter -Request $Request
+if ($parameters.__PSSerialize)
+{
+	$usePSSerialize = $true
+	$parameters.Remove('__PSSerialize')
+}
+else { $usePSSerialize = $false }
 
 try { $data = %functionname% @parameters }
 catch
@@ -13,7 +19,4 @@ catch
 	return
 }
 
-# This is automatically updated by the build script if there is a custom override for function
-$serialize = $true
-
-Write-AzureFunctionOutput -Value $data -Serialize:$serialize
+Write-AzureFunctionOutput -Value $data -Serialize:$usePSSerialize
