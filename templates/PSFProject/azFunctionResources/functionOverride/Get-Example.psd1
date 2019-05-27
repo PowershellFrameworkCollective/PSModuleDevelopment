@@ -1,4 +1,7 @@
 ﻿@{
-	# Setting this to $true will cause the azure function to use Json serialization, rather than PowerShell Serialization
-	'NoSerialize' = $true
+	# Override the rest methods used for the API endpoint
+	# RestMethods = 'delete'
+	
+	# Override inclusion into client module
+	# NoClientFunction
 }

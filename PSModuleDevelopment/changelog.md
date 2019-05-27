@@ -1,4 +1,10 @@
 ﻿# Changelog
+## 2.2.6.72 (May 27th, 2019)
+ - New: Template AzureFunction - Creates a basic azure function scaffold
+ - New: Template AzureFunctionTimer - Creates a timer triggered Azure Function
+ - Upd: Template AzureFunctionRest - Redesigned to only spawn a function rest endpoint to insert into the base AzureFunction template.
+ - Upd: Template PSFProject - Improved Azure Functions creation experience, added client module support.
+
 ## 2.2.6.68 (May 3rd, 2019)
  - Upd: Template PSFProject - Improved Azure Functions creation experience
 

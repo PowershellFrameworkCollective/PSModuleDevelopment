@@ -16,28 +16,36 @@
 	
 		Converts the $request object into a regular hashtable.
 #>
+	[OutputType([System.Collections.Hashtable])]
 	[CmdletBinding()]
 	param (
 		$Request
 	)
 	
-	$parameters = @{ }
+	$parameterObject = [pscustomobject]@{
+		Parameters = @{ }
+		Serialize = $false
+	}
 	
 	foreach ($key in $Request.Query.Keys)
 	{
 		# Do NOT include the authentication key
 		if ($key -eq 'code') { continue }
-		$parameters[$key] = $Request.Query.$key
+		$parameterObject.Parameters[$key] = $Request.Query.$key
 	}
 	foreach ($key in $Request.Body.Keys)
 	{
-		$parameters[$key] = $Request.Body.$key
+		$parameterObject.Parameters[$key] = $Request.Body.$key
 	}
-	
-	if (($parameters.Count -eq 1) -and ($parameters.__SerializedParameters))
+	if ($parameterObject.Parameters.__PSSerialize)
 	{
-		return $parameters.__SerializedParameters | ConvertFrom-PSFClixml
+		$parameterObject.Serialize = $true
+		$null = $parameterObject.Parameters.Remove('__PSSerialize')
+	}
+	if ($parameterObject.Parameters.__SerializedParameters)
+	{
+		$parameterObject.Parameters = $parameterObject.Parameters.__SerializedParameters | ConvertFrom-PSFClixml
 	}
 	
-	$parameters
+	$parameterObject
 }
