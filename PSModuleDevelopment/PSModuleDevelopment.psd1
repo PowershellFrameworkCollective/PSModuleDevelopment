@@ -65,6 +65,7 @@
 	# Functions to export from this module
     FunctionsToExport = @(
 		'Expand-PSMDTypeName',
+		'Export-PSMDString',
 		'Find-PSMDFileContent',
 		'Find-PSMDType',
 		'Format-PSMDParameter',
