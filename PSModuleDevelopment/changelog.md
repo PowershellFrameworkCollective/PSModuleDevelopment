@@ -1,4 +1,7 @@
 ﻿# Changelog
+##
+ - New: Export-PSMDString - Parses strings from modules using the PSFramework localization feature.
+
 ## 2.2.6.72 (May 27th, 2019)
  - New: Template AzureFunction - Creates a basic azure function scaffold
  - New: Template AzureFunctionTimer - Creates a timer triggered Azure Function
