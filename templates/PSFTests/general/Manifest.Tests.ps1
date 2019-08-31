@@ -40,7 +40,7 @@
 		
 		foreach ($assembly in $manifest.RequiredAssemblies)
 		{
-            if ($assembly -contains ".dll") {
+            if ($assembly -like "*.dll") {
                 It "The file $assembly should exist" {
                     Test-Path "$moduleRoot\$assembly" | Should -Be $true
                 }
