@@ -175,6 +175,6 @@
 			Export-Clixml -InputObject $newModules -Path (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Debug.ConfigPath')
 		}
 		#endregion Name
-	}	
+	}
 }
 Set-Alias -Name smd -Value Set-PSMDModuleDebug -Option AllScope -Scope Global

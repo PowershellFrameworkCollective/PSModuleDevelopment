@@ -1,6 +1,5 @@
 ﻿function Measure-PSMDCommand
 {
-	
 	<#
 		.SYNOPSIS
 			Measures command performance with consecutive tests.
@@ -12,10 +11,10 @@
 			This is best suited for measuring the performance of tasks that will later be run repeatedly as well.
 			It also is useful for mitigating local performance fluctuations when comparing performances.
 	
-		PARAMETER ScriptBlock
+		.PARAMETER ScriptBlock
 			The scriptblock whose performance is to be measure.
 	
-		PARAMETER Iterations
+		.PARAMETER Iterations
 			How many times should this performance test be repeated.
 	
 		.PARAMETER TestSet
