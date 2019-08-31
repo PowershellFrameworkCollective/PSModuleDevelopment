@@ -3,10 +3,13 @@
 # Load the strings used in messages
 . Import-ModuleFile -Path "$($script:ModuleRoot)\internal\scripts\strings.ps1"
 
+# Load Variables needed during import
+. Import-ModuleFile -Path "$($script:ModuleRoot)\internal\scripts\variables.ps1"
+
 # Load Configurations
 <#
 Usually configuration is imported after most of the module has been imported.
-This module is an exception to this, since a significant amount of its tasks are performed on import.
+This module is an exception to this, as some of its tasks are performed on import.
 #>
 foreach ($file in (Get-ChildItem "$($script:ModuleRoot)\internal\configurations\*.ps1" -ErrorAction Ignore))
 {

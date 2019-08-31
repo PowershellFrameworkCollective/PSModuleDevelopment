@@ -15,11 +15,6 @@
 			PS C:\> Get-PSMDModuleDebug -Filter *net*
 	
 			Returns the module debugging configuration for all modules with a name that contains "net"
-		
-		.NOTES
-			Version 1.1.0.0
-            Author: Friedrich Weinmann
-            Created on: August 7th, 2016
 	#>
 	[CmdletBinding()]
 	Param (
@@ -27,5 +22,10 @@
 		$Filter = "*"
 	)
 	
-	Import-Clixml $PSModuleDevelopment_ModuleConfigPath | Where-Object { ($_.Name -like $Filter) -and ($_.Name.Length -gt 0) }
+	process
+	{
+		Import-Clixml -Path (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Debug.ConfigPath') | Where-Object {
+			($_.Name -like $Filter) -and ($_.Name.Length -gt 0)
+		}
+	}
 }

@@ -2,5 +2,6 @@
 # In the order they are loaded during preimport
 
 internal\scripts\strings.ps1
+internal\scripts\variables.ps1
 internal\configurations\*.ps1
 internal\scripts\initialize.ps1

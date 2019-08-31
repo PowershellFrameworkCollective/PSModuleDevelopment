@@ -1,1 +1,1 @@
-﻿
+﻿Set-PSFConfig -Module PSModuleDevelopment -Name 'Debug.ConfigPath' -Value "$($path_FileUserShared)\InfernalAssociates\PowerShell\PSModuleDevelopment\config.xml" -Initialize -Validation string -Description 'The path to where the module debugging information is being stored. Used in the *-PSMDModuleDebug commands.'

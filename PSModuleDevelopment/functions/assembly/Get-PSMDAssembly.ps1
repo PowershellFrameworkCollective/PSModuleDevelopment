@@ -27,5 +27,8 @@
 		$Filter = "*"
 	)
 	
-	[appdomain]::CurrentDomain.GetAssemblies() | Where-Object FullName -Like $Filter
+	process
+	{
+		[appdomain]::CurrentDomain.GetAssemblies() | Where-Object FullName -Like $Filter
+	}
 }

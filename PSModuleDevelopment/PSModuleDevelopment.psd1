@@ -72,7 +72,7 @@
 		'Get-PSMDArgumentCompleter',
 		'Get-PSMDAssembly',
 		'Get-PSMDConstructor',
-		'Get-PSMDHelpEx',
+		'Get-PSMDHelp',
 		'Get-PSMDMember',
 		'Get-PSMDModuleDebug',
 		'Get-PSMDTemplate',
@@ -136,7 +136,7 @@
 			Tags = @('Development', 'Module')
 
 			# A URL to the license for this module.
-			# LicenseUri = ''
+			LicenseUri = 'https://github.com/PowershellFrameworkCollective/PSModuleDevelopment/blob/development/LICENSE'
 
 			# A URL to the main website for this project.
 			ProjectUri = 'http://psframework.org'

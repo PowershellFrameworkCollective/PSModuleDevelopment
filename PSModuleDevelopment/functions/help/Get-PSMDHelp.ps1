@@ -1,11 +1,11 @@
-﻿Function Get-PSMDHelpEx
+﻿Function Get-PSMDHelp
 {
 	<#
 		.SYNOPSIS
 			Displays localized information about Windows PowerShell commands and concepts.
 	
 		.DESCRIPTION
-			The Get-PSMDHelpEx function is a wrapper around get-help that allows localizing help queries.
+			The Get-PSMDHelp function is a wrapper around get-help that allows localizing help queries.
 			This is especially useful when developing modules with help in multiple languages.
 	
 		.PARAMETER Category
@@ -110,7 +110,7 @@
 		    This parameter is introduced in Windows PowerShell 3.0.
 	
 		.EXAMPLE
-			PS C:\> Get-PSMDHelpEx Get-Help "en-us" -Detailed
+			PS C:\> Get-PSMDHelp Get-Help "en-us" -Detailed
 	
 			Gets the detailed help text of Get-Help in English
 	
@@ -188,9 +188,7 @@
 		}
 		
 		# Prepare Splat for splatting a steppable pipeline
-		$splat = $PSBoundParameters
-		if ($splat.ContainsKey("Language")) { $null = $splat.Remove("Language") }
-		if ($splat.ContainsKey("SetLanguage")) { $null = $splat.Remove("SetLanguage") }
+		$splat = $PSBoundParameters | ConvertTo-PSFHashtable -Exclude Language, SetLanguage
 		
 		try
 		{
@@ -212,4 +210,4 @@
 		catch { throw }
 	}
 }
-New-Alias -Name hex -Value Get-PSMDHelpEx -Scope Global -Option AllScope
+New-Alias -Name hex -Value Get-PSMDHelp -Scope Global -Option AllScope
