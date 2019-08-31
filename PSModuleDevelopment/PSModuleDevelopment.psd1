@@ -4,7 +4,7 @@
 	RootModule = 'PSModuleDevelopment.psm1'
 
 	# Version number of this module.
-	ModuleVersion = '2.2.6.72'
+	ModuleVersion = '2.2.7.90'
 
 	# ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -42,7 +42,7 @@
 	# Modules that must be imported into the global environment prior to importing
 	# this module
 	RequiredModules	       = @(
-		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.19' }
+		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.35' }
 	)
 
 	# Assemblies that must be loaded prior to importing this module
@@ -72,13 +72,13 @@
 		'Get-PSMDArgumentCompleter',
 		'Get-PSMDAssembly',
 		'Get-PSMDConstructor',
-		'Get-PSMDHelpEx',
+		'Get-PSMDHelp',
 		'Get-PSMDMember',
 		'Get-PSMDModuleDebug',
 		'Get-PSMDTemplate',
 		'Import-PSMDModuleDebug',
 		'Invoke-PSMDTemplate',
-		'Measure-PSMDCommandEx',
+		'Measure-PSMDCommand',
 		'Measure-PSMDLinesOfCode',
 		'New-PSMDDotNetProject',
 		'New-PSMDHeader',
@@ -136,7 +136,7 @@
 			Tags = @('Development', 'Module')
 
 			# A URL to the license for this module.
-			# LicenseUri = ''
+			LicenseUri = 'https://github.com/PowershellFrameworkCollective/PSModuleDevelopment/blob/development/LICENSE'
 
 			# A URL to the main website for this project.
 			ProjectUri = 'http://psframework.org'

@@ -25,3 +25,7 @@ sh.exe.stackdump
 
 # ignore the TestResults
 TestResults/*
+
+# ignore the build & publishing Directories
+publish/*
+Templates_Build/*

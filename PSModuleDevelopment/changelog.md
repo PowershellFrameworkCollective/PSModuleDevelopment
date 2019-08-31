@@ -1,6 +1,23 @@
 ﻿# Changelog
-##
+## 2.2.7.90 (September 1st, 2019)
  - New: Export-PSMDString - Parses strings from modules using the PSFramework localization feature.
+ - Upd: Measure-PSMDCommand - Renamed from Measure-PSMDCommandEx, performance upgrades, adding option for comparing multiple test sets.
+ - Upd: Refactored and updated the ModuleDebug component
+ - Upd: Renamed Get-PSMDHelpEx to Get-PSMDHelp
+ - Upd: Template PSFProject - Adding `-IncludAZ` switch parameter to `vsts-packageFunction.ps1`, making the template include the AZ module as managed dependency.
+ - Upd: Template PSFProject - yaml file for AzDev PR validation pipeline
+ - Upd: Refactored module structure to comply with current Fred Reference Architecture
+ - Upd: Template PSFTests - Added localization string tests
+ - Upd: Remove-PSMDTemplate - Refactored and updated messaging / ShouldProcess implementation
+ - Upd: Find-PSMDFileContent - Updated extension filtering to be configurable and include .cs files by default.
+ - Upd: Get-PSMDArgumentCompleter - Refactoring and minor performance improvement
+ - Upd: Restart-PSMDShell - Will restart same application as current process, enabling it to restart on core versions
+ - Fix: Template PSFProject - Publish Folder created during build is created using `-Force`
+ - Fix: Template PSFProject - Cleaning up Azure Function conversion
+ - Fix: Template PSFTests - Encoding test no longer fails on core (#104)
+ - Fix: Template PSFTests - Referenced DLLs from GAC will fail as path cannot be found (#100)
+ - Fix: Template Module - RootModule | 3-element version | Module Import from UNC path
+ - Fix: Template-System - Bad default template store path on linux or mac. (#106)
 
 ## 2.2.6.72 (May 27th, 2019)
  - New: Template AzureFunction - Creates a basic azure function scaffold

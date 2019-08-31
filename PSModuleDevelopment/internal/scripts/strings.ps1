@@ -1,4 +1,4 @@
-﻿foreach ($resolvedPath in (Resolve-PSFPath -Path "$($script:PSModuleRoot)\en-us\*.psd1"))
+﻿foreach ($resolvedPath in (Resolve-PSFPath -Path "$($script:ModuleRoot)\en-us\*.psd1"))
 {
 	$data = Import-PowerShellDataFile -Path $resolvedPath
 	
