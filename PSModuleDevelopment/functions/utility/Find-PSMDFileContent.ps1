@@ -37,8 +37,8 @@
 		[string]
 		$Pattern,
 		
-		[string[]]
-		$Extension = @(".ps1", ".psd1", ".psm1"),
+		[string]
+		$Extension = (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Find.DefaultExtensions'),
 		
 		[string]
 		$Path = (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Module.Path'),
@@ -59,11 +59,7 @@
 	{
 		if (Test-PSFFunctionInterrupt) { return }
 		
-		Get-ChildItem -Path $Path -Recurse | Where-Object Extension -In $Extension | Select-String -Pattern $Pattern
-	}
-	end
-	{
-		if (Test-PSFFunctionInterrupt) { return }
+		Get-ChildItem -Path $Path -Recurse | Where-Object Extension -Match $Extension | Select-String -Pattern $Pattern
 	}
 }
 New-Alias -Name find -Value Find-PSMDFileContent -Scope Global -Option AllScope

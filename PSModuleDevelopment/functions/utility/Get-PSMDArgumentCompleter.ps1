@@ -32,18 +32,8 @@
 
 	begin
 	{
-        $internalExecutionContext = [PSFramework.Utility.UtilityHost]::GetExecutionContextFromTLS()
-        $customArgumentCompletersProperty = $internalExecutionContext.GetType().GetProperty(
-            'CustomArgumentCompleters',
-            [System.Reflection.BindingFlags]'NonPublic, Instance'
-        )
-        $customArgumentCompleters = $customArgumentCompletersProperty.GetGetMethod($true).Invoke(
-            $internalExecutionContext,
-            [System.Reflection.BindingFlags]'Instance, NonPublic, GetProperty',
-            $null,
-            @(),
-            $psculture
-        )
+		$internalExecutionContext = [PSFramework.Utility.UtilityHost]::GetExecutionContextFromTLS()
+		$customArgumentCompleters = [PSFramework.Utility.UtilityHost]::GetPrivateProperty('CustomArgumentCompleters', $internalExecutionContext)
 	}
 	process
 	{
@@ -55,7 +45,7 @@
             {
                 if ($parameter -like $ParameterName)
                 {
-                    New-Object PSObject -Property @{
+                    [pscustomobject]@{
                         CommandName   = $name
                         ParameterName = $parameter
                         Definition    = $customArgumentCompleters[$argumentCompleter]

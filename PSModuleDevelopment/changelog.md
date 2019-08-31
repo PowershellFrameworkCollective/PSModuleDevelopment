@@ -7,6 +7,8 @@
  - Upd: Template PSFProject - Adding `-IncludAZ` switch parameter to `vsts-packageFunction.ps1`, making the template include the AZ module as managed dependency.
  - Upd: Refactored module structure to comply with current Fred Reference Architecture
  - Upd: Template PSFTests - Added localization string tests
+ - Upd: Remove-PSMDTemplate - Refactored and updated messaging / ShouldProcess implementation
+ - Upd: Find-PSMDFileContent - Updated extension filtering to be configurable and include .cs files by default.
  - Fix: Template PSFProject - Publish Folder created during build is created using `-Force`
  - Fix: Template PSFProject - Cleaning up Azure Function conversion
  - Fix: Template PSFTests - Encoding test no longer fails on core (#104)

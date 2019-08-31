@@ -78,8 +78,6 @@
 	
 	begin
 	{
-		Write-PSFMessage -Level InternalComment -Message "Bound parameters: $($PSBoundParameters.Keys -join ", ")" -Tag 'debug', 'start', 'param'
-		
 		$templates = @()
 		switch ($PSCmdlet.ParameterSetName)
 		{
@@ -139,23 +137,15 @@
 	{
 		foreach ($item in $Template)
 		{
-			if ($PSCmdlet.ShouldProcess($item, "Remove template"))
-			{
-				try { Remove-Template -Template $item }
-				catch { Stop-PSFFunction -Message "Failed to remove template $($item)" -EnableException $EnableException -ErrorRecord $_ -Target $item -Tag 'fail', 'template', 'remove' -Continue }
-			}
+			Invoke-PSFProtectedCommand -ActionString 'Remove-PSMDTemplate.Removing.Template' -Target $item.Name -ScriptBlock {
+				Remove-Template -Template $item
+			} -EnableException $EnableException.ToBool() -PSCmdlet $PSCmdlet -Continue -ActionStringValues $item.Name, $item.Version, $item.Store
 		}
 		foreach ($item in $templates)
 		{
-			if ($PSCmdlet.ShouldProcess($item, "Remove template"))
-			{
-				try { Remove-Template -Template $item }
-				catch { Stop-PSFFunction -Message "Failed to remove template $($item)" -EnableException $EnableException -ErrorRecord $_ -Target $item -Tag 'fail', 'template', 'remove' -Continue }
-			}
+			Invoke-PSFProtectedCommand -ActionString 'Remove-PSMDTemplate.Removing.Template' -Target $item.Name -ScriptBlock {
+				Remove-Template -Template $item
+			} -EnableException $EnableException.ToBool() -PSCmdlet $PSCmdlet -Continue -ActionStringValues $item.Name, $item.Version, $item.Store
 		}
-	}
-	end
-	{
-	
 	}
 }
