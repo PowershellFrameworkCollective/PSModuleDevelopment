@@ -5,6 +5,7 @@
  - Upd: Refactored and updated the ModuleDebug component
  - Upd: Renamed Get-PSMDHelpEx to Get-PSMDHelp
  - Upd: Template PSFProject - Adding `-IncludAZ` switch parameter to `vsts-packageFunction.ps1`, making the template include the AZ module as managed dependency.
+ - Upd: Template PSFProject - yaml file for AzDev PR validation pipeline
  - Upd: Refactored module structure to comply with current Fred Reference Architecture
  - Upd: Template PSFTests - Added localization string tests
  - Upd: Remove-PSMDTemplate - Refactored and updated messaging / ShouldProcess implementation
