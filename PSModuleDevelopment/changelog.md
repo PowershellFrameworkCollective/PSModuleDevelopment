@@ -9,6 +9,8 @@
  - Upd: Template PSFTests - Added localization string tests
  - Upd: Remove-PSMDTemplate - Refactored and updated messaging / ShouldProcess implementation
  - Upd: Find-PSMDFileContent - Updated extension filtering to be configurable and include .cs files by default.
+ - Upd: Get-PSMDArgumentCompleter - Refactoring and minor performance improvement
+ - Upd: Restart-PSMDShell - Will restart same application as current process, enabling it to restart on core versions
  - Fix: Template PSFProject - Publish Folder created during build is created using `-Force`
  - Fix: Template PSFProject - Cleaning up Azure Function conversion
  - Fix: Template PSFTests - Encoding test no longer fails on core (#104)

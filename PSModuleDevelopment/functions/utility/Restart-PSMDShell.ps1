@@ -51,19 +51,26 @@
 		$NoProfile
 	)
 	
-	if ($PSCmdlet.ShouldProcess("Current shell", "Restart"))
+	begin
 	{
-		if ($NoProfile)
+		$powershellPath = (Get-Process -id $pid).Path
+	}
+	process
+	{
+		if ($PSCmdlet.ShouldProcess("Current shell", "Restart"))
 		{
-			if ($Admin) { Start-Process powershell.exe -Verb RunAs -ArgumentList '-NoProfile' }
-			else { Start-Process powershell.exe -ArgumentList '-NoProfile' }
+			if ($NoProfile)
+			{
+				if ($Admin) { Start-Process $powershellPath -Verb RunAs -ArgumentList '-NoProfile' }
+				else { Start-Process $powershellPath -ArgumentList '-NoProfile' }
+			}
+			else
+			{
+				if ($Admin) { Start-Process $powershellPath -Verb RunAs }
+				else { Start-Process $powershellPath }
+			}
+			if (-not $NoExit) { exit }
 		}
-		else
-		{
-			if ($Admin) { Start-Process powershell.exe -Verb RunAs }
-			else { Start-Process powershell.exe }
-		}
-		if (-not $NoExit) { exit }
 	}
 }
 New-Alias -Name Restart-Shell -Value Restart-PSMDShell -Option AllScope -Scope Global
