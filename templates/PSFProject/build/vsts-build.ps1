@@ -34,7 +34,7 @@ if (-not $WorkingDirectory)
 
 # Prepare publish folder
 Write-PSFMessage -Level Important -Message "Creating and populating publishing directory"
-$publishDir = New-Item -Path $WorkingDirectory -Name publish -ItemType Directory
+$publishDir = New-Item -Path $WorkingDirectory -Name publish -ItemType Directory -Force
 Copy-Item -Path "$($WorkingDirectory)\þnameþ" -Destination $publishDir.FullName -Recurse -Force
 
 #region Gather text data to compile

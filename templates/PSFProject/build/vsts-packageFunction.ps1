@@ -1,10 +1,10 @@
 ﻿
 <#
 	.SYNOPSIS
-		Packages a Azure Functions project, ready to release.
+		Packages an Azure Functions project, ready to release.
 	
 	.DESCRIPTION
-		Packages a Azure Functions project, ready to release.
+		Packages an Azure Functions project, ready to release.
 		Should be part of the release pipeline, after ensuring validation.
 
 		Look into the 'AzureFunctionRest' template for generating functions for the module if you do.
@@ -18,7 +18,10 @@
 param (
 	$WorkingDirectory = "$($env:SYSTEM_DEFAULTWORKINGDIRECTORY)\_þnameþ",
 	
-	$Repository = 'PSGallery'
+	$Repository = 'PSGallery',
+
+	[switch]
+	$IncludeAZ
 )
 
 $moduleName = 'þnameþ'
@@ -115,7 +118,15 @@ foreach ($functionSourceFile in (Get-ChildItem -Path "$($moduleRoot)\$moduleName
 
 # Transfer common files
 Write-PSFMessage -Level Host -Message "Transfering core function data"
-Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\host.json" -Destination "$($workingroot.FullName)\"
+if ($IncludeAZ)
+{
+	Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\host-az.json" -Destination "$($workingroot.FullName)\host.json"
+	Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\requirements.psd1" -Destination "$($workingroot.FullName)\"
+}
+else
+{
+	Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\host.json" -Destination "$($workingroot.FullName)\"
+}
 Copy-Item -Path "$($WorkingDirectory)\azFunctionResources\local.settings.json" -Destination "$($workingroot.FullName)\"
 
 # Build the profile file
