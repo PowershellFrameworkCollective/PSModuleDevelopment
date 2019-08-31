@@ -27,8 +27,8 @@ function Import-ModuleFile
 		$Path
 	)
 	
-	if ($script:dontDotSource) { $ExecutionContext.InvokeCommand.InvokeScript($false, ([scriptblock]::Create([io.file]::ReadAllText((Resolve-Path $Path)))), $null, $null) }
-	else { . (Resolve-Path $Path) }
+	if ($script:dontDotSource) { $ExecutionContext.InvokeCommand.InvokeScript($false, ([scriptblock]::Create([io.file]::ReadAllText((Resolve-Path $Path).ProviderPath))), $null, $null) }
+	else { . (Resolve-Path $Path).ProviderPath }
 }
 #endregion Helper function
 

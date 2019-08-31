@@ -174,10 +174,6 @@
 			& dotnet.exe new $dotNetArgs
 		}
 	}
-	end
-	{
-		
-	}
 }
 
 New-Alias -Name dotnetnew -Value New-PSMDDotNetProject -Option AllScope -Scope Global -ErrorAction Ignore

@@ -35,14 +35,14 @@
 	
 	Begin
 	{
-		$allModules = Import-Clixml -Path $PSModuleDevelopment_ModuleConfigPath
+		$allModules = Import-Clixml -Path (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Debug.ConfigPath')
 	}
 	Process
 	{
-		foreach ($n in $Name)
+		foreach ($nameItem in $Name)
 		{
-			($allModules) | Where-Object { $_.Name -like $n } | ForEach-Object {
-				if ($PSCmdlet.ShouldProcess($_.Name, "Remove from list of modules configured for debugging"))
+			($allModules) | Where-Object { $_.Name -like $nameItem } | ForEach-Object {
+				if (Test-PSFShouldProcess -Target $_.Name -Action 'Remove from list of modules configured for debugging' -PSCmdlet $PSCmdlet)
 				{
 					$Module = $_
 					$allModules = $allModules | Where-Object { $_ -ne $Module }
@@ -52,6 +52,6 @@
 	}
 	End
 	{
-		Export-Clixml -InputObject $allModules -Path $PSModuleDevelopment_ModuleConfigPath -Depth 99
+		Export-Clixml -InputObject $allModules -Path (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Debug.ConfigPath') -Depth 99
 	}
 }

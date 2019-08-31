@@ -154,7 +154,6 @@
 	
 	begin
 	{
-		Write-PSFMessage -Level InternalComment -Message "Bound parameters: $($PSBoundParameters.Keys -join ", ")" -Tag 'debug', 'start', 'param'
 		#region Insert basic meta-data
 		$identifier = [regex]::Escape(( Get-PSFConfigValue -FullName 'psmoduledevelopment.template.identifier' -Fallback 'þ' ))
 		$binaryExtensions = Get-PSFConfigValue -FullName 'PSModuleDevelopment.Template.BinaryExtensions' -Fallback @('.dll', '.exe', '.pdf', '.doc', '.docx', '.xls', '.xlsx')

@@ -28,10 +28,6 @@
 		$Filter = "*"
 	)
 	
-	begin
-	{
-		
-	}
 	process
 	{
 		Get-PSFConfig -FullName "PSModuleDevelopment.Template.Store.$Filter" | ForEach-Object {
@@ -40,9 +36,5 @@
 				Name  = $_.Name -replace "^.+\."
 			}
 		}
-	}
-	end
-	{
-	
 	}
 }

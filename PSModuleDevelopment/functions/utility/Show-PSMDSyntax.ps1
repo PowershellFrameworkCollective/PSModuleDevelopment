@@ -75,7 +75,7 @@
 	#Match to find the command name: Non-Whitespace until the first whitespace
 	$commandMatch = ($CommandText | Select-String '\S+\s*').Matches
 	
-	if ($null -eq $commandMatch)
+	if (-not $commandMatch)
 	{
 		Write-PSFMessage -Level Host -Message "The function was unable to extract a valid command name from the supplied command text. Please try again."
 		Stop-PSFFunction -Message "Stopping because of missing command name."
@@ -86,7 +86,7 @@
 	
 	$res = Get-Command $commandName -ErrorAction Ignore
 	
-	if ($null -eq $res)
+	if (-not $res)
 	{
 		Write-PSFMessage -Level Host -Message "The function was unable to get the help of the command. Make sure that the command name is valid and try again."
 		Stop-PSFFunction -Message "Stopping because command name didn't return any help."
@@ -96,13 +96,18 @@
 	$sbHelp = New-Object System.Text.StringBuilder
 	$sbParmsNotFound = New-Object System.Text.StringBuilder
 	
+	if (-not ($CommandText | Select-String '\s{1}[-]\S+' -AllMatches).Matches)
+	{
+		$Mode = 'ShowParameters'
+	}
+	
 	switch ($Mode)
 	{
 		"Validate" {
-			#Match to find the parameters: Whitespace Dash Non-Whitespace
+			# Match to find the parameters: Whitespace Dash Non-Whitespace
 			$inputParameterMatch = ($CommandText | Select-String '\s{1}[-]\S+' -AllMatches).Matches
 			
-			if (-not ($null -eq $inputParameterMatch))
+			if ($inputParameterMatch)
 			{
 				$inputParameterNames = $inputParameterMatch.Value.Trim("-", " ")
 				Write-PSFMessage -Level Verbose -Message "All input parameters - $($inputParameterNames -join ",")" -Target ($inputParameterNames -join ",")
