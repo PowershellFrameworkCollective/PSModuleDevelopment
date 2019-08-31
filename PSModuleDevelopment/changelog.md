@@ -1,5 +1,5 @@
 ﻿# Changelog
-##
+## 2.2.7.90 (September 1st, 2019)
  - New: Export-PSMDString - Parses strings from modules using the PSFramework localization feature.
  - Upd: Measure-PSMDCommand - Renamed from Measure-PSMDCommandEx, performance upgrades, adding option for comparing multiple test sets.
  - Upd: Refactored and updated the ModuleDebug component
