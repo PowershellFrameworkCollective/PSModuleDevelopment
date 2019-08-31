@@ -1,6 +1,6 @@
 ﻿@{
 	TemplateName = 'module'
-	Version = "1.1.0.0"
+	Version = "1.1.1.0"
 	AutoIncrementVersion = $true
 	Tags = 'module'
 	Author = 'Friedrich Weinmann'
