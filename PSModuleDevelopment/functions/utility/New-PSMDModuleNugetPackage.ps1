@@ -48,8 +48,6 @@
 	
 	begin
 	{
-		Write-PSFMessage -Level InternalComment -Message "Bound Parameters: $($PSBoundParameters.Keys -join ",")"
-		
 		#region Input validation and prerequisites check
 		try
 		{
