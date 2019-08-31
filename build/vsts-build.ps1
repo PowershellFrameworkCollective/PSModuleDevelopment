@@ -90,6 +90,7 @@ $fileData = $fileData.Replace('"<compile code into here>"', ($text -join "`n`n")
 #endregion Update the psm1 file
 
 #region Build Templates
+Import-Module "$($WorkingDirectory)\PSModuleDevelopment\PSModuleDevelopment.psd1"
 Write-PSFMessage -Level Host -Message "Building templates"
 Write-PSFMessage -Level Host -Message "  Creating root folder"
 $templateBuild = New-Item -Path $WorkingDirectory -Name "Templates_Build" -ItemType Directory -Force
