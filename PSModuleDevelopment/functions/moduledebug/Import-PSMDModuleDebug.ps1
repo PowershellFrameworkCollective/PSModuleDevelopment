@@ -37,7 +37,7 @@
 	{
 		[System.Management.Automation.ScriptBlock]::Create($____module.PreImportAction).Invoke()
 	}
-	Import-Module -Name $____module.Name
+	Import-Module -Name $____module.Name -Scope Global
 	if ($____module.PostImportAction)
 	{
 		[System.Management.Automation.ScriptBlock]::Create($____module.PostImportAction).Invoke()

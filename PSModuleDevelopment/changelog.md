@@ -1,6 +1,14 @@
 ﻿# Changelog
 ##
  - New: Export-PSMDString - Parses strings from modules using the PSFramework localization feature.
+ - Upd: Template PSFProject - Adding `-IncludAZ` switch parameter to `vsts-packageFunction.ps1`, making the template include the AZ module as managed dependency.
+ - Upd: Refactored module structure to comply with current Fred Reference Architecture
+ - Fix: Template PSFProject - Publish Folder created during build is created using `-Force`
+ - Fix: Template PSFProject - Cleaning up Azure Function conversion
+ - Fix: Template PSFTests - Encoding test no longer fails on core (#104)
+ - Fix: Template PSFTests - Referenced DLLs from GAC will fail as path cannot be found (#100)
+ - Fix: Template Module - RootModule | 3-element version | Module Import from UNC path
+ - Fix: Template-System - Bad default template store path on linux or mac. (#106)
 
 ## 2.2.6.72 (May 27th, 2019)
  - New: Template AzureFunction - Creates a basic azure function scaffold

@@ -1,4 +1,19 @@
-﻿# The parameter identifier used to detect and insert parameters
+﻿if ($IsLinux -or $IsMacOs)
+{
+	# Defaults to the first value in $Env:XDG_CONFIG_DIRS on Linux or MacOS (or $HOME/.local/share/)
+	$fileUserShared = @($Env:XDG_CONFIG_DIRS -split ([IO.Path]::PathSeparator))[0]
+	if (-not $fileUserShared) { $fileUserShared = Join-Path $HOME .local/share/ }
+	
+	$path_FileUserShared = Join-Path (Join-Path $fileUserShared $psVersionName) "PSFramework/"
+}
+else
+{
+	# Defaults to $Env:AppData on Windows
+	$path_FileUserShared = Join-Path $Env:AppData "$psVersionName\PSFramework\Config"
+	if (-not $Env:AppData) { $path_FileUserShared = Join-Path ([Environment]::GetFolderPath("ApplicationData")) "$psVersionName\PSFramework\Config" }
+}
+
+# The parameter identifier used to detect and insert parameters
 Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.Identifier' -Value 'þ' -Initialize -Validation 'string' -Description "The identifier used by the template system to detect and insert variables / scriptblock values"
 
 # The default values for common parameters
@@ -9,8 +24,8 @@ Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.ParameterDefault.Com
 Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.BinaryExtensions' -Value @('.dll', '.exe', '.pdf', '.doc', '.docx', '.xls', '.xlsx') -Initialize -Description "When creating a template, files with these extensions will be included as raw bytes and not interpreted for parameter insertion."
 
 # Define the default store. To add more stores, just add a similar setting with a different last name segment
-Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.Store.Default' -Value "$env:APPDATA\WindowsPowerShell\PSModuleDevelopment\Templates" -Initialize -Validation "string" -Description "Path to the default directory where PSModuleDevelopment will store its templates. You can add additional stores by creating the same setting again, only changing the last name segment to a new name and configuring a separate path."
-Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.Store.PSModuleDevelopment' -Value "$script:PSModuleRoot\internal\templates" -Initialize -Validation "string" -Description "Path to the templates shipped in PSModuleDevelopment"
+Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.Store.Default' -Value "$path_FileUserShared\WindowsPowerShell\PSModuleDevelopment\Templates" -Initialize -Validation "string" -Description "Path to the default directory where PSModuleDevelopment will store its templates. You can add additional stores by creating the same setting again, only changing the last name segment to a new name and configuring a separate path."
+Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.Store.PSModuleDevelopment' -Value "$script:ModuleRoot\internal\templates" -Initialize -Validation "string" -Description "Path to the templates shipped in PSModuleDevelopment"
 
 # Define the default path to create from templates in
 Set-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.OutPath' -Value '.' -Initialize -Validation 'string' -Description "The path where new files & projects should be created from templates by default."
