@@ -1,4 +1,4 @@
-﻿# Scipts
+﻿# Scripts
 
 This is the folder where the internal scripts go.
 
