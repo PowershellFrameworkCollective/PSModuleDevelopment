@@ -30,6 +30,7 @@ if (-not $WorkingDirectory)
 	}
 	else { $WorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY }
 }
+if (-not $WorkingDirectory) { $WorkingDirectory = Split-Path $PSScriptRoot }
 #endregion Handle Working Directory Defaults
 
 # Prepare publish folder
@@ -42,19 +43,15 @@ $text = @()
 $processed = @()
 
 # Gather Stuff to run before
-foreach ($line in (Get-Content "$($PSScriptRoot)\filesBefore.txt" | Where-Object { $_ -notlike "#*" }))
+foreach ($filePath in (& "$($PSScriptRoot)\..\þnameþ\internal\scripts\preimport.ps1"))
 {
-	if ([string]::IsNullOrWhiteSpace($line)) { continue }
+	if ([string]::IsNullOrWhiteSpace($filePath)) { continue }
 	
-	$basePath = Join-Path "$($publishDir.FullName)\þnameþ" $line
-	foreach ($entry in (Resolve-PSFPath -Path $basePath))
-	{
-		$item = Get-Item $entry
-		if ($item.PSIsContainer) { continue }
-		if ($item.FullName -in $processed) { continue }
-		$text += [System.IO.File]::ReadAllText($item.FullName)
-		$processed += $item.FullName
-	}
+	$item = Get-Item $filePath
+	if ($item.PSIsContainer) { continue }
+	if ($item.FullName -in $processed) { continue }
+	$text += [System.IO.File]::ReadAllText($item.FullName)
+	$processed += $item.FullName
 }
 
 # Gather commands
@@ -66,19 +63,15 @@ Get-ChildItem -Path "$($publishDir.FullName)\þnameþ\functions\" -Recurse -File
 }
 
 # Gather stuff to run afterwards
-foreach ($line in (Get-Content "$($PSScriptRoot)\filesAfter.txt" | Where-Object { $_ -notlike "#*" }))
+foreach ($filePath in (& "$($PSScriptRoot)\..\þnameþ\internal\scripts\postimport.ps1"))
 {
-	if ([string]::IsNullOrWhiteSpace($line)) { continue }
+	if ([string]::IsNullOrWhiteSpace($filePath)) { continue }
 	
-	$basePath = Join-Path "$($publishDir.FullName)\þnameþ" $line
-	foreach ($entry in (Resolve-PSFPath -Path $basePath))
-	{
-		$item = Get-Item $entry
-		if ($item.PSIsContainer) { continue }
-		if ($item.FullName -in $processed) { continue }
-		$text += [System.IO.File]::ReadAllText($item.FullName)
-		$processed += $item.FullName
-	}
+	$item = Get-Item $filePath
+	if ($item.PSIsContainer) { continue }
+	if ($item.FullName -in $processed) { continue }
+	$text += [System.IO.File]::ReadAllText($item.FullName)
+	$processed += $item.FullName
 }
 #endregion Gather text data to compile
 
