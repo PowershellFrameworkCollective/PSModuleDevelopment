@@ -1,5 +1,5 @@
 ﻿# Changelog
-## 2.2.7.91 (May 30th, 2020)
+## 2.2.7.98 (May 30th, 2020)
 
 - Upd: Template PSFTest - Pester v5 compatibility
 - Upd: Template PSFModule - Pester v5 compatibility
