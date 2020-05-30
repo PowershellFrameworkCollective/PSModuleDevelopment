@@ -72,7 +72,67 @@
 					StringValues = $stringValueParamValue
 				}
 			}
-			
+            
+             # Additional checks for splatted commands
+            # find all splatted commands
+            $splattedVariables = $ast.FindAll( {
+                if ($args[0] -isnot [System.Management.Automation.Language.VariableExpressionAst ]) { return $false }
+                if (-not ($args[0].Splatted -eq $true)) { return $false }
+                $true
+            }, $true)
+
+            foreach ($splattedVariable in $splattedVariables)
+            {
+                #get the variable name
+                $splatParamName = $splattedVariable.VariablePath.UserPath
+                if ($splatParamName)
+                {
+                    # match the $param = @{
+                    $splatParamNameRegex = "^\s?\`$$($splatParamName)\s?=\s?\@\{"
+                    # get all variable assignments where the
+                    # left side matches our param
+                    # operator is =
+                    # matches our assignment regex
+                    $splatAssignmentAsts = $ast.FindAll( {
+                            if ($args[0] -isnot [System.Management.Automation.Language.AssignmentStatementAst ]) { return $false }
+                            if (-not ($args[0].Left -match $splatParamName)) { return $false }
+                            if (-not ($args[0].Operator -eq 'Equals')) { return $false }
+                            if (-not ($args[0].Extent -match $splatParamNameRegex)) { return $false }
+                            $true
+                        }, $true)
+                    foreach ($splatAssignmentAst in $splatAssignmentAsts)
+                    {
+                        # get the hashtable
+                        $splatHashTable = $splatAssignmentAst.Right.Expression
+                        # see if its an empty assignment or null
+                        if ($splatHashTable -and $splatHashTable.KeyValuePairs.Count -gt 0)
+                        {
+                            # find any String or ActionString
+                            $splatParam = $splatAssignmentAst.Right.Expression.KeyValuePairs |  Where-Object Item1 -match '^String$|^ActionString$'
+                            # The kvp.item.extent.text returns nested quotes where as the commandast.extent.text doesn't so strip them off
+                            $splatParamValue = $splatParam.Item2.Extent.Text.Trim('"').Trim("'")
+                            # find any StringValue or ActionStringValue
+                            $splatValueParam = $splatAssignmentAst.Right.Expression.KeyValuePairs |  Where-Object Item1 -match '^StringValues$|^ActionStringValues$'
+                            if ($splatValueParam)
+                            {
+                                # The kvp.item.extent.text returns nested quotes whereas the commandast.extent.text doesn't so strip them off
+                                $splatValueParamValue = $splatValueParam.Item2.Extent.Text.Trim('"').Trim("'")
+                            }
+                            else { $splatValueParamValue = '' }
+
+                            [PSCustomObject]@{
+                                PSTypeName   = 'PSModuleDevelopment.String.ParsedItem'
+                                File         = $file.FullName
+                                Line         = $splatHashTable.Extent.StartLineNumber
+                                CommandName  = $splattedVariable.Parent.CommandElements[0].Value
+                                String       = $splatParamValue
+                                StringValues = $splatValueParamValue
+                            }
+                        }
+                    }
+                }
+            }
+
 			$validateAsts = $ast.FindAll({
 					if ($args[0] -isnot [System.Management.Automation.Language.AttributeAst]) { return $false }
 					if ($args[0].TypeName -notmatch '^PsfValidateScript$|^PsfValidatePattern$') { return $false }

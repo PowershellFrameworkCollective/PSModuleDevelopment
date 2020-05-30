@@ -58,6 +58,7 @@
 		- It will set authentication to windows
 		- It will skip the automatic restore of the project on create
 #>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
 	[CmdletBinding(SupportsShouldProcess = $true, DefaultParameterSetName = 'Create')]
 	Param (
 		[Parameter(Position = 0, Mandatory = $true, ParameterSetName = 'Create')]

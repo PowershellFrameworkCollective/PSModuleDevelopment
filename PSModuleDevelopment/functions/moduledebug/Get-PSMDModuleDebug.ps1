@@ -16,6 +16,7 @@
 	
 			Returns the module debugging configuration for all modules with a name that contains "net"
 	#>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
 	[CmdletBinding()]
 	Param (
 		[string]

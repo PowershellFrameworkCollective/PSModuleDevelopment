@@ -1,6 +1,6 @@
 ﻿@{
 	TemplateName = 'PSFModule'
-	Version = "1.1.1.0"
+	Version = "1.1.2.0"
 	AutoIncrementVersion = $true
 	Tags = 'module','psframework'
 	Author = 'Friedrich Weinmann'
@@ -22,10 +22,8 @@
 		testfolder = {
 			
 		}
-		testresults = {
-			@'
-$results = Invoke-Pester -Script $file.FullName -Show $Show -PassThru
-'@
+		pesterconfig = {
+
 		}
 	}
 }

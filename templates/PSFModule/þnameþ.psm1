@@ -54,7 +54,9 @@ function Import-ModuleFile
 if ($importIndividualFiles)
 {
 	# Execute Preimport actions
-	. Import-ModuleFile -Path "$ModuleRoot\internal\scripts\preimport.ps1"
+	foreach ($path in (& "$ModuleRoot\internal\scripts\preimport.ps1")) {
+		. Import-ModuleFile -Path $path
+	}
 	
 	# Import all internal functions
 	foreach ($function in (Get-ChildItem "$ModuleRoot\internal\functions" -Filter "*.ps1" -Recurse -ErrorAction Ignore))
@@ -69,7 +71,9 @@ if ($importIndividualFiles)
 	}
 	
 	# Execute Postimport actions
-	. Import-ModuleFile -Path "$ModuleRoot\internal\scripts\postimport.ps1"
+	foreach ($path in (& "$ModuleRoot\internal\scripts\postimport.ps1")) {
+		. Import-ModuleFile -Path $path
+	}
 	
 	# End it here, do not load compiled code below
 	return

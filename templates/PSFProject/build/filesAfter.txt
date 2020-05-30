@@ -1,8 +1,0 @@
-﻿# List all files that are loaded in the postimport.ps1
-# In the order they are loaded during postimport
-
-internal\configurations\*.ps1
-internal\scriptblocks\*.ps1
-internal\tepp\*.tepp.ps1
-internal\tepp\assignment.ps1
-internal\scripts\license.ps1

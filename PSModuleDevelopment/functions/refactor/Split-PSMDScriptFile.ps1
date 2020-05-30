@@ -47,7 +47,7 @@
 			
 			foreach ($functionAst in ($ast.EndBlock.Statements | Where-Object { $_.GetType().FullName -eq "System.Management.Automation.Language.FunctionDefinitionAst" }))
 			{
-				$ast.Extent.Text.Substring($functionAst.Extent.StartOffset, ($functionAst.Extent.EndOffset - $functionAst.Extent.StartOffset)) | Set-Content "$Path\$($functionAst.Name).ps1" -Encoding UTF8
+				$ast.Extent.Text.Substring($functionAst.Extent.StartOffset, ($functionAst.Extent.EndOffset - $functionAst.Extent.StartOffset)) | Set-Content "$Path\$($functionAst.Name).ps1" -Encoding $Encoding
 			}
 		}
 	}

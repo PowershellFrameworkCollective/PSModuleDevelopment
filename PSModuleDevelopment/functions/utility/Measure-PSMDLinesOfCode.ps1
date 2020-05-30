@@ -35,6 +35,7 @@
 		#region Utility Functions
 		function Invoke-AstWalk
 		{
+			[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
 			[CmdletBinding()]
 			param (
 				$Ast,

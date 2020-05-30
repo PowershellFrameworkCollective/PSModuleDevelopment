@@ -4,17 +4,15 @@ Param (
 	$SkipTest,
 	
 	[string[]]
-	$CommandPath = @("$PSScriptRoot\..\..\functions", "$PSScriptRoot\..\..\internal\functions")
+	$CommandPath = @("$global:testroot\..\functions", "$global:testroot\..\internal\functions")
 )
 
 if ($SkipTest) { return }
 
-if ($env:BUILD_BUILDURI -like "vstfs*") { Install-Module PSScriptAnalyzer -Force -SkipPublisherCheck }
-
-$list = New-Object System.Collections.ArrayList
+$global:__pester_data.ScriptAnalyzer = New-Object System.Collections.ArrayList
 
 Describe 'Invoking PSScriptAnalyzer against commandbase' {
-	$commandFiles = Get-ChildItem -Path $CommandPath -Recurse -Filter "*.ps1"
+	$commandFiles = Get-ChildItem -Path $CommandPath -Recurse | Where-Object Name -like "*.ps1"
 	$scriptAnalyzerRules = Get-ScriptAnalyzerRule
 	
 	foreach ($file in $commandFiles)
@@ -24,10 +22,10 @@ Describe 'Invoking PSScriptAnalyzer against commandbase' {
 			
 			forEach ($rule in $scriptAnalyzerRules)
 			{
-				It "Should pass $rule" {
+				It "Should pass $rule" -TestCases @{ analysis = $analysis; rule = $rule } {
 					If ($analysis.RuleName -contains $rule)
 					{
-						$analysis | Where-Object RuleName -EQ $rule -outvariable failures | ForEach-Object { $list.Add($_) }
+						$analysis | Where-Object RuleName -EQ $rule -outvariable failures | ForEach-Object { $null = $global:__pester_data.ScriptAnalyzer.Add($_) }
 						
 						1 | Should -Be 0
 					}
@@ -40,5 +38,3 @@ Describe 'Invoking PSScriptAnalyzer against commandbase' {
 		}
 	}
 }
-
-$list | Out-Default

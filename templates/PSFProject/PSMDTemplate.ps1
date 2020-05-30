@@ -1,6 +1,6 @@
 ﻿@{
 	TemplateName = 'PSFProject'
-	Version = "1.3.1.0"
+	Version = "1.3.2.0"
 	AutoIncrementVersion = $true
 	Tags = 'module','psframework'
 	Author = 'Friedrich Weinmann'
@@ -34,11 +34,8 @@ Write-PSFMessage -Level Important -Message "Creating test result folder"
 $null = New-Item -Path "$PSScriptRoot\..\.." -Name TestResults -ItemType Directory -Force
 '@
 		}
-		testresults = {
-			@'
-$TestOuputFile = Join-Path "$PSScriptRoot\..\..\TestResults" "TEST-$($file.BaseName).xml"
-    $results = Invoke-Pester -Script $file.FullName -Show $Show -PassThru -OutputFile $TestOuputFile -OutputFormat NUnitXml
-'@
+		pesterconfig = {
+'$config.TestResult.Enabled = $true'
 		}
 	}
 }
