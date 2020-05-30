@@ -32,6 +32,7 @@ $totalFailed = 0
 $totalRun = 0
 
 $testresults = @()
+$config = [PesterConfiguration]::Default
 þ!pesterconfig!þ
 
 #region Run General Tests
@@ -44,8 +45,11 @@ if ($TestGeneral)
 		if ($file.Name -like $Exclude) { continue }
 
 		Write-PSFMessage -Level Significant -Message "  Executing <c='em'>$($file.Name)</c>"
-		[PesterConfiguration]::Default.TestResult.OutputPath = Join-Path "$PSScriptRoot\..\..\TestResults" "TEST-$($file.BaseName).xml"
-    	$results = Invoke-Pester -Path $file.FullName -Output $Output -PassThru
+		$config.TestResult.OutputPath = Join-Path "$PSScriptRoot\..\..\TestResults" "TEST-$($file.BaseName).xml"
+		$config.Run.Path = $file.FullName
+		$config.Run.PassThru = $true
+		$config.Output.Verbosity = $Output
+    	$results = Invoke-Pester -Configuration $config
 		foreach ($result in $results)
 		{
 			$totalRun += $result.TotalCount
@@ -75,8 +79,11 @@ if ($TestFunctions)
 		if ($file.Name -like $Exclude) { continue }
 		
 		Write-PSFMessage -Level Significant -Message "  Executing $($file.Name)"
-		[PesterConfiguration]::Default.TestResult.OutputPath = Join-Path "$PSScriptRoot\..\..\TestResults" "TEST-$($file.BaseName).xml"
-    	$results = Invoke-Pester -Path $file.FullName -Output $Output -PassThru
+		$config.TestResult.OutputPath = Join-Path "$PSScriptRoot\..\..\TestResults" "TEST-$($file.BaseName).xml"
+		$config.Run.Path = $file.FullName
+		$config.Run.PassThru = $true
+		$config.Output.Verbosity = $Output
+    	$results = Invoke-Pester -Configuration $config
 		foreach ($result in $results)
 		{
 			$totalRun += $result.TotalCount

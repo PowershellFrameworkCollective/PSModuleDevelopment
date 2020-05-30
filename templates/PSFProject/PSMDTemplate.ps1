@@ -35,7 +35,7 @@ $null = New-Item -Path "$PSScriptRoot\..\.." -Name TestResults -ItemType Directo
 '@
 		}
 		pesterconfig = {
-'[PesterConfiguration]::Default.TestResult.Enabled = $true'
+'$config.TestResult.Enabled = $true'
 		}
 	}
 }
