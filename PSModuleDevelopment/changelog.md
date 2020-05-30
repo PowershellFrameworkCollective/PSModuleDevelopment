@@ -1,4 +1,15 @@
 ﻿# Changelog
+## 2.2.7.98 (May 30th, 2020)
+
+- Upd: Template PSFTest - Pester v5 compatibility
+- Upd: Template PSFModule - Pester v5 compatibility
+- Upd: Template PSFProject - Pester v5 compatibility
+- Upd: Template PSFProject - Simplified module import workflow
+- Upd: Template PSFProject - Improved build process cross-agent convenience
+- Upd: Template PSFProject - Prerequisites task automatically detects module dependencies
+- Upd: Template PSFProject - Prerequisites task can be configured to work with any registered repository
+- Upd: Export-PSMDString - Now also detects splatted localization strings (thanks @StevePlp ; #117)
+
 ## 2.2.7.90 (September 1st, 2019)
  - New: Export-PSMDString - Parses strings from modules using the PSFramework localization feature.
  - Upd: Measure-PSMDCommand - Renamed from Measure-PSMDCommandEx, performance upgrades, adding option for comparing multiple test sets.

@@ -1,6 +1,6 @@
 ﻿@{
 	TemplateName = 'PSFTests' # Insert name of template
-	Version = "1.0.0.0" # Version to build to
+	Version = "2.0.0.0" # Version to build to
 	AutoIncrementVersion = $true # If a newer version than specified is present, instead of the specified version, make it one greater than the existing template
 	Tags = @('Tests', 'PSFramework') # Insert Tags as desired
 	Author = 'Friedrich Weinmann' # The author of the template, not the file / project created from it
@@ -13,10 +13,8 @@
 		testfolder = {
 			
 		}
-		testresults = {
-			@'
-$results = Invoke-Pester -Script $file.FullName -Show $Show -PassThru
-'@
+		pesterconfig = {
+
 		}
 	} # Insert additional scriptblocks as needed. Each scriptblock will be executed once only on create, no matter how often it is referenced.
 }

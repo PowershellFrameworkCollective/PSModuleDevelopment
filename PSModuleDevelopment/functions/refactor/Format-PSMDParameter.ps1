@@ -30,6 +30,7 @@
 	
 			Updates all commands in the module to have a cmdletbinding attribute.
 	#>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param (
 		[Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
@@ -45,6 +46,7 @@
 		#region Utility functions
 		function Invoke-AstWalk
 		{
+			[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
 			[CmdletBinding()]
 			param (
 				$Ast,
