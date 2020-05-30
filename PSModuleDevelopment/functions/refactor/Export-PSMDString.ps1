@@ -84,7 +84,7 @@
             foreach ($splattedVariable in $splattedVariables)
             {
                 #get the variable name
-                $splatParamName = $splattedVariable.VariablePath.UserPath 
+                $splatParamName = $splattedVariable.VariablePath.UserPath
                 if ($splatParamName)
                 {
                     # match the $param = @{
@@ -93,7 +93,7 @@
                     # left side matches our param
                     # operator is =
                     # matches our assignment regex
-                    $splatAssignmentAsts = $ast.FindAll( {                                                                                                                                             
+                    $splatAssignmentAsts = $ast.FindAll( {
                             if ($args[0] -isnot [System.Management.Automation.Language.AssignmentStatementAst ]) { return $false }
                             if (-not ($args[0].Left -match $splatParamName)) { return $false }
                             if (-not ($args[0].Operator -eq 'Equals')) { return $false }
