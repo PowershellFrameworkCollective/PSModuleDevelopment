@@ -25,7 +25,7 @@
 	{
 		# Get original module configuration
 		$____module = $null
-		$____module = Import-Clixml -Path (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Debug.ConfigPath') | Where-Object { $_.Name -eq $Name }
+		$____module = Import-Clixml -Path (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Debug.ConfigPath') | Where-Object Name -eq $Name
 		if (-not $____module) { throw "No matching module configuration found" }
 		
 		# Process entry
