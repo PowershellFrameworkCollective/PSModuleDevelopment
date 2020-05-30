@@ -23,6 +23,9 @@ Remove-Module þnameþ -ErrorAction Ignore
 Import-Module "$PSScriptRoot\..\þnameþ.psd1"
 Import-Module "$PSScriptRoot\..\þnameþ.psm1" -Force
 
+# Need to import explicitly so we can use the configuration class
+Import-Module Pester
+
 þ!testfolder!þ
 
 $totalFailed = 0
