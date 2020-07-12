@@ -3,19 +3,19 @@
 <#
 	.SYNOPSIS
 		Parses a module that uses the PSFramework localization feature for strings and their value.
-	
+
 	.DESCRIPTION
 		Parses a module that uses the PSFramework localization feature for strings and their value.
 		This command can be used to generate and update the language files used by the module.
 		It is also used in automatic tests, ensuring no abandoned string has been left behind and no key is unused.
-	
+
 	.PARAMETER ModuleRoot
 		The root of the module to process.
 		Must be the root folder where the psd1 file is stored in.
-	
+
 	.EXAMPLE
 		PS C:\> Export-PSMDString -ModuleRoot 'C:\Code\Github\MyModuleProject\MyModule'
-	
+
 		Generates the strings data for the MyModule module.
 #>
 	[CmdletBinding()]
@@ -25,7 +25,7 @@
 		[string]
 		$ModuleRoot
 	)
-	
+
 	process
 	{
 		#region Find Language Files : $languageFiles
@@ -40,7 +40,7 @@
 			}
 		}
 		#endregion Find Language Files : $languageFiles
-		
+
 		#region Find Keys : $foundKeys
 		$foundKeys = foreach ($file in (Get-ChildItem -Path $ModuleRoot -Recurse | Where-Object Extension -match '^\.ps1$|^\.psm1$'))
 		{
@@ -51,12 +51,12 @@
 					if (-not ($args[0].CommandElements.ParameterName -match '^String$|^ActionString$')) { return $false }
 					$true
 				}, $true)
-			
+
 			foreach ($commandAst in $commandAsts)
 			{
 				$stringParam = $commandAst.CommandElements | Where-Object ParameterName -match '^String$|^ActionString$'
 				$stringParamValue = $commandAst.CommandElements[($commandAst.CommandElements.IndexOf($stringParam) + 1)].Value
-				
+
 				$stringValueParam = $commandAst.CommandElements | Where-Object ParameterName -match '^StringValues$|^ActionStringValues$'
 				if ($stringValueParam)
 				{
@@ -72,7 +72,7 @@
 					StringValues = $stringValueParamValue
 				}
 			}
-            
+
              # Additional checks for splatted commands
             # find all splatted commands
             $splattedVariables = $ast.FindAll( {
@@ -109,10 +109,13 @@
                         {
                             # find any String or ActionString
                             $splatParam = $splatAssignmentAst.Right.Expression.KeyValuePairs |  Where-Object Item1 -match '^String$|^ActionString$'
-                            # The kvp.item.extent.text returns nested quotes where as the commandast.extent.text doesn't so strip them off
-                            $splatParamValue = $splatParam.Item2.Extent.Text.Trim('"').Trim("'")
-                            # find any StringValue or ActionStringValue
-                            $splatValueParam = $splatAssignmentAst.Right.Expression.KeyValuePairs |  Where-Object Item1 -match '^StringValues$|^ActionStringValues$'
+                            if ($splatParam)
+                            {
+                                # The kvp.item.extent.text returns nested quotes where as the commandast.extent.text doesn't so strip them off
+                                $splatParamValue = $splatParam.Item2.Extent.Text.Trim('"').Trim("'")
+                                # find any StringValue or ActionStringValue
+                                $splatValueParam = $splatAssignmentAst.Right.Expression.KeyValuePairs |  Where-Object Item1 -match '^StringValues$|^ActionStringValues$'
+                            }
                             if ($splatValueParam)
                             {
                                 # The kvp.item.extent.text returns nested quotes whereas the commandast.extent.text doesn't so strip them off
@@ -139,7 +142,7 @@
 					if (-not ($args[0].NamedArguments.ArgumentName -eq 'ErrorString')) { return $false }
 					$true
 				}, $true)
-			
+
 			foreach ($validateAst in $validateAsts)
 			{
 				[PSCustomObject]@{
@@ -153,7 +156,7 @@
 			}
 		}
 		#endregion Find Keys : $foundKeys
-		
+
 		#region Report Findings
 		$totalResults = foreach ($languageFile in $languageFiles.Keys)
 		{
@@ -166,7 +169,7 @@
 					$results[$foundKey.String].Entries += $foundKey
 					continue
 				}
-				
+
 				$results[$foundKey.String] = [PSCustomObject] @{
 					PSTypeName = 'PSmoduleDevelopment.String.LanguageFinding'
 					Language   = $languageFile
@@ -180,7 +183,7 @@
 			}
 			$results.Values
 			#endregion Phase 1: Matching parsed strings to language file
-			
+
 			#region Phase 2: Finding unneeded strings
 			foreach ($key in $languageFiles[$languageFile].Keys)
 			{
