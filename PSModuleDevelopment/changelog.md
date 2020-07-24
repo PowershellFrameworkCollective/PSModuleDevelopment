@@ -1,4 +1,13 @@
 ﻿# Changelog
+
+## 2.2.8.103 (July 24th, 2020)
+
+- New: Publish-PSMDScriptFile - Packages a script with all dependencies and "publishes" it as a zip package.
+- New: Get-PSMDFileCommand - Parses a scriptfile and returns the contained/used commands.
+- New: Set-PSMDStagingRepository - Define the repository to use for deploying modules along with scripts.
+- New: Publish-PSMDStagedModule - Publish a module to your staging repository.
+- Fix: Export-PSMDString - Random failure to execute (thanks @AndiBellstedt !)
+
 ## 2.2.7.98 (May 30th, 2020)
 
 - Upd: Template PSFTest - Pester v5 compatibility
