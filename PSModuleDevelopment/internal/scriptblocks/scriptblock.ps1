@@ -1,1 +1,6 @@
-﻿# Dummy file to make architecture happy
+﻿Set-PSFScriptblock -Name PSModuleDevelopment.Validate.Path -Scriptblock {
+	Test-Path $_
+}
+Set-PSFScriptblock -Name PSModuleDevelopment.Validate.File -Scriptblock {
+	Test-Path $_ -PathType Leaf
+}

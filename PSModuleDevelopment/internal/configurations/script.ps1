@@ -1,0 +1,2 @@
+﻿Set-PSFConfig -Module PSModuleDevelopment -Name 'Script.StagingRepository' -Value PSGallery -Validation string -Initialize -Description 'Repository to use for modules that are then retrieved when deploying a script'
+Set-PSFConfig -Module PSModuleDevelopment -Name 'Script.OutPath' -Value "$env:USERPROFILE\Desktop" -Validation string -Initialize -Description 'Default path where scripts are published to.'

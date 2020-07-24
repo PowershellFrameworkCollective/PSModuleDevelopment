@@ -4,7 +4,7 @@
 	RootModule = 'PSModuleDevelopment.psm1'
 
 	# Version number of this module.
-	ModuleVersion = '2.2.7.98'
+	ModuleVersion = '2.2.8.103'
 
 	# ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -24,25 +24,10 @@
 	# Minimum version of the Windows PowerShell engine required by this module
 	PowerShellVersion = '3.0'
 
-	# Name of the Windows PowerShell host required by this module
-	PowerShellHostName = ''
-
-	# Minimum version of the Windows PowerShell host required by this module
-	PowerShellHostVersion = ''
-
-	# Minimum version of the .NET Framework required by this module
-	DotNetFrameworkVersion = '2.0'
-
-	# Minimum version of the common language runtime (CLR) required by this module
-	CLRVersion = '2.0.50727'
-
-	# Processor architecture (None, X86, Amd64, IA64) required by this module
-	ProcessorArchitecture = 'None'
-
 	# Modules that must be imported into the global environment prior to importing
 	# this module
 	RequiredModules	       = @(
-		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.35' }
+		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.1.59' }
 	)
 
 	# Assemblies that must be loaded prior to importing this module
@@ -72,6 +57,7 @@
 		'Get-PSMDArgumentCompleter',
 		'Get-PSMDAssembly',
 		'Get-PSMDConstructor',
+		'Get-PSMDFileCommand',
 		'Get-PSMDHelp',
 		'Get-PSMDMember',
 		'Get-PSMDModuleDebug',
@@ -86,6 +72,8 @@
 		'New-PSMDModuleNugetPackage',
 		'New-PSMDTemplate',
 		'New-PssModuleProject',
+		'Publish-PSMDScriptFile',
+		'Publish-PSMDStagedModule',
 		'Read-PSMDScript',
 		'Remove-PSMDModuleDebug',
 		'Remove-PSMDTemplate',
@@ -97,15 +85,16 @@
 		'Set-PSMDCmdletBinding',
 		'Set-PSMDModulePath',
 		'Set-PSMDParameterHelp',
+		'Set-PSMDStagingRepository',
 		'Show-PSMDSyntax',
 		'Split-PSMDScriptFile'
     )
 
 	# Cmdlets to export from this module
-	CmdletsToExport = ''
+	# CmdletsToExport = ''
 
 	# Variables to export from this module
-	VariablesToExport = ''
+	# VariablesToExport = ''
 
 	# Aliases to export from this module
     AliasesToExport = @(
@@ -145,7 +134,7 @@
 			# IconUri = ''
 
 			# ReleaseNotes of this module
-			# ReleaseNotes = ''
+			ReleaseNotes = 'https://github.com/PowershellFrameworkCollective/PSModuleDevelopment/blob/master/PSModuleDevelopment/changelog.md'
 
 		} # End of PSData hashtable
 
