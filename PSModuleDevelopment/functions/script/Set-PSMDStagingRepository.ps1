@@ -22,6 +22,7 @@
 	
 		Registers the local path 'C:\PowerShell\StagingRepo' as a repository and will use it for deploying modules along with scripts.
 #>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true, ParameterSetName = 'Path')]
