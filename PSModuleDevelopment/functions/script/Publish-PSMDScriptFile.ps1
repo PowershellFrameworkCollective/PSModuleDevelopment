@@ -41,7 +41,7 @@
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true)]
-		[PsfValidateScript('PSModuleDevelopment.Validate.Path', ErrorString = 'PSModuleDevelopment.Validate.Path')]
+		[PsfValidateScript('PSModuleDevelopment.Validate.File', ErrorString = 'PSModuleDevelopment.Validate.File')]
 		[string]
 		$Path,
 		
