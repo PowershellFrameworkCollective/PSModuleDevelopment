@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 2.2.8.104 (July 26th, 2020)
+
+- Fix: Various bugs in the new functions
+
 ## 2.2.8.103 (July 24th, 2020)
 
 - New: Publish-PSMDScriptFile - Packages a script with all dependencies and "publishes" it as a zip package.

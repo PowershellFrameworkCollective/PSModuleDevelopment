@@ -26,7 +26,7 @@
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true, ParameterSetName = 'Path')]
-		[PsfValidateScript('PSModuleDevelopment.Validate.File', ErrorString = 'PSModuleDevelopment.Validate.File')]
+		[PsfValidateScript('PSModuleDevelopment.Validate.Path', ErrorString = 'PSModuleDevelopment.Validate.Path')]
 		[string]
 		$Path,
 		
@@ -43,7 +43,7 @@
 			{
 				Unregister-PSRepository -Name PSMDStaging
 			}
-			Register-PSRepository -Name PSMDStaging -SourceLocation $Path -PublishLocation $Path -InstallationPolicy Trusted -PackageManagementProvider
+			Register-PSRepository -Name PSMDStaging -SourceLocation $Path -PublishLocation $Path -InstallationPolicy Trusted
 			Set-PSFConfig -Module PSModuleDevelopment -Name 'Script.StagingRepository' -Value PSMDStaging -PassThru | Register-PSFConfig
 		}
 		else
