@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## ???
+
+- Fix: Export-PSMDString - Failed with splatting detection
+
 ## 2.2.8.104 (July 26th, 2020)
 
 - Fix: Various bugs in the new functions
