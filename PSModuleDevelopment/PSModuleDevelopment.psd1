@@ -28,6 +28,7 @@
 	# this module
 	RequiredModules	       = @(
 		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.1.59' }
+		@{ ModuleName = 'string'; ModuleVersion = '0.6.1' }
 	)
 
 	# Assemblies that must be loaded prior to importing this module
@@ -48,7 +49,8 @@
 	NestedModules = @()
 
 	# Functions to export from this module
-    FunctionsToExport = @(
+	FunctionsToExport  = @(
+		'Convert-PSMDMessage',
 		'Expand-PSMDTypeName',
 		'Export-PSMDString',
 		'Find-PSMDFileContent',
