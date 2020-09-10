@@ -1,4 +1,7 @@
 ﻿@{
+	'Convert-PSMDMessage.Parameter.NonAffected'	       = 'No commands found that should be switched to strings in {0}' # $Path
+	'Convert-PSMDMessage.SyntaxError'				   = 'Syntax error in result after converting the file {0}. Please validate your file and if it is valid, file an issue with the source file it failed to convert' # $Path
+	
 	'Get-PSMDFileCommand.SyntaxError'				   = 'Syntax error in file: {0}' # $pathItem
 	
 	'MeasurePSMDLinesOfCode.Processing'			       = 'Processing Path: {0}' # $fileItem
