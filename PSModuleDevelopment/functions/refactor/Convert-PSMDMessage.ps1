@@ -43,6 +43,7 @@
 		#region Utility Functions
 		function Get-Text
 		{
+			[OutputType([string])]
 			[CmdletBinding()]
 			param (
 				$Value
@@ -79,6 +80,7 @@
 		
 		function Get-Insert
 		{
+			[OutputType([string])]
 			[CmdletBinding()]
 			param (
 				$Value
