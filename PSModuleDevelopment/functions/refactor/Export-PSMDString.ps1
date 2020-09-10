@@ -25,7 +25,7 @@
 		[string]
 		$ModuleRoot
 	)
-
+	
 	process
 	{
 		#region Find Language Files : $languageFiles
@@ -40,23 +40,24 @@
 			}
 		}
 		#endregion Find Language Files : $languageFiles
-
+		
 		#region Find Keys : $foundKeys
 		$foundKeys = foreach ($file in (Get-ChildItem -Path $ModuleRoot -Recurse | Where-Object Extension -match '^\.ps1$|^\.psm1$'))
 		{
 			$ast = (Read-PSMDScript -Path $file.FullName).Ast
+			#region Command Parameters
 			$commandAsts = $ast.FindAll({
 					if ($args[0] -isnot [System.Management.Automation.Language.CommandAst]) { return $false }
 					if ($args[0].CommandElements[0].Value -notmatch '^Invoke-PSFProtectedCommand$|^Write-PSFMessage$|^Stop-PSFFunction$') { return $false }
 					if (-not ($args[0].CommandElements.ParameterName -match '^String$|^ActionString$')) { return $false }
 					$true
 				}, $true)
-
+			
 			foreach ($commandAst in $commandAsts)
 			{
 				$stringParam = $commandAst.CommandElements | Where-Object ParameterName -match '^String$|^ActionString$'
 				$stringParamValue = $commandAst.CommandElements[($commandAst.CommandElements.IndexOf($stringParam) + 1)].Value
-
+				
 				$stringValueParam = $commandAst.CommandElements | Where-Object ParameterName -match '^StringValues$|^ActionStringValues$'
 				if ($stringValueParam)
 				{
@@ -72,77 +73,64 @@
 					StringValues = $stringValueParamValue
 				}
 			}
-
-             # Additional checks for splatted commands
-            # find all splatted commands
-            $splattedVariables = $ast.FindAll( {
-                if ($args[0] -isnot [System.Management.Automation.Language.VariableExpressionAst ]) { return $false }
-                if (-not ($args[0].Splatted -eq $true)) { return $false }
-                $true
-            }, $true)
-
-            foreach ($splattedVariable in $splattedVariables)
-            {
-                #get the variable name
-                $splatParamName = $splattedVariable.VariablePath.UserPath
-                if ($splatParamName)
-                {
-                    # match the $param = @{
-                    $splatParamNameRegex = "^\s?\`$$($splatParamName)\s?=\s?\@\{"
-                    # get all variable assignments where the
-                    # left side matches our param
-                    # operator is =
-                    # matches our assignment regex
-                    $splatAssignmentAsts = $ast.FindAll( {
-                            if ($args[0] -isnot [System.Management.Automation.Language.AssignmentStatementAst ]) { return $false }
-                            if (-not ($args[0].Left -match $splatParamName)) { return $false }
-                            if (-not ($args[0].Operator -eq 'Equals')) { return $false }
-                            if (-not ($args[0].Extent -match $splatParamNameRegex)) { return $false }
-                            $true
-                        }, $true)
-                    foreach ($splatAssignmentAst in $splatAssignmentAsts)
-                    {
-                        # get the hashtable
-                        $splatHashTable = $splatAssignmentAst.Right.Expression
-                        # see if its an empty assignment or null
-                        if ($splatHashTable -and $splatHashTable.KeyValuePairs.Count -gt 0)
-                        {
-                            # find any String or ActionString
-                            $splatParam = $splatAssignmentAst.Right.Expression.KeyValuePairs |  Where-Object Item1 -match '^String$|^ActionString$'
-                            if ($splatParam)
-                            {
-                                # The kvp.item.extent.text returns nested quotes where as the commandast.extent.text doesn't so strip them off
-                                $splatParamValue = $splatParam.Item2.Extent.Text.Trim('"').Trim("'")
-                                # find any StringValue or ActionStringValue
-                                $splatValueParam = $splatAssignmentAst.Right.Expression.KeyValuePairs |  Where-Object Item1 -match '^StringValues$|^ActionStringValues$'
-                            }
-                            if ($splatValueParam)
-                            {
-                                # The kvp.item.extent.text returns nested quotes whereas the commandast.extent.text doesn't so strip them off
-                                $splatValueParamValue = $splatValueParam.Item2.Extent.Text.Trim('"').Trim("'")
-                            }
-                            else { $splatValueParamValue = '' }
-
-                            [PSCustomObject]@{
-                                PSTypeName   = 'PSModuleDevelopment.String.ParsedItem'
-                                File         = $file.FullName
-                                Line         = $splatHashTable.Extent.StartLineNumber
-                                CommandName  = $splattedVariable.Parent.CommandElements[0].Value
-                                String       = $splatParamValue
-                                StringValues = $splatValueParamValue
-                            }
-                        }
-                    }
-                }
-            }
-
+			#endregion Command Parameters
+			
+			#region Splatted Variables
+			$splattedVariables = $ast.FindAll({
+					if ($args[0] -isnot [System.Management.Automation.Language.VariableExpressionAst]) { return $false }
+					if (-not ($args[0].Splatted -eq $true)) { return $false }
+					try { if ($args[0].Parent.CommandElements[0].Value -notmatch '^Invoke-PSFProtectedCommand$|^Write-PSFMessage$|^Stop-PSFFunction$') { return $false } }
+					catch { return $false }
+					$true
+				}, $true)
+			
+			foreach ($splattedVariable in $splattedVariables)
+			{
+				$splatParamName = $splattedVariable.VariablePath.UserPath
+				
+				$splatAssignmentAsts = $ast.FindAll({
+						if ($args[0] -isnot [System.Management.Automation.Language.AssignmentStatementAst]) { return $false }
+						if ($args[0].Left.VariablePath.userPath -ne $splatParamName) { return $false }
+						if ($args[0].Operator -ne 'Equals') { return $false }
+						if ($args[0].Right.Expression -isnot [System.Management.Automation.Language.HashtableAst]) { return $false }
+						$keys = $args[0].Right.Expression.KeyValuePairs.Item1.Value
+						if (($keys -notcontains 'String') -and ($keys -notcontains 'ActionString')) { return $false }
+						
+						$true
+					}, $true)
+				
+				foreach ($splatAssignmentAst in $splatAssignmentAsts)
+				{
+					$splatHashTable = $splatAssignmentAst.Right.Expression
+					
+					$splatParam = $splathashTable.KeyValuePairs | Where-Object Item1 -in 'String', 'ActionString'
+					$splatValueParam = $splathashTable.KeyValuePairs | Where-Object Item1 -in 'StringValues', 'ActionStringValues'
+					if ($splatValueParam)
+					{
+						$splatValueParamValue = $splatValueParam.Item2.Extent.Text
+					}
+					else { $splatValueParamValue = '' }
+					
+					[PSCustomObject]@{
+						PSTypeName = 'PSModuleDevelopment.String.ParsedItem'
+						File	   = $file.FullName
+						Line	   = $splatHashTable.Extent.StartLineNumber
+						CommandName = $splattedVariable.Parent.CommandElements[0].Value
+						String	   = $splatParam.Item2.Extent.Text.Trim("'").Trim('"')
+						StringValues = $splatValueParamValue
+					}
+				}
+			}
+			#endregion Splatted Variables
+			
+			#region Attributes
 			$validateAsts = $ast.FindAll({
 					if ($args[0] -isnot [System.Management.Automation.Language.AttributeAst]) { return $false }
 					if ($args[0].TypeName -notmatch '^PsfValidateScript$|^PsfValidatePattern$') { return $false }
 					if (-not ($args[0].NamedArguments.ArgumentName -eq 'ErrorString')) { return $false }
 					$true
 				}, $true)
-
+			
 			foreach ($validateAst in $validateAsts)
 			{
 				[PSCustomObject]@{
@@ -154,9 +142,10 @@
 					StringValues = '<user input>, <validation item>'
 				}
 			}
+			#endregion Attributes
 		}
 		#endregion Find Keys : $foundKeys
-
+		
 		#region Report Findings
 		$totalResults = foreach ($languageFile in $languageFiles.Keys)
 		{
@@ -169,7 +158,7 @@
 					$results[$foundKey.String].Entries += $foundKey
 					continue
 				}
-
+				
 				$results[$foundKey.String] = [PSCustomObject] @{
 					PSTypeName = 'PSmoduleDevelopment.String.LanguageFinding'
 					Language   = $languageFile
@@ -183,7 +172,7 @@
 			}
 			$results.Values
 			#endregion Phase 1: Matching parsed strings to language file
-
+			
 			#region Phase 2: Finding unneeded strings
 			foreach ($key in $languageFiles[$languageFile].Keys)
 			{

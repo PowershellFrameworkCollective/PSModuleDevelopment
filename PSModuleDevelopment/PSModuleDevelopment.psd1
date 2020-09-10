@@ -4,7 +4,7 @@
 	RootModule = 'PSModuleDevelopment.psm1'
 
 	# Version number of this module.
-	ModuleVersion = '2.2.8.104'
+	ModuleVersion = '2.2.9.106'
 
 	# ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -27,7 +27,8 @@
 	# Modules that must be imported into the global environment prior to importing
 	# this module
 	RequiredModules	       = @(
-		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.1.59' }
+		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.4.149' }
+		@{ ModuleName = 'string'; ModuleVersion = '0.6.1' }
 	)
 
 	# Assemblies that must be loaded prior to importing this module
@@ -48,7 +49,8 @@
 	NestedModules = @()
 
 	# Functions to export from this module
-    FunctionsToExport = @(
+	FunctionsToExport  = @(
+		'Convert-PSMDMessage',
 		'Expand-PSMDTypeName',
 		'Export-PSMDString',
 		'Find-PSMDFileContent',

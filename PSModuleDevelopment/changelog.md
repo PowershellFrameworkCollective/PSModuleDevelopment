@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## 2.2.9.106 (September 10th, 2020)
+
+- New: Convert-PSMDMessage - Converts a file's use of PSFramework messages to strings.
+- Fix: Export-PSMDString - Failed with splatting detection
+
 ## 2.2.8.104 (July 26th, 2020)
 
 - Fix: Various bugs in the new functions
