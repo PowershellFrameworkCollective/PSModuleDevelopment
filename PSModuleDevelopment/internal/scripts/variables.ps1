@@ -4,7 +4,7 @@
 	$fileUserShared = @($Env:XDG_CONFIG_DIRS -split ([IO.Path]::PathSeparator))[0]
 	if (-not $fileUserShared) { $fileUserShared = Join-Path $HOME .local/share/ }
 	
-	$path_FileUserShared = Join-Path (Join-Path $fileUserShared $psVersionName) "PSFramework/"
+	$path_FileUserShared = Join-Path (Join-Path $fileUserShared $psVersionName) "PSFramework"
 }
 else
 {
