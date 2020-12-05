@@ -62,7 +62,7 @@
 				Write-PSFMessage -Level Verbose -Message "Setting encoding for $resolvedPath" -Target $pathItem
 				try
 				{
-					if (Test-PSFShouldProcess -PSCmdlet $PSCmdlet -Target $resolvedPath -Action "Set encoding to $($Encoding.EncodingName)")
+					if (Test-PSFShouldProcess -PSCmdlet $PSCmdlet -Target $resolvedPath -Action "Set encoding to $($Encoding.Encoding.EncodingName)")
 					{
 						$text = [System.IO.File]::ReadAllText($resolvedPath)
 						[System.IO.File]::WriteAllText($resolvedPath, $text, $Encoding)
