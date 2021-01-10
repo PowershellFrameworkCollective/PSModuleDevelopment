@@ -125,7 +125,7 @@
 		
 		$commandAsts = $ast.FindAll({
 				if ($args[0] -isnot [System.Management.Automation.Language.CommandAst]) { return $false }
-				if ($args[0].CommandElements[0].Value -notmatch '^Invoke-PSFProtectedCommand$|^Write-PSFMessage$|^Stop-PSFFunction$') { return $false }
+				if ($args[0].CommandElements[0].Value -notmatch '^Invoke-PSFProtectedCommand$|^Write-PSFMessage$|^Stop-PSFFunction$|^Test-PSFShouldProcess$') { return $false }
 				if (-not ($args[0].CommandElements.ParameterName -match '^Message$|^Action$')) { return $false }
 				$true
 			}, $true)
