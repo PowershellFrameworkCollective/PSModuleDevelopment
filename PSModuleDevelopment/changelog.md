@@ -5,6 +5,7 @@
 - New: Convert-PSMDMessage - Converts a file's use of PSFramework messages to strings.
 - Upd: Export-PSMDString - Adding support for Test-PSFShouldProcess.
 - Fix: Export-PSMDString - Failed with splatting detection
+- Fix: Publish-PSMDScriptFile - insufficient exclude paths (#138; @Callidus2000)
 
 ## 2.2.8.104 (July 26th, 2020)
 
