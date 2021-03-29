@@ -64,6 +64,11 @@ namespace PSModuleDevelopment.Template
         public List<TemplateItemBase> Children = new List<TemplateItemBase>();
 
         /// <summary>
+        /// What design generation is the template?
+        /// </summary>
+        public int Generation = 1;
+
+        /// <summary>
         /// Returns the template digest used as index file.
         /// </summary>
         /// <returns>A TemplateInfo object describing this template.</returns>
@@ -78,6 +83,7 @@ namespace PSModuleDevelopment.Template
             info.Tags = Tags;
             info.Type = Type;
             info.Version = Version;
+            info.Generation = Generation;
 
             return info;
         }

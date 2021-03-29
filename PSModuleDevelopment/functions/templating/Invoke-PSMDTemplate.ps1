@@ -1,5 +1,4 @@
-﻿function Invoke-PSMDTemplate
-{
+﻿function Invoke-PSMDTemplate {
 <#
 	.SYNOPSIS
 		Creates a project/file from a template.
@@ -99,6 +98,7 @@
 		$Path,
 		
 		[Parameter(Position = 2)]
+		[PSFramework.Validation.PsfValidateScript('PSFramework.Validate.FSPath.Folder', ErrorString = 'PSFramework.Validate.FSPath.Folder')]
 		[string]
 		$OutPath = (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Template.OutPath' -Fallback "."),
 		
@@ -128,52 +128,31 @@
 		$EnableException
 	)
 	
-	begin
-	{
-		#region Validate output path
-		try
-		{
-			$resolvedPath = Resolve-Path $OutPath -ErrorAction Stop
-			if (($resolvedPath | Measure-Object).Count -ne 1)
-			{
-				throw "Cannot resolve $OutPath to a single folder"
-			}
-			if ($resolvedPath.Provider -notlike "*FileSystem")
-			{
-				throw "Path $OutPath was not recognized as a filesystem path"
-			}
-		}
-		catch
-		{
-			Stop-PSFFunction -Message "Could not resolve output path to a valid folder: $OutPath" -EnableException $EnableException -ErrorRecord $_ -Tag 'fail', 'path', 'validate'
-			return
-		}
-		#endregion Validate output path
-		
+	begin {
 		$templates = @()
-		switch ($PSCmdlet.ParameterSetName)
-		{
+		switch ($PSCmdlet.ParameterSetName) {
 			'NameStore' { $templates = Get-PSMDTemplate -TemplateName $TemplateName -Store $Store }
 			'NamePath' { $templates = Get-PSMDTemplate -TemplateName $TemplateName -Path $Path }
+		}
+		if ($TemplateName -and -not $templates) {
+			Stop-PSFFunction -String 'Invoke-PSMDTemplate.Template.NotFound' -StringValues $TemplateName -EnableException $EnableException -Cmdlet $PSCmdlet
+			return
 		}
 		
 		#region Parameter Processing
 		if (-not $Parameters) { $Parameters = @{ } }
 		if ($Name) { $Parameters["Name"] = $Name }
 		
-		foreach ($config in (Get-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.ParameterDefault.*'))
-		{
+		foreach ($config in (Get-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.ParameterDefault.*')) {
 			$cfgName = $config.Name -replace '^.+\.([^\.]+)$', '$1'
-			if (-not $Parameters.ContainsKey($cfgName))
-			{
+			if (-not $Parameters.ContainsKey($cfgName)) {
 				$Parameters[$cfgName] = $config.Value
 			}
 		}
 		#endregion Parameter Processing
 		
 		#region Helper function
-		function Invoke-Template
-		{
+		function Invoke-Template {
 			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 			[CmdletBinding()]
 			param (
@@ -200,16 +179,13 @@
 			)
 			Write-PSFMessage -Level Verbose -Message "Processing template $($item)" -Tag 'template', 'invoke' -FunctionName Invoke-PSMDTemplate
 			
-			$templateData = Import-Clixml -Path $Template.Path -ErrorAction Stop
+			$templateData = Import-PSFClixml -Path $Template.Path -ErrorAction Stop
 			#region Process Parameters
-			foreach ($parameter in $templateData.Parameters)
-			{
+			foreach ($parameter in $templateData.Parameters) {
 				if (-not $parameter) { continue }
-				if (-not $Parameters.ContainsKey($parameter))
-				{
+				if (-not $Parameters.ContainsKey($parameter)) {
 					if ($Silent) { throw "Parameter not specified: $parameter" }
-					try
-					{
+					try {
 						$value = Read-Host -Prompt "Enter value for parameter '$parameter'" -ErrorAction Stop
 						$Parameters[$parameter] = $value
 					}
@@ -221,17 +197,13 @@
 			#region Scripts
 			$scriptParameters = @{ }
 			
-			if (-not $Raw)
-			{
-				foreach ($scriptParam in $templateData.Scripts.Values)
-				{
+			if (-not $Raw) {
+				foreach ($scriptParam in $templateData.Scripts.Values) {
 					if (-not $scriptParam) { continue }
 					try { $scriptParameters[$scriptParam.Name] = "$([scriptblock]::Create($scriptParam.StringScript).Invoke())" }
-					catch
-					{
+					catch {
 						if ($Silent) { throw (New-Object System.Exception("Scriptblock $($scriptParam.Name) failed during execution: $_", $_.Exception)) }
-						else
-						{
+						else {
 							Write-PSFMessage -Level Warning -Message "Scriptblock $($scriptParam.Name) failed during execution. Please specify a custom value or use CTRL+C to terminate creation" -ErrorRecord $_ -FunctionName "Invoke-PSMDTemplate" -ModuleName 'PSModuleDevelopment'
 							$scriptParameters[$scriptParam.Name] = Read-Host -Prompt "Value for script $($scriptParam.Name)"
 						}
@@ -240,17 +212,14 @@
 			}
 			#endregion Scripts
 			
-			switch ($templateData.Type.ToString())
-			{
+			switch ($templateData.Type.ToString()) {
 				#region File
 				"File"
 				{
-					foreach ($child in $templateData.Children)
-					{
+					foreach ($child in $templateData.Children) {
 						Write-TemplateItem -Item $child -Path $OutPath -Encoding $Encoding -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
 					}
-					if ($Raw -and $templateData.Scripts.Values)
-					{
+					if ($Raw -and $templateData.Scripts.Values) {
 						$templateData.Scripts.Values | Export-Clixml -Path (Join-Path $OutPath "_PSMD_ParameterScripts.xml")
 					}
 				}
@@ -260,34 +229,28 @@
 				"Project"
 				{
 					#region Resolve output folder
-					if (-not $NoFolder)
-					{
-						if ($Parameters["Name"])
-						{
+					if (-not $NoFolder) {
+						if ($Parameters["Name"]) {
 							$projectName = $Parameters["Name"]
 							$projectFullName = Join-Path $OutPath $projectName
-							if ((Test-Path $projectFullName) -and (-not $Force))
-							{
+							if ((Test-Path $projectFullName) -and (-not $Force)) {
 								throw "Project root folder already exists: $projectFullName"
 							}
 							$newFolder = New-Item -Path $OutPath -Name $Parameters["Name"] -ItemType Directory -ErrorAction Stop -Force
 						}
-						else
-						{
+						else {
 							throw "Parameter Name is needed to create a project without setting the -NoFolder parameter!"
 						}
 					}
 					else { $newFolder = Get-Item $OutPath }
 					#endregion Resolve output folder
 					
-					foreach ($child in $templateData.Children)
-					{
+					foreach ($child in $templateData.Children) {
 						Write-TemplateItem -Item $child -Path $newFolder.FullName -Encoding $Encoding -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
 					}
 					
 					#region Write Config File (Raw)
-					if ($Raw)
-					{
+					if ($Raw) {
 						$guid = [System.Guid]::NewGuid().ToString()
 						$optionsTemplate = @"
 @{
@@ -299,11 +262,9 @@
 þþþPLACEHOLDER-$($guid)þþþ
 }
 "@
-						if ($params = $templateData.Scripts.Values)
-						{
+						if ($params = $templateData.Scripts.Values) {
 							$list = @()
-							foreach ($param in $params)
-							{
+							foreach ($param in $params) {
 								$list += @"
 	$($param.Name) = {
 		$($param.StringScript)
@@ -312,9 +273,8 @@
 							}
 							$optionsTemplate = $optionsTemplate -replace "þþþPLACEHOLDER-$($guid)þþþ", ($list -join "`n`n")
 						}
-						else
-						{
-							$optionsTemplate = $optionsTemplate -replace "þþþPLACEHOLDER-$($guid)þþþ",""
+						else {
+							$optionsTemplate = $optionsTemplate -replace "þþþPLACEHOLDER-$($guid)þþþ", ""
 						}
 						
 						$configFile = Join-Path $newFolder.FullName "PSMDTemplate.ps1"
@@ -326,8 +286,7 @@
 			}
 		}
 		
-		function Write-TemplateItem
-		{
+		function Write-TemplateItem {
 			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 			[CmdletBinding()]
 			param (
@@ -350,46 +309,37 @@
 				$Raw
 			)
 			
-			Write-PSFMessage -Level Verbose -Message "Creating file: $($Item.Name) ($($Item.RelativePath))" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create','template'
+			Write-PSFMessage -Level Verbose -Message "Creating file: $($Item.Name) ($($Item.RelativePath))" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
 			
 			$identifier = $Item.Identifier
 			$isFile = $Item.GetType().Name -eq 'TemplateItemFile'
 			
 			#region File
-			if ($isFile)
-			{
+			if ($isFile) {
 				$fileName = $Item.Name
-				if (-not $Raw)
-				{
-					foreach ($param in $Item.FileSystemParameterFlat)
-					{
-						$fileName = $fileName -replace "$($identifier)$([regex]::Escape($param))$($identifier)",$ParameterFlat[$param]
+				if (-not $Raw) {
+					foreach ($param in $Item.FileSystemParameterFlat) {
+						$fileName = $fileName.Replace("$($identifier)$($param)$($identifier)", $ParameterFlat[$param], $true, $null)
 					}
-					foreach ($param in $Item.FileSystemParameterScript)
-					{
-						$fileName = $fileName -replace "$($identifier)!$([regex]::Escape($param))!$($identifier)", $ParameterScript[$param]
+					foreach ($param in $Item.FileSystemParameterScript) {
+						$fileName = $fileName.Replace("$($identifier)$($param)$($identifier)", $ParameterScript[$param], $true, $null)
 					}
 				}
 				$destPath = Join-Path $Path $fileName
 				
-				if ($Item.PlainText)
-				{
+				if ($Item.PlainText) {
 					$text = $Item.Value
-					if (-not $Raw)
-					{
-						foreach ($param in $Item.ContentParameterFlat)
-						{
-							$text = $text -replace "$($identifier)$([regex]::Escape($param))$($identifier)", $ParameterFlat[$param]
+					if (-not $Raw) {
+						foreach ($param in $Item.ContentParameterFlat) {
+							$text = $text.Replace("$($identifier)$($param)$($identifier)", $ParameterFlat[$param], $true, $null)
 						}
-						foreach ($param in $Item.ContentParameterScript)
-						{
-							$text = $text -replace "$($identifier)!$([regex]::Escape($param))!$($identifier)", $ParameterScript[$param]
+						foreach ($param in $Item.ContentParameterScript) {
+							$text = $text.Replace("$($identifier)!$($param)!$($identifier)", $ParameterScript[$param], $true, $null)
 						}
 					}
 					[System.IO.File]::WriteAllText($destPath, $text, $Encoding)
 				}
-				else
-				{
+				else {
 					$bytes = [System.Convert]::FromBase64String($Item.Value)
 					[System.IO.File]::WriteAllBytes($destPath, $bytes)
 				}
@@ -397,24 +347,19 @@
 			#endregion File
 			
 			#region Folder
-			else
-			{
+			else {
 				$folderName = $Item.Name
-				if (-not $Raw)
-				{
-					foreach ($param in $Item.FileSystemParameterFlat)
-					{
+				if (-not $Raw) {
+					foreach ($param in $Item.FileSystemParameterFlat) {
 						$folderName = $folderName -replace "$($identifier)$([regex]::Escape($param))$($identifier)", $ParameterFlat[$param]
 					}
-					foreach ($param in $Item.FileSystemParameterScript)
-					{
+					foreach ($param in $Item.FileSystemParameterScript) {
 						$folderName = $folderName -replace "$($identifier)!$([regex]::Escape($param))!$($identifier)", $ParameterScript[$param]
 					}
 				}
 				$folder = New-Item -Path $Path -Name $folderName -ItemType Directory
 				
-				foreach ($child in $Item.Children)
-				{
+				foreach ($child in $Item.Children) {
 					Write-TemplateItem -Item $child -Path $folder.FullName -Encoding $Encoding -ParameterFlat $ParameterFlat -ParameterScript $ParameterScript -Raw $Raw
 				}
 			}
@@ -422,25 +367,27 @@
 		}
 		#endregion Helper function
 	}
-	process
-	{
+	process {
 		if (Test-PSFFunctionInterrupt) { return }
 		
-		foreach ($item in $Template)
-		{
-			if ($PSCmdlet.ShouldProcess($item, "Invoking template"))
-			{
-				try { Invoke-Template -Template $item -OutPath $resolvedPath.ProviderPath -NoFolder $NoFolder -Encoding $Encoding -Parameters $Parameters.Clone() -Raw $Raw -Silent $Silent }
-				catch { Stop-PSFFunction -Message "Failed to invoke template $($item)" -EnableException $EnableException -ErrorRecord $_ -Target $item -Tag 'fail', 'template', 'invoke' -Continue }
-			}
+		$invokeParam = @{
+			Parameters = $Parameters.Clone()
+			OutPath    = Resolve-PSFPath -Path $OutPath
+			NoFolder   = $NoFolder
+			Encoding   = $Encoding
+			Raw	       = $Raw
+			Silent	   = $Silent
 		}
-		foreach ($item in $templates)
-		{
-			if ($PSCmdlet.ShouldProcess($item, "Invoking template"))
-			{
-				try { Invoke-Template -Template $item -OutPath $resolvedPath.ProviderPath -NoFolder $NoFolder -Encoding $Encoding -Parameters $Parameters.Clone() -Raw $Raw -Silent $Silent }
-				catch { Stop-PSFFunction -Message "Failed to invoke template $($item)" -EnableException $EnableException -ErrorRecord $_ -Target $item -Tag 'fail', 'template', 'invoke' -Continue }
-			}
+		
+		foreach ($item in $Template) {
+			Invoke-PSFProtectedCommand -ActionString 'Invoke-PSMDTemplate.Invoking' -ActionStringValues $item -Target $item -ScriptBlock {
+				Invoke-Template @invokeParam -Template $item
+			} -EnableException $EnableException -PSCmdlet $PSCmdlet -Continue
+		}
+		foreach ($item in $templates) {
+			Invoke-PSFProtectedCommand -ActionString 'Invoke-PSMDTemplate.Invoking' -ActionStringValues $item -Target $item -ScriptBlock {
+				Invoke-Template @invokeParam -Template $item
+			} -EnableException $EnableException -PSCmdlet $PSCmdlet -Continue
 		}
 	}
 }

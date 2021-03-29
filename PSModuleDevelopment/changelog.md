@@ -1,11 +1,16 @@
 ﻿# Changelog
 
+## ???
+
+- Fix: TemplateStore - default path iss invalid on MAC (#136)
+- Fix: Invoke-PSMDTemplate - unreliable string replacement through -replace operator (#113)
+- Fix: Publish-PSMDScriptFile - insufficient exclude paths (#138; @Callidus2000)
+
 ## 2.2.9.106 (September 10th, 2020)
 
 - New: Convert-PSMDMessage - Converts a file's use of PSFramework messages to strings.
 - Upd: Export-PSMDString - Adding support for Test-PSFShouldProcess.
 - Fix: Export-PSMDString - Failed with splatting detection
-- Fix: Publish-PSMDScriptFile - insufficient exclude paths (#138; @Callidus2000)
 
 ## 2.2.8.104 (July 26th, 2020)
 
