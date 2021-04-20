@@ -2,6 +2,7 @@
 
 ## ???
 
+- New: Build Component - define build workflows based on pre-defined & extensible action code
 - Fix: TemplateStore - default path iss invalid on MAC (#136)
 - Fix: Invoke-PSMDTemplate - unreliable string replacement through -replace operator (#113)
 - Fix: Publish-PSMDScriptFile - insufficient exclude paths (#138; @Callidus2000)
