@@ -21,6 +21,11 @@ foreach ($file in (Get-ChildItem "$($script:ModuleRoot)\internal\maintenance\*.p
 	. Import-ModuleFile -Path $file.FullName
 }
 
+# Load Build Actions
+foreach ($file in (Get-ChildItem "$($script:ModuleRoot)\internal\buildActions\*.ps1" -ErrorAction Ignore)) {
+	. Import-ModuleFile -Path $file.FullName
+}
+
 # Load License
 . Import-ModuleFile -Path "$($script:ModuleRoot)\internal\scripts\license.ps1"
 

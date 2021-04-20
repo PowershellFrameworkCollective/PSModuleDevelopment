@@ -27,7 +27,7 @@
 	# Modules that must be imported into the global environment prior to importing
 	# this module
 	RequiredModules	       = @(
-		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.4.149' }
+		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.6.198' }
 		@{ ModuleName = 'string'; ModuleVersion = '0.6.1' }
 	)
 
@@ -50,45 +50,57 @@
 
 	# Functions to export from this module
 	FunctionsToExport  = @(
-		'Convert-PSMDMessage',
-		'Expand-PSMDTypeName',
-		'Export-PSMDString',
-		'Find-PSMDFileContent',
-		'Find-PSMDType',
-		'Format-PSMDParameter',
-		'Get-PSMDArgumentCompleter',
-		'Get-PSMDAssembly',
-		'Get-PSMDConstructor',
-		'Get-PSMDFileCommand',
-		'Get-PSMDHelp',
-		'Get-PSMDMember',
-		'Get-PSMDModuleDebug',
-		'Get-PSMDTemplate',
-		'Import-PSMDModuleDebug',
-		'Invoke-PSMDTemplate',
-		'Measure-PSMDCommand',
-		'Measure-PSMDLinesOfCode',
-		'New-PSMDDotNetProject',
-		'New-PSMDHeader',
-		'New-PSMDFormatTableDefinition',
-		'New-PSMDModuleNugetPackage',
-		'New-PSMDTemplate',
-		'New-PssModuleProject',
-		'Publish-PSMDScriptFile',
-		'Publish-PSMDStagedModule',
-		'Read-PSMDScript',
-		'Remove-PSMDModuleDebug',
-		'Remove-PSMDTemplate',
-		'Rename-PSMDParameter',
-		'Restart-PSMDShell',
-		'Search-PSMDPropertyValue',
-		'Set-PSMDEncoding',
-		'Set-PSMDModuleDebug',
-		'Set-PSMDCmdletBinding',
-		'Set-PSMDModulePath',
-		'Set-PSMDParameterHelp',
-		'Set-PSMDStagingRepository',
-		'Show-PSMDSyntax',
+		'Convert-PSMDMessage'
+		'Expand-PSMDTypeName'
+		'Export-PSMDString'
+		'Find-PSMDFileContent'
+		'Find-PSMDType'
+		'Format-PSMDParameter'
+		'Get-PSMDArgumentCompleter'
+		'Get-PSMDAssembly'
+		'Get-PSMDBuildAction'
+		'Get-PSMDBuildArtifact'
+		'Get-PSMDBuildProject'
+		'Get-PSMDBuildStep'
+		'Get-PSMDConstructor'
+		'Get-PSMDFileCommand'
+		'Get-PSMDHelp'
+		'Get-PSMDMember'
+		'Get-PSMDModuleDebug'
+		'Get-PSMDTemplate'
+		'Import-PSMDModuleDebug'
+		'Invoke-PSMDBuildProject'
+		'Invoke-PSMDTemplate'
+		'Measure-PSMDCommand'
+		'Measure-PSMDLinesOfCode'
+		'New-PSMDBuildProject'
+		'New-PSMDDotNetProject'
+		'New-PSMDFormatTableDefinition'
+		'New-PSMDHeader'
+		'New-PSMDModuleNugetPackage'
+		'New-PSMDTemplate'
+		'New-PssModuleProject'
+		'Publish-PSMDBuildArtifact'
+		'Publish-PSMDScriptFile'
+		'Publish-PSMDStagedModule'
+		'Read-PSMDScript'
+		'Register-PSMDBuildAction'
+		'Remove-PSMDBuildArtifact'
+		'Remove-PSMDBuildProject'
+		'Remove-PSMDModuleDebug'
+		'Remove-PSMDTemplate'
+		'Rename-PSMDParameter'
+		'Restart-PSMDShell'
+		'Search-PSMDPropertyValue'
+		'Select-PSMDBuildProject'
+		'Set-PSMDBuildStep'
+		'Set-PSMDCmdletBinding'
+		'Set-PSMDEncoding'
+		'Set-PSMDModuleDebug'
+		'Set-PSMDModulePath'
+		'Set-PSMDParameterHelp'
+		'Set-PSMDStagingRepository'
+		'Show-PSMDSyntax'
 		'Split-PSMDScriptFile'
     )
 
@@ -99,15 +111,16 @@
 	# VariablesToExport = ''
 
 	# Aliases to export from this module
-    AliasesToExport = @(
-		'dotnetnew',
-		'find',
-		'hex',
-		'imt',
-		'ipmod',
-		'parse',
-		'Restart-Shell',
-        'rss',
+	AliasesToExport    = @(
+		'build'
+		'dotnetnew'
+		'find'
+		'hex'
+		'imt'
+		'ipmod'
+		'parse'
+		'Restart-Shell'
+        'rss'
         'smd'
     )
 
