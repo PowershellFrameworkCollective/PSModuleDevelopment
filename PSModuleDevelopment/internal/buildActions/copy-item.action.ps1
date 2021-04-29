@@ -5,6 +5,7 @@
 	
 	$rootPath = $Parameters.RootPath
 	$actualParameters = $Parameters.Parameters
+	$actualParameters = Resolve-PSMDBuildStepParameter -Parameters $actualParameters -ProjectName $Parameters.ProjectName -StepName $Parameters.StepName
 	
 	if (-not ($actualParameters.Path -and $actualParameters.Destination)) {
 		throw "Invalid parameters! Specify both Path and Destination."

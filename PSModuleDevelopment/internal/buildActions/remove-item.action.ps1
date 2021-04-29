@@ -5,6 +5,7 @@
 	
 	$rootPath = $Parameters.RootPath
 	$actualParameters = $Parameters.Parameters
+	$actualParameters = Resolve-PSMDBuildStepParameter -Parameters $actualParameters -ProjectName $Parameters.ProjectName -StepName $Parameters.StepName
 	
 	if (-not $actualParameters.Path) {
 		throw "Invalid parameters! Specify a Path to delete."

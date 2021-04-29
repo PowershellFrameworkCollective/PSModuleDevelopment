@@ -1,4 +1,42 @@
 ﻿function Invoke-PSMDBuildProject {
+<#
+	.SYNOPSIS
+		Execute a build project.
+	
+	.DESCRIPTION
+		Execute a build project.
+		A build project is a configured chain of actions that have been configured in json.
+		They will be processed in their specified order and allow manageable, configurable steps without having to reinvent the same action again and again.
+		
+		+ Individual action types become available using Register-PSMDBuildAction.
+		+ Create new build projects using New-PSMDBuildProject
+		+ Set up steps taken during a build using Set-PSMDBuildStep
+		+ Select the default build project using Select-PSMDBuildProject
+	
+	.PARAMETER Path
+		The path to the build project file to execute.
+		Mandatory if no build project has been selected as the default project.
+		Use the Select-PSMDBuildProject to define a default project (and optionally persist the choice across sessions)
+	
+	.PARAMETER RetainArtifacts
+		Whether, after executing the project, its artifacts should be retained.
+		By default, any artifacts created during a build project will be discarded upon project completion.
+	
+		Artifacts are similar to variables to the pipeline and can be used to pass data throughout the pipeline.
+		
+		+ Use Publish-PSMDBuildArtifact to create a new artifact.
+		+ Use Get-PSMDBuildArtifact to access existing build artifacts.
+	
+	.EXAMPLE
+		PS C:\> Invoke-PSMDBuildProject -Path .\VMDeployment.build.Json
+	
+		Execute the build file "VMDeployment.build.json" from the current folder
+	
+	.EXAMPLE
+		PS C:\> build
+	
+		Execute the default build project.
+#>
 	[Alias('build')]
 	[CmdletBinding()]
 	param (
@@ -114,7 +152,10 @@
 			$parameters = @{
 				RootPath = Split-Path -Path $projectPath
 				Parameters = $step.Parameters
+				ProjectName = $projectObject.Name
+				StepName = $step.Name
 			}
+			if (-not $parameters.Parameters) { $parameters.Parameters = @{ } }
 			try { $null = & $actionObject.Action $parameters }
 			catch {
 				Write-StepResult @resultDef -Status Failed -Data $_ -ContinueLabel main

@@ -90,6 +90,7 @@
 		'Remove-PSMDModuleDebug'
 		'Remove-PSMDTemplate'
 		'Rename-PSMDParameter'
+		'Resolve-PSMDBuildStepParameter'
 		'Restart-PSMDShell'
 		'Search-PSMDPropertyValue'
 		'Select-PSMDBuildProject'
