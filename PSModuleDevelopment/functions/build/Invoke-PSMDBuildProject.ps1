@@ -151,7 +151,7 @@
 			#region Execution
 			$parameters = @{
 				RootPath = Split-Path -Path $projectPath
-				Parameters = $step.Parameters
+				Parameters = $step.Parameters | ConvertTo-PSFHashtable
 				ProjectName = $projectObject.Name
 				StepName = $step.Name
 			}
