@@ -8,14 +8,18 @@
 	$actualParameters = Resolve-PSMDBuildStepParameter -Parameters $actualParameters -FromArtifacts $Parameters.ParametersFromArtifacts -ProjectName $Parameters.ProjectName -StepName $Parameters.StepName
 	
 	#region Process Parameters
-	if (-not $actualParameters.Path) {
-		throw "Mandatory parameter: Path not specified"
+	if (-not $actualParameters.Command) {
+		throw "Mandatory parameter: Command not specified"
 	}
 	
-	$scriptPath = $actualParameters.Path -replace '%ProjectRoot%', $rootPath
-	
-	if (-not (Test-Path $scriptPath)) {
-		throw "Cannot find resolved script path: $scriptPath"
+	if ($actualParameters.Command -is [System.Management.Automation.ScriptBlock]) {
+		$scriptblock = $actualParameters.Command
+	}
+	else {
+		try { $scriptblock = [scriptblock]::Create($actualParameters.Command) }
+		catch {
+			throw "Error parsing command '$($actualParameters.Command)' : $_"
+		}
 	}
 	
 	$actualArguments = foreach ($argument in $actualParameters.ArgumentList) {
@@ -47,7 +51,7 @@
 	
 	#region Execution
 	$invokeParam = @{
-		FilePath	 = $scriptPath
+		ScriptBlock	 = $scriptblock
 		ArgumentList = $actualArguments
 	}
 	if ($inSession) { $invokeParam.Session = $inSession }
@@ -57,12 +61,12 @@
 }
 
 $params = @{
-	Name	    = 'script'
+	Name	    = 'command'
 	Action	    = $action
-	Description = 'Execute a scriptfile'
+	Description = 'Execute a scriptblock'
 	Parameters  = @{
-		Path		 = '(mandatory) Path to the scriptfile to run. Use %ProjectRoot% to reference the same folder the build action file is stored in.'
-		ArgumentList = 'Any number of arguments to pass to the scripts. To insert artifacts, specify a string with the special notation "%!ArtifactName!%"'
+		Command		 = '(mandatory) Scriptcode to run'
+		ArgumentList = 'Any number of arguments to pass to the command. To insert artifacts, specify a string with the special notation "%!ArtifactName!%"'
 		InSession    = 'Execute the scriptfile in the target PSSession. Either provide a full session object or an artifact name pointing at one.'
 	}
 }

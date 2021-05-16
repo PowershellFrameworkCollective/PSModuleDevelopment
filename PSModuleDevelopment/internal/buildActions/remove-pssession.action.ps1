@@ -5,7 +5,7 @@
 	
 	$rootPath = $Parameters.RootPath
 	$actualParameters = $Parameters.Parameters
-	$actualParameters = Resolve-PSMDBuildStepParameter -Parameters $actualParameters -ProjectName $Parameters.ProjectName -StepName $Parameters.StepName
+	$actualParameters = Resolve-PSMDBuildStepParameter -Parameters $actualParameters -FromArtifacts $Parameters.ParametersFromArtifacts -ProjectName $Parameters.ProjectName -StepName $Parameters.StepName
 	
 	if ($actualParameters.All) {
 		foreach ($artifact in Get-PSMDBuildArtifact -Tag pssession) {

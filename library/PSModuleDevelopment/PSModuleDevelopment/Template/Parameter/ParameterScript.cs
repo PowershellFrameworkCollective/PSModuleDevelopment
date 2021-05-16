@@ -13,6 +13,7 @@ namespace PSModuleDevelopment.Template.Parameter
     /// <summary>
     /// Parameter type executing 
     /// </summary>
+    [Serializable]
     public class ParameterScript : ParameterBase
     {
         /// <summary>
@@ -65,12 +66,25 @@ namespace PSModuleDevelopment.Template.Parameter
         /// <summary>
         /// Execute the scriptblock "Just-in-time" during either PreItemCreation or PostItemCreation Timing.
         /// </summary>
-        /// <param name="Info">The file/directory info object of the file recently or about to be created</param>
+        /// <param name="Info">The file/directory info object of the object recently or about to be created</param>
         /// <returns>Returns a string value resulting from the scriptblock to insert</returns>
         public string GetInTimeValue(FileSystemInfo Info)
         {
             try { return (string)LanguagePrimitives.ConvertTo(_ScriptBlock.InvokeEx(Info, true, true, false), typeof(string)); }
             catch (Exception e) { return $"<Error: Scriptblock {Name} failed: {e.Message}>"; }
+        }
+
+        /// <summary>
+        /// Execute the scriptblock "Just-in-time" during either PreItemCreation or PostItemCreation Timing.
+        /// </summary>
+        /// <param name="Path">The path to the file/directory info object of the object recently or about to be created</param>
+        /// <param name="IsFile">Whether the object (about to be) created is a file.</param>
+        /// <returns>Returns a string value resulting from the scriptblock to insert</returns>
+        public string GetInTimeValue(string Path, bool IsFile)
+        {
+            if (IsFile)
+                return GetInTimeValue(new FileInfo(Path));
+            return GetInTimeValue(new DirectoryInfo(Path));
         }
     }
 }

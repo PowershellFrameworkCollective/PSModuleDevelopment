@@ -282,6 +282,141 @@
             </summary>
             <param name="Info">The constructor info object describing the constructor</param>
         </member>
+        <member name="T:PSModuleDevelopment.Template.Parameter.ParameterBase">
+            <summary>
+            Base class for all kinds of parameters gen 2+
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ParameterBase.Name">
+            <summary>
+            Name of the parameter
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ParameterBase.Description">
+            <summary>
+            Description of the parameter
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.Parameter.ParameterBase.GetValue">
+            <summary>
+            Get the value associated with this parameter
+            </summary>
+            <returns>The value to insert into the artifact generated from the template</returns>
+        </member>
+        <member name="T:PSModuleDevelopment.Template.Parameter.ParameterPrompt">
+            <summary>
+            A template parameter where the user is prompted for input.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ParameterPrompt.Value">
+            <summary>
+            The value provided by the user
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ParameterPrompt.ValidateSet">
+            <summary>
+            List of legal values to provide
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ParameterPrompt.ValidatePattern">
+            <summary>
+            A validation pattern that needs to be met.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ParameterPrompt.PatternError">
+            <summary>
+            An error description that will be shown if the user provides invalid input to a parameter with pattern validation.
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.Parameter.ParameterPrompt.TestValue(System.String)">
+            <summary>
+            Test whether the input meets the validation rules
+            </summary>
+            <param name="Value">The value to test</param>
+            <returns>Whether the value is valid.</returns>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.Parameter.ParameterPrompt.GetValue">
+            <summary>
+            Return the value specified by the user.
+            </summary>
+            <returns>The value specified by the user</returns>
+        </member>
+        <member name="T:PSModuleDevelopment.Template.Parameter.ParameterScript">
+            <summary>
+            Parameter type executing 
+            </summary>
+        </member>
+        <member name="P:PSModuleDevelopment.Template.Parameter.ParameterScript.ScriptBlock">
+            <summary>
+            The scriptblock to execute.
+            Wrapped as string for serialization purposes.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ParameterScript.Value">
+            <summary>
+            The value of the scriptblock.
+            Populated by the GetValue() method usually called with the "StartUp" timing.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ParameterScript.Timing">
+            <summary>
+            When exactly during the template process should this scriptblock be executed?
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ParameterScript.SkipInsert">
+            <summary>
+            Setting this to true will cause the Invoke-PSMDTemplate command to omit inserting values for the 
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.Parameter.ParameterScript.GetValue">
+            <summary>
+            Returns the string value of the scriptblock by executing it!
+            </summary>
+            <returns>The string value of the scriptblock by executing it!</returns>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.Parameter.ParameterScript.GetInTimeValue(System.IO.FileSystemInfo)">
+            <summary>
+            Execute the scriptblock "Just-in-time" during either PreItemCreation or PostItemCreation Timing.
+            </summary>
+            <param name="Info">The file/directory info object of the object recently or about to be created</param>
+            <returns>Returns a string value resulting from the scriptblock to insert</returns>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.Parameter.ParameterScript.GetInTimeValue(System.String,System.Boolean)">
+            <summary>
+            Execute the scriptblock "Just-in-time" during either PreItemCreation or PostItemCreation Timing.
+            </summary>
+            <param name="Path">The path to the file/directory info object of the object recently or about to be created</param>
+            <param name="IsFile">Whether the object (about to be) created is a file.</param>
+            <returns>Returns a string value resulting from the scriptblock to insert</returns>
+        </member>
+        <member name="T:PSModuleDevelopment.Template.Parameter.ScriptExecutionTime">
+            <summary>
+            When will a specific scriptblock parameter be executed?
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ScriptExecutionTime.StartUp">
+            <summary>
+            Executed when starting the overall template invocation
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ScriptExecutionTime.PreItemCreation">
+            <summary>
+            Executed before an individual item using it is created.
+            Values will be inserted into the file-content before writing to disk if applicable.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ScriptExecutionTime.PostItemCreation">
+            <summary>
+            Executed after the individual item using it has been created.
+            Output will be discarded, but scriptblock will receive path of file / folder.
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Parameter.ScriptExecutionTime.Conclusion">
+            <summary>
+            Executed after the entire project has been written.
+            Enables post-processing.
+            </summary>
+        </member>
         <member name="T:PSModuleDevelopment.Template.ParameterScript">
             <summary>
             A script used to calculate content to be inserted
@@ -395,9 +530,19 @@
             List of scripts that will be invoked on initialization
             </summary>
         </member>
+        <member name="F:PSModuleDevelopment.Template.Template.Parameters2">
+            <summary>
+            List of generation 2 parameters to include
+            </summary>
+        </member>
         <member name="F:PSModuleDevelopment.Template.Template.Children">
             <summary>
             Items in the root directory of the template (which may contain children themselves).
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.Template.Generation">
+            <summary>
+            What design generation is the template?
             </summary>
         </member>
         <member name="M:PSModuleDevelopment.Template.Template.ToTemplateInfo">
@@ -459,6 +604,11 @@
         <member name="F:PSModuleDevelopment.Template.TemplateInfo.Path">
             <summary>
             The path to the template file
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateInfo.Generation">
+            <summary>
+            What template generation is this file?
             </summary>
         </member>
         <member name="M:PSModuleDevelopment.Template.TemplateInfo.ToString">

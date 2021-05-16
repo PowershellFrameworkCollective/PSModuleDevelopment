@@ -154,8 +154,10 @@
 				Parameters = $step.Parameters | ConvertTo-PSFHashtable
 				ProjectName = $projectObject.Name
 				StepName = $step.Name
+				ParametersFromArtifacts = $step.ParametersFromArtifacts | ConvertTo-PSFHashtable
 			}
 			if (-not $parameters.Parameters) { $parameters.Parameters = @{ } }
+			if (-not $parameters.ParametersFromArtifacts) { $parameters.ParametersFromArtifacts = @{ } }
 			try { $null = & $actionObject.Action $parameters }
 			catch {
 				Write-StepResult @resultDef -Status Failed -Data $_ -ContinueLabel main

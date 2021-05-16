@@ -5,7 +5,7 @@
 	
 	$rootPath = $Parameters.RootPath
 	$actualParameters = $Parameters.Parameters
-	$actualParameters = Resolve-PSMDBuildStepParameter -Parameters $actualParameters -ProjectName $Parameters.ProjectName -StepName $Parameters.StepName
+	$actualParameters = Resolve-PSMDBuildStepParameter -Parameters $actualParameters -FromArtifacts $Parameters.ParametersFromArtifacts -ProjectName $Parameters.ProjectName -StepName $Parameters.StepName
 	
 	if (-not $actualParameters.Path) {
 		throw "Invalid parameters! Specify a Path to delete."
@@ -15,13 +15,20 @@
 	$deleteParam = @{ }
 	if ($actualParameters.Recurse) { $deleteParam.Recurse = $true }
 	if ($actualParameters.Force) { $deleteParam.Force = $true }
+	
+	$inSession = $null
 	if ($actualParameters.InSession) {
-		$artifact = Get-PSMDBuildArtifact -Name $actualParameters.InSession
-		if (-not $artifact) {
-			throw "InSession $($actualParameters.InSession) not found!"
+		if ($actualParameters.InSession -is [System.Management.Automation.Runspaces.PSSession]) {
+			$inSession = $actualParameters.InSession
 		}
-		
-		$failed = Invoke-Command -Session $artifact.Value -ScriptBlock {
+		$artifactObject = Get-PSMDBuildArtifact -Name $actualParameters.InSession
+		if (-not $artifactObject) { throw "Artifact for parameter InSession not found: $($actualParameters.InSession)" }
+		if ($artifactObject.Value -isnot [System.Management.Automation.Runspaces.PSSession]) { throw "Artifact for parameter InSession ($($actualParameters.InSession)) is not a pssession!" }
+		$inSession = $artifactObject.Value
+	}
+	
+	if ($inSession) {
+		$failed = Invoke-Command -Session $inSession -ScriptBlock {
 			param ($DeleteParam, $Paths)
 			
 			foreach ($path in $Paths) {
