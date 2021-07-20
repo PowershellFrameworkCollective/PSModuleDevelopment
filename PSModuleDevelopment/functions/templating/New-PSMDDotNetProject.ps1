@@ -59,6 +59,7 @@
 		- It will skip the automatic restore of the project on create
 #>
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
+    [Alias('dotnetnew')]
 	[CmdletBinding(SupportsShouldProcess = $true, DefaultParameterSetName = 'Create')]
 	Param (
 		[Parameter(Position = 0, Mandatory = $true, ParameterSetName = 'Create')]
@@ -176,5 +177,3 @@
 		}
 	}
 }
-
-New-Alias -Name dotnetnew -Value New-PSMDDotNetProject -Option AllScope -Scope Global -ErrorAction Ignore

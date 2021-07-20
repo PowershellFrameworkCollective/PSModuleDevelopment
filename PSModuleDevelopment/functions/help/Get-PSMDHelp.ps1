@@ -113,12 +113,8 @@
 			PS C:\> Get-PSMDHelp Get-Help "en-us" -Detailed
 	
 			Gets the detailed help text of Get-Help in English
-	
-		.NOTES
-			Version 1.0.0.0
-            Author: Friedrich Weinmann
-            Created on: August 15th, 2016
 	#>
+    [Alias('hex')]
 	[CmdletBinding(DefaultParameterSetName = "AllUsersView")]
 	Param (
 		[Parameter(ParameterSetName = "Parameters", Mandatory = $true)]
@@ -210,4 +206,3 @@
 		catch { throw }
 	}
 }
-New-Alias -Name hex -Value Get-PSMDHelp -Scope Global -Option AllScope

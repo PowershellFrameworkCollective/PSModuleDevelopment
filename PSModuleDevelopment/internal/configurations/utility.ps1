@@ -1,5 +1,5 @@
 ﻿Set-PSFConfig -Module PSModuleDevelopment -Name 'Module.Path' -Value "" -Initialize -Validation "string" -Handler { } -Description "The path to the module currently under development. Used as default path by commnds that work within a module directory."
-Set-PSFConfig -Module PSModuleDevelopment -Name 'Package.Path' -Value "$env:TEMP" -Initialize -Validation "string" -Description "The default output path when exporting a module into a nuget package."
+Set-PSFConfig -Module PSModuleDevelopment -Name 'Package.Path' -Value (Get-PSFPath -Name Temp) -Initialize -Validation "string" -Description "The default output path when exporting a module into a nuget package."
 Set-PSFConfig -Module PSModuleDevelopment -Name 'Find.DefaultExtensions' -Value '^\.ps1$|^\.psd1$|^\.psm1$|^\.cs$' -Initialize -Validation string -Description 'The pattern to use to select files to scan when using Find-PSMDFileContent.'
 
 Set-PSFConfig -Module PSModuleDevelopment -Name "ShowSyntax.ParmsNotFound" -Value "Red" -Initialize -Validation "string" -Handler { } -Description "The color to be used for the parameters that could not be found."

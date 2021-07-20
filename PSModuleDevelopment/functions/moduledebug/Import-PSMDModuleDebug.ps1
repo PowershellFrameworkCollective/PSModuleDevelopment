@@ -15,6 +15,7 @@
 	
 			Imports the cPSNetwork module as it was configured to be imported using Set-ModuleDebug.
 	#>
+    [Alias('ipmod')]
 	[CmdletBinding()]
 	param (
 		[string]
@@ -41,4 +42,3 @@
 		}
 	}
 }
-New-Alias -Name ipmod -Value Import-ModuleDebug -Option AllScope -Scope Global

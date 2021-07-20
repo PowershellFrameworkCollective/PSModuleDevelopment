@@ -63,6 +63,11 @@ namespace PSModuleDevelopment.Template
         public string Path;
 
         /// <summary>
+        /// What template generation is this file?
+        /// </summary>
+        public int Generation = 1;
+
+        /// <summary>
         /// The version-qualified name of the template
         /// </summary>
         /// <returns>The version-qualified name of the template</returns>

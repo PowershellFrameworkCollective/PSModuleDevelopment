@@ -48,7 +48,7 @@
 			#region Command Parameters
 			$commandAsts = $ast.FindAll({
 					if ($args[0] -isnot [System.Management.Automation.Language.CommandAst]) { return $false }
-					if ($args[0].CommandElements[0].Value -notmatch '^Invoke-PSFProtectedCommand$|^Write-PSFMessage$|^Stop-PSFFunction$') { return $false }
+					if ($args[0].CommandElements[0].Value -notmatch '^Invoke-PSFProtectedCommand$|^Write-PSFMessage$|^Stop-PSFFunction$|^Test-PSFShouldProcess$') { return $false }
 					if (-not ($args[0].CommandElements.ParameterName -match '^String$|^ActionString$')) { return $false }
 					$true
 				}, $true)
@@ -79,7 +79,7 @@
 			$splattedVariables = $ast.FindAll({
 					if ($args[0] -isnot [System.Management.Automation.Language.VariableExpressionAst]) { return $false }
 					if (-not ($args[0].Splatted -eq $true)) { return $false }
-					try { if ($args[0].Parent.CommandElements[0].Value -notmatch '^Invoke-PSFProtectedCommand$|^Write-PSFMessage$|^Stop-PSFFunction$') { return $false } }
+					try { if ($args[0].Parent.CommandElements[0].Value -notmatch '^Invoke-PSFProtectedCommand$|^Write-PSFMessage$|^Stop-PSFFunction$|^Test-PSFShouldProcess$') { return $false } }
 					catch { return $false }
 					$true
 				}, $true)
