@@ -4,6 +4,11 @@
 	
 	'Get-PSMDFileCommand.SyntaxError'				   = 'Syntax error in file: {0}' # $pathItem
 	
+	'Invoke-PSMDBuildProject.Step.Executing' = '[{0}] Executing step {1} ({2})' # $count, $step.Name, $step.Action
+	
+	'Invoke-PSMDTemplate.Template.NotFound'		       = 'Unable to find template data for "{0}"' # $TemplateName
+	'Invoke-PSMDTemplate.Invoking'					   = 'Creating file/project from template {0}' # $item
+	
 	'MeasurePSMDLinesOfCode.Processing'			       = 'Processing Path: {0}' # $fileItem
 	
 	'Publish-PSMDScriptFile.Module.Saving'			   = 'Saving module {0} from repository {1}' # $moduleName, (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Script.StagingRepository')

@@ -59,9 +59,19 @@ namespace PSModuleDevelopment.Template
         public Dictionary<string, ParameterScript> Scripts = new Dictionary<string, ParameterScript>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
+        /// List of generation 2 parameters to include
+        /// </summary>
+        public Dictionary<string, Parameter.ParameterBase> Parameters2 = new Dictionary<string, Parameter.ParameterBase>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
         /// Items in the root directory of the template (which may contain children themselves).
         /// </summary>
         public List<TemplateItemBase> Children = new List<TemplateItemBase>();
+
+        /// <summary>
+        /// What design generation is the template?
+        /// </summary>
+        public int Generation = 1;
 
         /// <summary>
         /// Returns the template digest used as index file.
@@ -69,15 +79,20 @@ namespace PSModuleDevelopment.Template
         /// <returns>A TemplateInfo object describing this template.</returns>
         public TemplateInfo ToTemplateInfo()
         {
+            List<string> parameters = new List<string>(Parameters);
+            if (Parameters2.Count > 0)
+                parameters.AddRange(Parameters2.Values.Where(o => o.GetType().Name == "ParameterPrompt").Select(o => o.Name));
+
             TemplateInfo info = new TemplateInfo();
             info.Author = Author;
             info.CreatedOn = CreatedOn;
             info.Description = Description;
             info.Name = Name;
-            info.Parameters = Parameters;
+            info.Parameters = parameters;
             info.Tags = Tags;
             info.Type = Type;
             info.Version = Version;
+            info.Generation = Generation;
 
             return info;
         }

@@ -1,11 +1,27 @@
 ﻿# Changelog
 
+## 2.2.10.120 (2021-07-20)
+
+- New: Build Component - define build workflows based on pre-defined & extensible action code
+- Upd: Template AzureFunction - new layout with better build automation
+- Upd: Template AzureFunctionRest - new layout to integrate into new AzureFunction template
+- Upd: Template PSFProject - added Github Actions integration
+- Upd: Aliases - removed "AllScope" option
+- Fix: Template PSFTest - fixed PSScriptAnalyzer test path detection
+- Fix: Template PSFTest - fixed string LegalSurplus exception being ignored
+- Fix: Template PSFModule - fixed PSScriptAnalyzer test path detection
+- Fix: Template PSFModule - fixed string LegalSurplus exception being ignored
+- Fix: Template PSFProject - fixed PSScriptAnalyzer test path detection
+- Fix: Template PSFProject - fixed string LegalSurplus exception being ignored
+- Fix: TemplateStore - default path iss invalid on MAC (#136)
+- Fix: Invoke-PSMDTemplate - unreliable string replacement through -replace operator (#113)
+- Fix: Publish-PSMDScriptFile - insufficient exclude paths (#138; @Callidus2000)
+
 ## 2.2.9.106 (September 10th, 2020)
 
 - New: Convert-PSMDMessage - Converts a file's use of PSFramework messages to strings.
 - Upd: Export-PSMDString - Adding support for Test-PSFShouldProcess.
 - Fix: Export-PSMDString - Failed with splatting detection
-- Fix: Publish-PSMDScriptFile - insufficient exclude paths (#138; @Callidus2000)
 
 ## 2.2.8.104 (July 26th, 2020)
 

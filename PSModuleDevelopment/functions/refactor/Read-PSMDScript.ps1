@@ -24,6 +24,7 @@
 	
 		Parses all script files in the current directory
 #>
+    [Alias('parse')]
 	[CmdletBinding()]
 	param (
 		[Parameter(Position = 0, ParameterSetName = 'Script', Mandatory = $true)]
@@ -79,4 +80,3 @@
 		}
 	}
 }
-Set-Alias -Name parse -Value Read-PSMDScript

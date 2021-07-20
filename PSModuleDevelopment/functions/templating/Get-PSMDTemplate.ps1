@@ -84,8 +84,6 @@
 	
 	begin
 	{
-		Write-PSFMessage -Level InternalComment -Message "Bound parameters: $($PSBoundParameters.Keys -join ", ")" -Tag 'debug', 'start', 'param'
-		
 		$prospects = @()
 	}
 	process
@@ -97,7 +95,7 @@
 			
 			foreach ($info in $templateInfos)
 			{
-				$data = Import-Clixml $info.FullName
+				$data = Import-PSFClixml $info.FullName
 				$data.Path = $info.FullName -replace '\.Info\.xml$','.xml'
 				$prospects += $data
 			}
@@ -117,7 +115,7 @@
 					
 					foreach ($info in $templateInfos)
 					{
-						$data = Import-Clixml $info.FullName
+						$data = Import-PSFClixml $info.FullName
 						$data.Path = $info.FullName -replace '-Info\.xml$', '.xml'
 						$data.Store = $item.Name
 						$prospects += $data

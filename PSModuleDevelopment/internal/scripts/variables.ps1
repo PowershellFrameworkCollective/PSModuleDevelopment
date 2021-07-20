@@ -12,3 +12,7 @@ else
 	$path_FileUserShared = Join-Path $Env:AppData "$psVersionName\PSFramework\Config"
 	if (-not $Env:AppData) { $path_FileUserShared = Join-Path ([Environment]::GetFolderPath("ApplicationData")) "$psVersionName\PSFramework\Config" }
 }
+
+# Store of registered build actions
+$script:buildActions = @{ }
+$script:buildArtifacts = @{ }

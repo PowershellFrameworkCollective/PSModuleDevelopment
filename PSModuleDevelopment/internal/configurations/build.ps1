@@ -1,0 +1,1 @@
+﻿Set-PSFConfig -Module PSModuleDevelopment -Name 'Build.Project.Selected' -Value '' -Validation string -Initialize -Description 'Path of the selected build project. Used when running Invoke-PSMDBuildProject without specifying a build file.'
