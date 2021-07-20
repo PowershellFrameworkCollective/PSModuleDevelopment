@@ -65,6 +65,7 @@
 			Note: Using Write-Host is generally - but not always - bad practice
 			Note: Verbose output during module import is generally discouraged (doesn't apply to tests of course)
 	#>
+    [Alias('smd')]
 	[CmdletBinding(DefaultParameterSetName = "Name", SupportsShouldProcess = $true)]
 	Param (
 		[Parameter(Mandatory = $true, Position = 0, ParameterSetName = "Name", ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
@@ -177,4 +178,3 @@
 		#endregion Name
 	}
 }
-Set-Alias -Name smd -Value Set-PSMDModuleDebug -Option AllScope -Scope Global

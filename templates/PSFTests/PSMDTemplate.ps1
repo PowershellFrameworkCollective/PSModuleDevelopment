@@ -1,6 +1,6 @@
 ﻿@{
 	TemplateName = 'PSFTests' # Insert name of template
-	Version = "2.0.0.0" # Version to build to
+	Version = "2.0.1" # Version to build to
 	AutoIncrementVersion = $true # If a newer version than specified is present, instead of the specified version, make it one greater than the existing template
 	Tags = @('Tests', 'PSFramework') # Insert Tags as desired
 	Author = 'Friedrich Weinmann' # The author of the template, not the file / project created from it

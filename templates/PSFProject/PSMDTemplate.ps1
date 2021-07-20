@@ -1,6 +1,6 @@
 ﻿@{
 	TemplateName = 'PSFProject'
-	Version = "1.3.2.0"
+	Version = "1.3.3"
 	AutoIncrementVersion = $true
 	Tags = 'module','psframework'
 	Author = 'Friedrich Weinmann'
@@ -38,4 +38,5 @@ $null = New-Item -Path "$PSScriptRoot\..\.." -Name TestResults -ItemType Directo
 '$config.TestResult.Enabled = $true'
 		}
 	}
+    NoFolder = $true
 }

@@ -78,6 +78,7 @@
 #>
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSPossibleIncorrectUsageOfAssignmentOperator", "")]
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
+    [Alias('imt')]
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param (
 		[Parameter(Mandatory = $true, Position = 0, ParameterSetName = 'NameStore')]
@@ -391,5 +392,3 @@
 		}
 	}
 }
-
-if (-not (Test-Path Alias:\imt)) { Set-Alias -Name imt -Value Invoke-PSMDTemplate }

@@ -39,6 +39,7 @@
             Author: Friedrich Weinmann
             Created on: August 6th, 2016
     #>
+    [Alias('rss', 'Restart-Shell')]
 	[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
 	Param (
 		[Switch]
@@ -73,5 +74,3 @@
 		}
 	}
 }
-New-Alias -Name Restart-Shell -Value Restart-PSMDShell -Option AllScope -Scope Global
-New-Alias -Name rss -Value Restart-PSMDShell -Option AllScope -Scope Global

@@ -31,6 +31,7 @@
 	
 		Searches all module files for the string 'Get-Test'.
 #>
+    [Alias('find')]
 	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true, Position = 0)]
@@ -62,4 +63,3 @@
 		Get-ChildItem -Path $Path -Recurse | Where-Object Extension -Match $Extension | Select-String -Pattern $Pattern
 	}
 }
-New-Alias -Name find -Value Find-PSMDFileContent -Scope Global -Option AllScope
