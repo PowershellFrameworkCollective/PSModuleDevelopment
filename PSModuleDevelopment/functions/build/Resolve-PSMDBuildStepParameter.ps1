@@ -30,6 +30,7 @@
 		
 		Adds parameters provided through configuration.
 #>
+	[OutputType([hashtable])]
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true)]

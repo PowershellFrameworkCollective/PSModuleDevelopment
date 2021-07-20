@@ -25,6 +25,7 @@
 	
 		Will load the build project stored in the file "C:\code\project\project.build.json"
 #>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
 	[CmdletBinding(DefaultParameterSetName = 'Path')]
 	param (
 		[Parameter(Mandatory = $true, ParameterSetName = 'Path')]

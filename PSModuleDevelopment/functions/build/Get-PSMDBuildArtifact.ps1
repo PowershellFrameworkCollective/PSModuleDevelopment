@@ -31,6 +31,7 @@
 	
 		Returns all artifacts with the tag "pssession"
 #>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
 	[CmdletBinding()]
 	param (
 		[string]

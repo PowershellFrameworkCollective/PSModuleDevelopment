@@ -86,7 +86,6 @@
 		'Read-PSMDScript'
 		'Register-PSMDBuildAction'
 		'Remove-PSMDBuildArtifact'
-		'Remove-PSMDBuildProject'
 		'Remove-PSMDModuleDebug'
 		'Remove-PSMDTemplate'
 		'Rename-PSMDParameter'

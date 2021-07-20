@@ -51,6 +51,7 @@
 	
 		Defines a new step named 'Create Session' using the 'new-pssession'-action.
 #>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true)]

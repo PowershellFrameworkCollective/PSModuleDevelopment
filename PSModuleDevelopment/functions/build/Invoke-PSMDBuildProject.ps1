@@ -90,7 +90,7 @@
 				Failed { Write-PSFMessage @paramWritePSFMessage -StringValues $StepObject.Name, $StepObject.Action -ErrorRecord $Data }
 				ConditionNotMet { Write-PSFMessage @paramWritePSFMessage -StringValues $StepObject.Name, $StepObject.Action, $StepObject.Condition }
 				DependencyNotMet { Write-PSFMessage @paramWritePSFMessage -StringValues $StepObject.Name, $StepObject.Action, $Data }
-				BadAction { Write-PSFMessage @paramWritePSFMessage -StringValues $StepObject.Name, $StepObject.Action }	
+				BadAction { Write-PSFMessage @paramWritePSFMessage -StringValues $StepObject.Name, $StepObject.Action }
 			}
 			
 			[PSCustomObject]@{

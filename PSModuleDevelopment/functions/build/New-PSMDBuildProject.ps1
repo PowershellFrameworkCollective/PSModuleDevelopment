@@ -50,6 +50,7 @@
 	
 		Create a new build project named 'VMDeployment' in the folder 'C:\Code\VMDeployment'
 #>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
 	[CmdletBinding(DefaultParameterSetName = 'default')]
 	param (
 		[Parameter(Mandatory = $true)]
