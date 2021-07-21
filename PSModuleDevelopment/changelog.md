@@ -1,5 +1,11 @@
 ﻿# Changelog
 
+## 2.2.10.123 (2021-07-21)
+
+- Fix: Template PSFProject - fixed string test modulename
+- Fix: Template PSFModule - fixed string test modulename
+- Fix: Template PSFTest - fixed string test modulename
+
 ## 2.2.10.120 (2021-07-20)
 
 - New: Build Component - define build workflows based on pre-defined & extensible action code
