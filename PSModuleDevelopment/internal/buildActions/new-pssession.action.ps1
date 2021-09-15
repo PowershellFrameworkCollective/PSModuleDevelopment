@@ -21,6 +21,7 @@
 	$paramNewPSSession = @{ }
 	if ($actualParameters.VMName) { $paramNewPSSession.VMName = $actualParameters.VMName }
 	if ($actualParameters.ComputerName) { $paramNewPSSession.ComputerName = $actualParameters.ComputerName }
+	if ($actualParameters.Port) { $paramNewPSSession.Port = $actualParameters.Port }
 	if ($credential) { $paramNewPSSession.Credential = $credential }
 	
 	try { $session = New-PSSession @paramNewPSSession -ErrorAction Stop }
@@ -30,12 +31,13 @@
 }
 
 $params = @{
-	Name	    = 'new-pssession'
-	Action	    = $action
+	Name        = 'new-pssession'
+	Action      = $action
 	Description = 'Establish a PSSession to a target computer and provide it as an artifact'
 	Parameters  = @{
 		ComputerName   = 'The Computer to connect to'
-		VMName		   = 'The virtual machine to which to connect to via the HyperV VM Bus'
+		Port           = 'Port you want to connect to'
+		VMName         = 'The virtual machine to which to connect to via the HyperV VM Bus'
 		CredentialPath = 'The path to the credentials to use for the connection. Use %ProjectRoot% to insert the folder path to where the buildfile is located'
 		ArtifactName   = '(mandatory) The name under which to publish the session as an artifact'
 	}
