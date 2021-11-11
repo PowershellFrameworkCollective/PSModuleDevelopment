@@ -1,6 +1,6 @@
 ﻿# Changelog
 
-## ???
+## 2.2.10.128 (2021-11-11)
 
 + New: Action: deployModule - Deploys a module to the target computer(s)
 + Upd: Invoke-PSMDBuildProject - Added parameter resolution from artifacts and configuration
