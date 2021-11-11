@@ -5,7 +5,6 @@
 	
 	$rootPath = $Parameters.RootPath
 	$actualParameters = $Parameters.Parameters
-	$actualParameters = Resolve-PSMDBuildStepParameter -Parameters $actualParameters -FromArtifacts $Parameters.ParametersFromArtifacts -ProjectName $Parameters.ProjectName -StepName $Parameters.StepName
 	
 	#region Utility Functions
 	function ConvertTo-PSSession {

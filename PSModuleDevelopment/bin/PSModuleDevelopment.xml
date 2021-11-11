@@ -921,5 +921,16 @@
             </summary>
             <param name="charList">Character list string</param>
         </member>
+        <member name="M:PSModuleDevelopment.Utility.UtilityHost.Replace(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Replace a value in a string with another.
+            Extends the default c# String.Replace with the capability to be case-insensitive.
+            </summary>
+            <param name="String">The string to modify</param>
+            <param name="OldString">The value to look for and replace with someting else</param>
+            <param name="NewString">The value to insert where you found the previous value. Leave empty to just delete the original value.</param>
+            <param name="CaseSensitive">Whether to be case sensitive in your replacement. Defaults to false, this being PowerShell</param>
+            <returns>The original string, with all instances of the looked for value replaced with the new value.</returns>
+        </member>
     </members>
 </doc>

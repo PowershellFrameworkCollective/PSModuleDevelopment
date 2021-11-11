@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation.Host;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PSModuleDevelopment.Utility
 {
@@ -123,6 +121,59 @@ namespace PSModuleDevelopment.Utility
                 else set.Add(charList[i]);
             }
             return set;
+        }
+
+        /// <summary>
+        /// Replace a value in a string with another.
+        /// Extends the default c# String.Replace with the capability to be case-insensitive.
+        /// </summary>
+        /// <param name="String">The string to modify</param>
+        /// <param name="OldString">The value to look for and replace with someting else</param>
+        /// <param name="NewString">The value to insert where you found the previous value. Leave empty to just delete the original value.</param>
+        /// <param name="CaseSensitive">Whether to be case sensitive in your replacement. Defaults to false, this being PowerShell</param>
+        /// <returns>The original string, with all instances of the looked for value replaced with the new value.</returns>
+        public static string Replace(string String, string OldString, string NewString, bool CaseSensitive = false)
+        {
+            // Validate User Inputs (emulating the original C# behavior
+            if (String == null)
+                throw new ArgumentNullException(nameof(String));
+            if (String.Length == 0)
+                return String;
+            if (OldString == null)
+                throw new ArgumentNullException(nameof(OldString));
+            if (OldString.Length == 0)
+                throw new ArgumentException("String cannot be of zero length.");
+
+            StringComparison comparisonType = StringComparison.OrdinalIgnoreCase;
+            if (CaseSensitive)
+                comparisonType = StringComparison.Ordinal;
+
+
+            StringBuilder resultStringBuilder = new StringBuilder();
+
+            bool isReplacementNullOrEmpty = string.IsNullOrEmpty(NewString);
+
+            int foundAt;
+            int startSearchFromIndex = 0;
+            while ((foundAt = String.IndexOf(OldString, startSearchFromIndex, comparisonType)) != -1)
+            {
+                int charsUntilReplacement = foundAt - startSearchFromIndex;
+                bool isNothingToAppend = charsUntilReplacement == 0;
+                if (!isNothingToAppend)
+                    resultStringBuilder.Append(String, startSearchFromIndex, charsUntilReplacement);
+                
+                // Process the replacement.
+                if (!isReplacementNullOrEmpty)
+                    resultStringBuilder.Append(NewString);
+                
+                // Reset Search Index
+                startSearchFromIndex = foundAt + OldString.Length;
+                if (startSearchFromIndex == String.Length)
+                    return resultStringBuilder.ToString();
+            }
+
+            resultStringBuilder.Append(String, startSearchFromIndex, (String.Length - startSearchFromIndex));
+            return resultStringBuilder.ToString();
         }
     }
 }
