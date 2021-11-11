@@ -1,5 +1,13 @@
 ﻿# Changelog
 
+## ???
+
++ New: Action: deployModule - Deploys a module to the target computer(s)
++ Upd: Invoke-PSMDBuildProject - Added parameter resolution from artifacts and configuration
++ Upd: Invoke-PSMDBuildProject - Added automatic artifacts resolution based on value of a parameter: %!Name!% will be resolved to the artifact named "Name".
++ Upd: Invoke-PSMDBuildProject - Added `-InheritArtifacts` parameter to allow keeping artifacts around created before starting the pipeline
++ Fix: Invoke-PSMDTemplate - Invoking templates on PS5.1 fails with invalid replace
+
 ## 2.2.10.123 (2021-07-21)
 
 - Fix: Template PSFProject - fixed string test modulename

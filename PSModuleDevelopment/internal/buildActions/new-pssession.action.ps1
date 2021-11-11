@@ -5,7 +5,6 @@
 	
 	$rootPath = $Parameters.RootPath
 	$actualParameters = $Parameters.Parameters
-	$actualParameters = Resolve-PSMDBuildStepParameter -Parameters $actualParameters -FromArtifacts $Parameters.ParametersFromArtifacts -ProjectName $Parameters.ProjectName -StepName $Parameters.StepName
 	
 	if (-not $actualParameters.ArtifactName) { throw "No ArtifactName specified! Unable to publish remoting session for build." }
 	if (-not ($actualParameters.VMName -or $actualParameters.ComputerName)) { throw "Neither ComputerName nor VMName specified, unable to connect to nothing!" }

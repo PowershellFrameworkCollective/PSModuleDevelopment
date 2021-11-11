@@ -320,10 +320,10 @@
 				$fileName = $Item.Name
 				if (-not $Raw) {
 					foreach ($param in $Item.FileSystemParameterFlat) {
-						$fileName = $fileName.Replace("$($identifier)$($param)$($identifier)", $ParameterFlat[$param], $true, $null)
+						$fileName = [PSModuleDevelopment.Utility.UtilityHost]::Replace($fileName,"$($identifier)$($param)$($identifier)", $ParameterFlat[$param], $false)
 					}
 					foreach ($param in $Item.FileSystemParameterScript) {
-						$fileName = $fileName.Replace("$($identifier)$($param)$($identifier)", $ParameterScript[$param], $true, $null)
+						$fileName = [PSModuleDevelopment.Utility.UtilityHost]::Replace($fileName, "$($identifier)$($param)$($identifier)", $ParameterScript[$param], $false)
 					}
 				}
 				$destPath = Join-Path $Path $fileName
@@ -332,10 +332,10 @@
 					$text = $Item.Value
 					if (-not $Raw) {
 						foreach ($param in $Item.ContentParameterFlat) {
-							$text = $text.Replace("$($identifier)$($param)$($identifier)", $ParameterFlat[$param], $true, $null)
+							$text = [PSModuleDevelopment.Utility.UtilityHost]::Replace($text, "$($identifier)$($param)$($identifier)", $ParameterFlat[$param], $false)
 						}
 						foreach ($param in $Item.ContentParameterScript) {
-							$text = $text.Replace("$($identifier)!$($param)!$($identifier)", $ParameterScript[$param], $true, $null)
+							$text = [PSModuleDevelopment.Utility.UtilityHost]::Replace($text, "$($identifier)!$($param)!$($identifier)", $ParameterScript[$param], $false)
 						}
 					}
 					[System.IO.File]::WriteAllText($destPath, $text, $Encoding)

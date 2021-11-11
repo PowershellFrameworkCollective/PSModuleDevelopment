@@ -18,10 +18,14 @@
 		Mandatory if no build project has been selected as the default project.
 		Use the Select-PSMDBuildProject to define a default project (and optionally persist the choice across sessions)
 	
+	.PARAMETER InheritArtifacts
+		Accept artifacts that were generated before ever executing this pipeline.
+		By default, any artifacts previously provisioned are cleared on pipeline start.
+	
 	.PARAMETER RetainArtifacts
 		Whether, after executing the project, its artifacts should be retained.
 		By default, any artifacts created during a build project will be discarded upon project completion.
-	
+		
 		Artifacts are similar to variables to the pipeline and can be used to pass data throughout the pipeline.
 		
 		+ Use Publish-PSMDBuildArtifact to create a new artifact.
@@ -29,12 +33,12 @@
 	
 	.EXAMPLE
 		PS C:\> Invoke-PSMDBuildProject -Path .\VMDeployment.build.Json
-	
+		
 		Execute the build file "VMDeployment.build.json" from the current folder
 	
 	.EXAMPLE
 		PS C:\> build
-	
+		
 		Execute the default build project.
 #>
 	[Alias('build')]
@@ -44,11 +48,16 @@
 		$Path,
 		
 		[switch]
+		$InheritArtifacts,
+		
+		[switch]
 		$RetainArtifacts
 	)
 	
 	begin {
-		$script:buildArtifacts = @{ }
+		if (-not $InheritArtifacts) {
+			$script:buildArtifacts = @{ }
+		}
 		$buildStatus = @{ }
 		
 		$projectPath = $Path
@@ -158,6 +167,10 @@
 			}
 			if (-not $parameters.Parameters) { $parameters.Parameters = @{ } }
 			if (-not $parameters.ParametersFromArtifacts) { $parameters.ParametersFromArtifacts = @{ } }
+			
+			# Resolve Parameters
+			$parameters.Parameters = Resolve-PSMDBuildStepParameter -Parameters $parameters.Parameters -FromArtifacts $parameters.ParametersFromArtifacts -ProjectName $parameters.ProjectName -StepName $parameters.StepName
+			
 			try { $null = & $actionObject.Action $parameters }
 			catch {
 				Write-StepResult @resultDef -Status Failed -Data $_ -ContinueLabel main
