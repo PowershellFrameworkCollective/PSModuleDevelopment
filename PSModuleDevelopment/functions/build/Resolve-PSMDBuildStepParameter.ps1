@@ -72,11 +72,11 @@
 		}
 		
 		# Resolve implicit artifact references
-		foreach ($pair in $Parameters.GetEnumerator()) {
-			if ($pair.Value -notlike '%!*!%') { continue }
+		foreach ($key in $($Parameters.Keys)) {
+			if ($Parameters.$key -notlike '%!*!%') { continue }
 			
-			$artifactName = $pair.Value -replace '^%!(.+?)!%$', '$1'
-			$Parameters[$pair.Key] = (Get-PSMDBuildArtifact -Name $artifactName).Value
+			$artifactName = $Parameters.$key -replace '^%!(.+?)!%$', '$1'
+			$Parameters[$Key] = (Get-PSMDBuildArtifact -Name $artifactName).Value
 		}
 		
 		$Parameters

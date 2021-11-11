@@ -2,6 +2,13 @@
 	param (
 		$Parameters
 	)
+
+	trap {
+		if ($workingDirectory) {
+			Remove-Item -Path $workingDirectory -Recurse -Force -ErrorAction SilentlyContinue
+		}
+		throw $_
+	}
 	
 	$rootPath = $Parameters.RootPath
 	$actualParameters = $Parameters.Parameters
@@ -11,7 +18,7 @@
 		throw "No Sessions specified!"
 	}
 	
-	if ($actualParameters.Session | Where-Object State -NE Open) {
+	if ($actualParameters.Session | Where-Object State -NE Opened) {
 		throw "Sessions not open!"
 	}
 	if ($actualParameters.Repository -and (-not (Get-PSRepository -Name $actualParameters.Repository -ErrorAction Ignore))) {
@@ -29,10 +36,6 @@
 	#region Prepare modules to transfer
 	$workingDirectory = Join-Path -Path (Get-PSFPath -Name temp) -ChildPath "psmd_action_$(Get-Random)"
 	$null = New-Item -Path $workingDirectory -ItemType Directory -Force -ErrorAction Stop
-	trap {
-		Remove-Item -Path $workingDirectory -Recurse -Force -ErrorAction SilentlyContinue
-		throw $_
-	}
 	
 	$saveModuleParam = @{
 		Path = $workingDirectory
@@ -64,6 +67,7 @@
 		if (-not $actualParameters.NoDelete) {
 			Invoke-Command -Session $actualParameters.Session -ScriptBlock {
 				param ($Name)
+				if (-not (Test-Path -Path "$env:ProgramFiles\WindowsPowerShell\Modules\$Name")) { return }
 				Remove-Item -Path "$env:ProgramFiles\WindowsPowerShell\Modules\$Name" -Recurse -Force
 			} -ArgumentList $moduleFolder.Name
 		}
