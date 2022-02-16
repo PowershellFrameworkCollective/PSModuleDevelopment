@@ -18,3 +18,9 @@ foreach ($file in (Get-ChildItem "$($script:ModuleRoot)\internal\configurations\
 
 # Load additional resources needed during import
 . Import-ModuleFile -Path "$($script:ModuleRoot)\internal\scripts\initialize.ps1"
+
+# Load all classes
+foreach ($file in (Get-ChildItem "$($script:ModuleRoot)\internal\classes\*.ps1" -ErrorAction Ignore))
+{
+	. Import-ModuleFile -Path $file.FullName
+}
