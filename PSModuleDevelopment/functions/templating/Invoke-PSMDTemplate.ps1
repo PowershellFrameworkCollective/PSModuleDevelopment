@@ -222,15 +222,14 @@
 				}
 			}
 			#endregion Scripts
-			
+			$createdTemplateItems=@()
 			switch ($templateData.Type.ToString()) {
 				#region File
 				"File" {
 					foreach ($child in $templateData.Children) {
-						$createdTemplateItems = New-TemplateItem -Item $child -Path $OutPath -Encoding $Encoding -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
-						Write-PSFMessage "`$createdTemplateItems=$($createdTemplateItems|convertto-json)"
-						#Todo: Parameter umstellen
-						Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding 
+						$createdTemplateItems += New-TemplateItem -Item $child -Path $OutPath -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
+						# Write-PSFMessage "`$createdTemplateItems=$($createdTemplateItems|convertto-json)"
+						# Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding 
 					}
 					if ($Raw -and $templateData.Scripts.Values) {
 						$templateData.Scripts.Values | Export-Clixml -Path (Join-Path $OutPath "_PSMD_ParameterScripts.xml")
@@ -258,10 +257,9 @@
 					#endregion Resolve output folder
 					
 					foreach ($child in $templateData.Children) {
-						$createdTemplateItems = New-TemplateItem -Item $child -Path $newFolder.FullName -Encoding $Encoding -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
-						Write-PSFMessage "`$createdTemplateItems=$($createdTemplateItems|convertto-json)"
-						#Todo: Parameter umstellen
-						Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding
+						$createdTemplateItems += New-TemplateItem -Item $child -Path $newFolder.FullName -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
+						# Write-PSFMessage "`$createdTemplateItems=$($createdTemplateItems|convertto-json)"
+						# Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding
 					}
 					
 					#region Write Config File (Raw)
@@ -293,12 +291,22 @@
 						}
 						
 						$configFile = Join-Path $newFolder.FullName "PSMDTemplate.ps1"
-						Set-Content -Path $configFile -Value $optionsTemplate -Encoding ([PSFEncoding]'utf-8').Encoding
+						$createdTemplateItems += [TemplateResult]@{
+							Filename = "PSMDTemplate.ps1"
+							Path     = $newFolder.FullName
+							FullPath = (Join-Path $newFolder.FullName "PSMDTemplate.ps1")
+							Content  = $optionsTemplate
+						}
+						# Set-Content -Path $configFile -Value $optionsTemplate -Encoding ([PSFEncoding]'utf-8').Encoding
 					}
 					#endregion Write Config File (Raw)
 				}
 				#endregion Project
 			}
+			If($GenerateObjects){
+				return $createdTemplateItems
+			}
+			Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding 
 		}
 		
 		function New-TemplateItem {
@@ -310,9 +318,6 @@
 				
 				[string]
 				$Path,
-				
-				[PSFEncoding]
-				$Encoding,
 				
 				[hashtable]
 				$ParameterFlat,
@@ -382,11 +387,11 @@
 						$folderName = $folderName -replace "$($identifier)!$([regex]::Escape($param))!$($identifier)", $ParameterScript[$param]
 					}
 				}
-				$folder = Join-Path -Path (get-item $Path).FullName -ChildPath $folderName
+				$folder = Join-Path -Path $Path -ChildPath $folderName
 				# $folder = New-Item -Path $Path -Name $folderName -ItemType Directory
 				$createdTemplateItems = @()
 				foreach ($child in $Item.Children) {
-					$createdTemplateItems += New-TemplateItem -Item $child -Path $folder -Encoding $Encoding -ParameterFlat $ParameterFlat -ParameterScript $ParameterScript -Raw $Raw
+					$createdTemplateItems += New-TemplateItem -Item $child -Path $folder -ParameterFlat $ParameterFlat -ParameterScript $ParameterScript -Raw $Raw
 				}
 				return $createdTemplateItems
 			}
@@ -404,10 +409,10 @@
 			)
 			foreach ($item in $TemplateResult) {
 				Write-PSFMessage -Level Verbose -Message "Creating file: $($Item.FullPath)" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
-				Write-PSFMessage -Level Verbose -Message "Creating file: $($Item |convertto-json)" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
+				# Write-PSFMessage -Level Verbose -Message "Creating file: $($Item |convertto-json)" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
 				if (-not (Test-Path $Item.Path)) {
 					Write-PSFMessage -Level Verbose -Message "Creating Folder $($Item.Path)"
-					New-Item -Path $Item.Path -ItemType Directory
+					$folder=New-Item -Path $Item.Path -ItemType Directory
 				}
 				if ($Item.IsText) {
 					Write-PSFMessage -Level Verbose -Message "Creating as a Text-File"
@@ -418,60 +423,6 @@
 					[System.IO.File]::WriteAllBytes($Item.FullPath, $Item.Content)
 				}
 			}
-			
-			# 	$identifier = $Item.Identifier
-			# 	$isFile = $Item.GetType().Name -eq 'TemplateItemFile'
-			
-			# 	#region File
-			# 	if ($isFile) {
-			# 		$fileName = $Item.Name
-			# 		if (-not $Raw) {
-			# 			foreach ($param in $Item.FileSystemParameterFlat) {
-			# 				$fileName = [PSModuleDevelopment.Utility.UtilityHost]::Replace($fileName, "$($identifier)$($param)$($identifier)", $ParameterFlat[$param], $false)
-			# 			}
-			# 			foreach ($param in $Item.FileSystemParameterScript) {
-			# 				$fileName = [PSModuleDevelopment.Utility.UtilityHost]::Replace($fileName, "$($identifier)$($param)$($identifier)", $ParameterScript[$param], $false)
-			# 			}
-			# 		}
-			# 		$destPath = Join-Path $Path $fileName
-				
-			# 		if ($Item.PlainText) {
-			# 			$text = $Item.Value
-			# 			if (-not $Raw) {
-			# 				foreach ($param in $Item.ContentParameterFlat) {
-			# 					$text = [PSModuleDevelopment.Utility.UtilityHost]::Replace($text, "$($identifier)$($param)$($identifier)", $ParameterFlat[$param], $false)
-			# 				}
-			# 				foreach ($param in $Item.ContentParameterScript) {
-			# 					$text = [PSModuleDevelopment.Utility.UtilityHost]::Replace($text, "$($identifier)!$($param)!$($identifier)", $ParameterScript[$param], $false)
-			# 				}
-			# 			}
-			# 			[System.IO.File]::WriteAllText($destPath, $text, $Encoding)
-			# 		}
-			# 		else {
-			# 			$bytes = [System.Convert]::FromBase64String($Item.Value)
-			# 			[System.IO.File]::WriteAllBytes($destPath, $bytes)
-			# 		}
-			# 	}
-			# 	#endregion File
-			
-			# 	#region Folder
-			# 	else {
-			# 		$folderName = $Item.Name
-			# 		if (-not $Raw) {
-			# 			foreach ($param in $Item.FileSystemParameterFlat) {
-			# 				$folderName = $folderName -replace "$($identifier)$([regex]::Escape($param))$($identifier)", $ParameterFlat[$param]
-			# 			}
-			# 			foreach ($param in $Item.FileSystemParameterScript) {
-			# 				$folderName = $folderName -replace "$($identifier)!$([regex]::Escape($param))!$($identifier)", $ParameterScript[$param]
-			# 			}
-			# 		}
-			# 		$folder = New-Item -Path $Path -Name $folderName -ItemType Directory
-				
-			# 		foreach ($child in $Item.Children) {
-			# 			Write-TemplateResults -Item $child -Path $folder.FullName -Encoding $Encoding -ParameterFlat $ParameterFlat -ParameterScript $ParameterScript -Raw $Raw
-			# 		}
-			# 	}
-			# 	#endregion Folder
 		}
 		#endregion Helper function
 	}
