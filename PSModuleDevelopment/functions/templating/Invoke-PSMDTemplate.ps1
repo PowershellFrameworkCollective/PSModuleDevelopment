@@ -229,7 +229,7 @@
 					foreach ($child in $templateData.Children) {
 						$createdTemplateItems += New-TemplateItem -Item $child -Path $OutPath -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
 						# Write-PSFMessage "`$createdTemplateItems=$($createdTemplateItems|convertto-json)"
-						# Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding 
+						# Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding
 					}
 					if ($Raw -and $templateData.Scripts.Values) {
 						$templateData.Scripts.Values | Export-Clixml -Path (Join-Path $OutPath "_PSMD_ParameterScripts.xml")
@@ -290,7 +290,6 @@
 							$optionsTemplate = $optionsTemplate -replace "þþþPLACEHOLDER-$($guid)þþþ", ""
 						}
 						
-						$configFile = Join-Path $newFolder.FullName "PSMDTemplate.ps1"
 						$createdTemplateItems += [TemplateResult]@{
 							Filename = "PSMDTemplate.ps1"
 							Path     = $newFolder.FullName
@@ -306,7 +305,7 @@
 			If($GenerateObjects){
 				return $createdTemplateItems
 			}
-			Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding 
+			Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding
 		}
 		
 		function New-TemplateItem {
@@ -412,7 +411,7 @@
 				# Write-PSFMessage -Level Verbose -Message "Creating file: $($Item |convertto-json)" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
 				if (-not (Test-Path $Item.Path)) {
 					Write-PSFMessage -Level Verbose -Message "Creating Folder $($Item.Path)"
-					$folder=New-Item -Path $Item.Path -ItemType Directory
+					New-Item -Path $Item.Path -ItemType Directory | Out-Null
 				}
 				if ($Item.IsText) {
 					Write-PSFMessage -Level Verbose -Message "Creating as a Text-File"
