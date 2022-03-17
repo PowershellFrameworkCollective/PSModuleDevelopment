@@ -13,6 +13,12 @@
 		- Value from implicit artifact resolution: Any value that is formatted like this:
 		  "%!NameOfArtifact!%" will be replaced with the value of the artifact of the same name.
 		  This supports wildcard resolution, so "%!Session.*!%" will resolve to all artifacts with a name starting with "Session."
+		
+		Configuration-driven parameters follow this name scheme:
+		"PSModuleDevelopment.BuildParam.<project>.<step>.<parameterName>"
+
+		For example:
+		"PSModuleDevelopment.BuildParam.Admf.connect.credential"
 	
 	.PARAMETER Parameters
 		The hashtable containing the currently specified parameters from the step configuration within the build project file.

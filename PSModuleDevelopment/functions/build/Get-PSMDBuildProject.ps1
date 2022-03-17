@@ -42,19 +42,21 @@
 	)
 	
 	process {
-		#region By Path
 		if ($Path) {
 			$importPath = $Path
 			if ($Name) { $importPath = Join-Path -Path $Path -ChildPath "$Name.build.json" }
-			
-			Get-Content -Path $importPath -Encoding UTF8 | ConvertFrom-Json
+			if (-not (Test-Path -Path $importPath)) {
+				$importPath = Join-Path -Path $Path -ChildPath "$Name.build.psd1"
+			}
 		}
-		#endregion By Path
-		
-		#region Selected
 		else {
-			Get-Content -Path (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Build.Project.Selected') -Encoding UTF8 | ConvertFrom-Json
+			$importPath = Get-PSFConfigValue -FullName 'PSModuleDevelopment.Build.Project.Selected'
 		}
-		#endregion Selected
+
+		if (-not (Test-Path -Path $importPath)) {
+			throw "Path not found: $importPath"
+		}
+		if ($importPath -like "*.psd1") { Import-PSFPowerShellDataFile -Path $importPath }
+		else { Get-Content -Path $importPath -Encoding UTF8 | ConvertFrom-Json }
 	}
 }

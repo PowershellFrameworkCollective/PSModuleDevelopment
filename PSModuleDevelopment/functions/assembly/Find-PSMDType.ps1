@@ -55,6 +55,7 @@
 	
 		Finds all types that inherit from the Runspace class
 #>
+	[Alias('ftype')]
 	[CmdletBinding()]
 	Param (
 		[string]
