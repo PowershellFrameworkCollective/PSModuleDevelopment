@@ -118,7 +118,7 @@
 	}
 	process {
 		$projectObject = Get-PSMDBuildProject -Path $projectPath
-		$steps = $projectObject.Steps | Sort-Object Weight
+		$steps = $projectObject.Steps | Sort-Object { $_.Weight } # Might be a hashtable
 		
 		$count = 0
 		$stepResults = :main foreach ($step in $steps) {

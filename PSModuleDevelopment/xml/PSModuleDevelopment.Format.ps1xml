@@ -1,154 +1,183 @@
 ﻿<?xml version="1.0" encoding="utf-16"?>
 <Configuration>
 	<ViewDefinitions>
-        <!-- PSModuleDevelopment.Build.StepResult -->
-        <View>
-            <Name>PSModuleDevelopment.Build.StepResult</Name>
-            <ViewSelectedBy>
-                <TypeName>PSModuleDevelopment.Build.StepResult</TypeName>
-            </ViewSelectedBy>
-            <TableControl>
-                <AutoSize/>
-                <TableHeaders>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                </TableHeaders>
-                <TableRowEntries>
-                    <TableRowEntry>
-                        <TableColumnItems>
-                            <TableColumnItem>
-                                <PropertyName>Count</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Action</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Status</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Step</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Data</PropertyName>
-                            </TableColumnItem>
-                        </TableColumnItems>
-                    </TableRowEntry>
-                </TableRowEntries>
-            </TableControl>
-        </View>
-		
-        <!-- PSModuleDevelopment.File.Command -->
-        <View>
-            <Name>PSModuleDevelopment.File.Command</Name>
-            <ViewSelectedBy>
-                <TypeName>PSModuleDevelopment.File.Command</TypeName>
-            </ViewSelectedBy>
-            <TableControl>
-                <AutoSize/>
-                <TableHeaders>
-                    <TableColumnHeader>
-                        <Label>File</Label>
-                    </TableColumnHeader>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                </TableHeaders>
-                <TableRowEntries>
-                    <TableRowEntry>
-                        <TableColumnItems>
-                            <TableColumnItem>
-                                <ScriptBlock>
+		<!-- PSModuleDevelopment.Build.Action -->
+		<View>
+			<Name>children</Name>
+			<ViewSelectedBy>
+				<TypeName>PSModuleDevelopment.Build.Action</TypeName>
+			</ViewSelectedBy>
+			<ListControl>
+				<ListEntries>
+					<ListEntry>
+						<ListItems>
+							<ListItem>
+								<PropertyName>Name</PropertyName>
+							</ListItem>
+							<ListItem>
+								<PropertyName>Description</PropertyName>
+							</ListItem>
+							<ListItem>
+								<Label>Parameters</Label>
+								<ScriptBlock>
+#
+($_.Parameters | Format-Table -AutoSize -Wrap | Out-String -Width ($host.UI.RawUI.WindowSize.Width - 15) | Split-String "`n" | Select-Object -Skip 3 | Join-String "`n")
+								</ScriptBlock>
+							</ListItem>
+						</ListItems>
+					</ListEntry>
+				</ListEntries>
+			</ListControl>
+		</View>
+
+		<!-- PSModuleDevelopment.Build.StepResult -->
+		<View>
+			<Name>PSModuleDevelopment.Build.StepResult</Name>
+			<ViewSelectedBy>
+				<TypeName>PSModuleDevelopment.Build.StepResult</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<AutoSize/>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Count</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Action</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Status</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Step</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Data</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+
+		<!-- PSModuleDevelopment.File.Command -->
+		<View>
+			<Name>PSModuleDevelopment.File.Command</Name>
+			<ViewSelectedBy>
+				<TypeName>PSModuleDevelopment.File.Command</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<AutoSize/>
+				<TableHeaders>
+					<TableColumnHeader>
+						<Label>File</Label>
+					</TableColumnHeader>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<ScriptBlock>
  $_.File.Name 
-                                </ScriptBlock>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Name</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Count</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Module</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Internal</PropertyName>
-                            </TableColumnItem>
-                        </TableColumnItems>
-                    </TableRowEntry>
-                </TableRowEntries>
-            </TableControl>
-        </View>
-		
-        <!-- PSModuleDevelopment.Performance.TestResult -->
-        <View>
-            <Name>PSModuleDevelopment.Performance.TestResult</Name>
-            <ViewSelectedBy>
-                <TypeName>PSModuleDevelopment.Performance.TestResult</TypeName>
-            </ViewSelectedBy>
-            <TableControl>
-                <AutoSize/>
-                <TableHeaders>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                </TableHeaders>
-                <TableRowEntries>
-                    <TableRowEntry>
-                        <TableColumnItems>
-                            <TableColumnItem>
-                                <PropertyName>Average</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Min</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Max</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Sum</PropertyName>
-                            </TableColumnItem>
-                        </TableColumnItems>
-                    </TableRowEntry>
-                </TableRowEntries>
-            </TableControl>
-        </View>
-		
-        <!-- PSModuleDevelopment.Performance.TestSetItem -->
-        <View>
-            <Name>PSModuleDevelopment.Performance.TestSetItem</Name>
-            <ViewSelectedBy>
-                <TypeName>PSModuleDevelopment.Performance.TestSetItem</TypeName>
-            </ViewSelectedBy>
-            <TableControl>
-                <AutoSize/>
-                <TableHeaders>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                </TableHeaders>
-                <TableRowEntries>
-                    <TableRowEntry>
-                        <TableColumnItems>
-                            <TableColumnItem>
-                                <PropertyName>Name</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Efficiency</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Average</PropertyName>
-                            </TableColumnItem>
-                        </TableColumnItems>
-                    </TableRowEntry>
-                </TableRowEntries>
-            </TableControl>
-        </View>
-		
+								</ScriptBlock>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Count</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Module</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Internal</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+
+		<!-- PSModuleDevelopment.Performance.TestResult -->
+		<View>
+			<Name>PSModuleDevelopment.Performance.TestResult</Name>
+			<ViewSelectedBy>
+				<TypeName>PSModuleDevelopment.Performance.TestResult</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<AutoSize/>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Average</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Min</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Max</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Sum</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+
+		<!-- PSModuleDevelopment.Performance.TestSetItem -->
+		<View>
+			<Name>PSModuleDevelopment.Performance.TestSetItem</Name>
+			<ViewSelectedBy>
+				<TypeName>PSModuleDevelopment.Performance.TestSetItem</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<AutoSize/>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Efficiency</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Average</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+
 		<!-- PSModuleDevelopment.PsmdAssembly.Constructor -->
 		<View>
 			<Name>PSModuleDevelopment.PsmdAssembly.Constructor</Name>
@@ -179,7 +208,7 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
-		
+
 		<!-- PSModuleDevelopment.Template.Template -->
 		<View>
 			<Name>PSModuleDevelopment.Template.Template</Name>
@@ -214,7 +243,7 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
-		
+
 		<!-- PSModuleDevelopment.Template.TemplateInfo -->
 		<View>
 			<Name>PSModuleDevelopment.Template.TemplateInfo</Name>
@@ -253,7 +282,7 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
-		
+
 		<!-- PSModuleDevelopment.Template.TemplateItemBase -->
 		<View>
 			<Name>PSModuleDevelopment.Template.TemplateItemBase</Name>
@@ -285,71 +314,71 @@
 				</TableRowEntries>
 			</TableControl>
 		</View>
-		
+
 		<!-- PSModuleDevelopment.Utility.LinesOfCode -->
-        <View>
-            <Name>PSModuleDevelopment.Utility.LinesOfCode</Name>
-            <ViewSelectedBy>
-                <TypeName>PSModuleDevelopment.Utility.LinesOfCode</TypeName>
-            </ViewSelectedBy>
-            <TableControl>
-                <AutoSize/>
-                <TableHeaders>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                </TableHeaders>
-                <TableRowEntries>
-                    <TableRowEntry>
-                        <TableColumnItems>
-                            <TableColumnItem>
-                                <PropertyName>Success</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Count</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Path</PropertyName>
-                            </TableColumnItem>
-                        </TableColumnItems>
-                    </TableRowEntry>
-                </TableRowEntries>
-            </TableControl>
-        </View>
-		
+		<View>
+			<Name>PSModuleDevelopment.Utility.LinesOfCode</Name>
+			<ViewSelectedBy>
+				<TypeName>PSModuleDevelopment.Utility.LinesOfCode</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<AutoSize/>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Success</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Count</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Path</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
+
 		<!-- PSModuleDevelopment.Utility.PropertySearchResult -->
-        <View>
-            <Name>PSModuleDevelopment.Utility.PropertySearchResult</Name>
-            <ViewSelectedBy>
-                <TypeName>PSModuleDevelopment.Utility.PropertySearchResult</TypeName>
-            </ViewSelectedBy>
-            <TableControl>
-                <AutoSize/>
-                <TableHeaders>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                    <TableColumnHeader/>
-                </TableHeaders>
-                <TableRowEntries>
-                    <TableRowEntry>
-                        <TableColumnItems>
-                            <TableColumnItem>
-                                <PropertyName>Path</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Depth</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Name</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Value</PropertyName>
-                            </TableColumnItem>
-                        </TableColumnItems>
-                    </TableRowEntry>
-                </TableRowEntries>
-            </TableControl>
-        </View>
+		<View>
+			<Name>PSModuleDevelopment.Utility.PropertySearchResult</Name>
+			<ViewSelectedBy>
+				<TypeName>PSModuleDevelopment.Utility.PropertySearchResult</TypeName>
+			</ViewSelectedBy>
+			<TableControl>
+				<AutoSize/>
+				<TableHeaders>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+					<TableColumnHeader/>
+				</TableHeaders>
+				<TableRowEntries>
+					<TableRowEntry>
+						<TableColumnItems>
+							<TableColumnItem>
+								<PropertyName>Path</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Depth</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Name</PropertyName>
+							</TableColumnItem>
+							<TableColumnItem>
+								<PropertyName>Value</PropertyName>
+							</TableColumnItem>
+						</TableColumnItems>
+					</TableRowEntry>
+				</TableRowEntries>
+			</TableControl>
+		</View>
 	</ViewDefinitions>
 </Configuration>

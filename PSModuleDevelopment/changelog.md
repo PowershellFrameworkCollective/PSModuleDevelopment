@@ -1,5 +1,14 @@
 ﻿# Changelog
 
+## 2.2.10.134 (2022-03-17)
+
++ New: Test-PSMDClmCompatibility - Tests, whether the targeted file would have trouble executing under Constrained Language Mode.
++ New: alias ftype --> Find-PSMDType
++ Upd: Action: connect-pssession - added Credential parameter
++ Upd: Get-PsmdBuildAction - improved output format
++ Upd: Get-PsmdBuildProject - added support for psd1 documents
++ Fix: New-PSMDBuildProject - Would register relative paths for the current project
+
 ## 2.2.10.128 (2021-11-11)
 
 + New: Action: deployModule - Deploys a module to the target computer(s)

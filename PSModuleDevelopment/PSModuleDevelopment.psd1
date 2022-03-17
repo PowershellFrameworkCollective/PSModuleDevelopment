@@ -4,7 +4,7 @@
 	RootModule = 'PSModuleDevelopment.psm1'
 
 	# Version number of this module.
-	ModuleVersion = '2.2.10.128'
+	ModuleVersion = '2.2.10.134'
 
 	# ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -27,7 +27,7 @@
 	# Modules that must be imported into the global environment prior to importing
 	# this module
 	RequiredModules	       = @(
-		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.6.205' }
+		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.6.214' }
 		@{ ModuleName = 'string'; ModuleVersion = '1.0.0' }
 	)
 
@@ -102,6 +102,7 @@
 		'Set-PSMDStagingRepository'
 		'Show-PSMDSyntax'
 		'Split-PSMDScriptFile'
+		'Test-PSMDClmCompatibility'
     )
 
 	# Cmdlets to export from this module
@@ -115,6 +116,7 @@
 		'build'
 		'dotnetnew'
 		'find'
+		'ftype'
 		'hex'
 		'imt'
 		'ipmod'
