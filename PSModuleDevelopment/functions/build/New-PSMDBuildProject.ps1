@@ -78,13 +78,14 @@
 	)
 	
 	process {
+		$resolvedPath = Resolve-PSFPath -Path $Path
 		$project = [pscustomobject]@{
 			Name		 = $Name
 			Condition    = $Condition
 			ConditionSet = $ConditionSet
 			Steps	     = @()
 		}
-		$outPath = Join-Path -Path $Path -ChildPath "$Name.build.Json"
+		$outPath = Join-Path -Path $resolvedPath -ChildPath "$Name.build.Json"
 		$project | Export-PsmdBuildProjectFile -OutPath $outPath -ErrorAction Stop
 		if (-not $NoSelect) {
 			Set-PSFConfig -Module PSModuleDevelopment -Name 'Build.Project.Selected' -Value $outPath

@@ -38,13 +38,19 @@
 	
 	$inSession = $null
 	if ($actualParameters.InSession) {
-		if ($actualParameters.InSession -is [System.Management.Automation.Runspaces.PSSession]) {
-			$inSession = $actualParameters.InSession
+		$inSession = foreach ($sessionInput in $actualParameters.InSession) {
+			if ($sessionInput -is [System.Management.Automation.Runspaces.PSSession]) {
+				$sessionInput
+				continue
+			}
+			$artifactObject = Get-PSMDBuildArtifact -Name $sessionInput
+			if ($artifactObject.Value -is [System.Management.Automation.Runspaces.PSSession]) {
+				$artifactObject.Value
+				continue
+			}
+			if (-not $artifactObject) { throw "Artifact for parameter InSession not found: $($sessionInput)" }
+			throw "Artifact for parameter InSession ($($sessionInput)) is not a pssession!"
 		}
-		$artifactObject = Get-PSMDBuildArtifact -Name $actualParameters.InSession
-		if (-not $artifactObject) { throw "Artifact for parameter InSession not found: $($actualParameters.InSession)" }
-		if ($artifactObject.Value -isnot [System.Management.Automation.Runspaces.PSSession]) { throw "Artifact for parameter InSession ($($actualParameters.InSession)) is not a pssession!" }
-		$inSession = $artifactObject.Value
 	}
 	#endregion Process Parameters
 	
