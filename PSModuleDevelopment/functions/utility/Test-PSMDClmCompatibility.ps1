@@ -38,6 +38,7 @@
 	.LINK
 		https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_language_modes?view=powershell-7.1#constrained-language-constrained-language
 	#>
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
@@ -103,7 +104,7 @@
 		function Search-Ast {
 			[CmdletBinding()]
 			param (
-				[System.Management.Automation.Language.Ast]	
+				[System.Management.Automation.Language.Ast]
 				$Ast,
 
 				[ScriptBlock]
@@ -283,8 +284,7 @@
 		foreach ($file in ($Path | Resolve-Path).Path) {
 			try { $ast = [System.Management.Automation.Language.Parser]::ParseFile($file, [ref]$null, [ref]$null) }
 			catch {
-				Write-Warning "Error parsing: $file | $_"
-				Write-Error $_
+				Write-PSFMessage -Level Warning -Message "Error parsing: $file" -ErrorRecord $_ -PSCmdlet $PSCmdlet -EnableException $true
 				continue
 			}
 
