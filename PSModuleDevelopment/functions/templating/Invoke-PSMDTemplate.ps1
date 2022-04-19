@@ -82,6 +82,7 @@
 #>
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSPossibleIncorrectUsageOfAssignmentOperator", "")]
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
+	[OutputType([PSModuleDevelopment.Template.TemplateResult])]
 	[Alias('imt')]
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param (
@@ -222,14 +223,11 @@
 				}
 			}
 			#endregion Scripts
-			$createdTemplateItems=@()
-			switch ($templateData.Type.ToString()) {
+			$createdTemplateItems = switch ($templateData.Type.ToString()) {
 				#region File
 				"File" {
 					foreach ($child in $templateData.Children) {
-						$createdTemplateItems += New-TemplateItem -Item $child -Path $OutPath -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
-						# Write-PSFMessage "`$createdTemplateItems=$($createdTemplateItems|convertto-json)"
-						# Write-TemplateResult -TemplateResult $createdTemplateItems -Encoding $Encoding
+						New-TemplateItem -Item $child -Path $OutPath -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
 					}
 					if ($Raw -and $templateData.Scripts.Values) {
 						$templateData.Scripts.Values | Export-Clixml -Path (Join-Path $OutPath "_PSMD_ParameterScripts.xml")
@@ -257,9 +255,7 @@
 					#endregion Resolve output folder
 					
 					foreach ($child in $templateData.Children) {
-						$createdTemplateItems += New-TemplateItem -Item $child -Path $newFolder.FullName -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
-						# Write-PSFMessage "`$createdTemplateItems=$($createdTemplateItems|convertto-json)"
-						# Write-TemplateResult -TemplateResult $createdTemplateItems -Encoding $Encoding
+						New-TemplateItem -Item $child -Path $newFolder.FullName -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
 					}
 					
 					#region Write Config File (Raw)
@@ -290,19 +286,18 @@
 							$optionsTemplate = $optionsTemplate -replace "þþþPLACEHOLDER-$($guid)þþþ", ""
 						}
 						
-						$createdTemplateItems += [TemplateResult]@{
-							Filename = "PSMDTemplate.ps1"
+						[PSModuleDevelopment.Template.TemplateResult]@{
+							Name     = "PSMDTemplate.ps1"
 							Path     = $newFolder.FullName
 							FullPath = (Join-Path $newFolder.FullName "PSMDTemplate.ps1")
 							Content  = $optionsTemplate
 						}
-						# Set-Content -Path $configFile -Value $optionsTemplate -Encoding ([PSFEncoding]'utf-8').Encoding
 					}
 					#endregion Write Config File (Raw)
 				}
 				#endregion Project
 			}
-			If($GenerateObjects){
+			If ($GenerateObjects) {
 				return $createdTemplateItems
 			}
 			Write-TemplateResult -TemplateResult $createdTemplateItems -Encoding $Encoding
@@ -310,6 +305,7 @@
 		
 		function New-TemplateItem {
 			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+			[OutputType([PSModuleDevelopment.Template.TemplateResult])]
 			[CmdletBinding()]
 			param (
 				[PSModuleDevelopment.Template.TemplateItemBase]
@@ -355,8 +351,8 @@
 							$text = [PSModuleDevelopment.Utility.UtilityHost]::Replace($text, "$($identifier)!$($param)!$($identifier)", $ParameterScript[$param], $false)
 						}
 					}
-					return [TemplateResult]@{
-						Filename = $fileName
+					return [PSModuleDevelopment.Template.TemplateResult]@{
+						Name     = $fileName
 						Path     = $Path
 						FullPath = $destPath
 						Content  = $text
@@ -364,8 +360,8 @@
 				}
 				else {
 					$bytes = [System.Convert]::FromBase64String($Item.Value)
-					return [TemplateResult]@{
-						Filename = $fileName
+					return [PSModuleDevelopment.Template.TemplateResult]@{
+						Name     = $fileName
 						Path     = $Path
 						FullPath = $destPath
 						Content  = $bytes
@@ -387,39 +383,54 @@
 					}
 				}
 				$folder = Join-Path -Path $Path -ChildPath $folderName
-				# $folder = New-Item -Path $Path -Name $folderName -ItemType Directory
-				$createdTemplateItems = @()
-				foreach ($child in $Item.Children) {
-					$createdTemplateItems += New-TemplateItem -Item $child -Path $folder -ParameterFlat $ParameterFlat -ParameterScript $ParameterScript -Raw $Raw
+
+				# Return a folder object to make sure empty folders are not excluded
+				[PSModuleDevelopment.Template.TemplateResult]@{
+					Name     = $folderName
+					Path     = $Path
+					FullPath = $folder
+					IsFolder = $true
+					IsText   = $false
 				}
-				return $createdTemplateItems
+				
+				foreach ($child in $Item.Children) {
+					New-TemplateItem -Item $child -Path $folder -ParameterFlat $ParameterFlat -ParameterScript $ParameterScript -Raw $Raw
+				}
 			}
 			#endregion Folder
 		}
+		
 		function Write-TemplateResult {
 			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 			[CmdletBinding()]
 			param (
-				[TemplateResult[]]
+				[PSModuleDevelopment.Template.TemplateResult[]]
 				$TemplateResult,
 				
 				[PSFEncoding]
 				$Encoding
 			)
-			foreach ($item in $TemplateResult) {
-				Write-PSFMessage -Level Verbose -Message "Creating file: $($Item.FullPath)" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
-				# Write-PSFMessage -Level Verbose -Message "Creating file: $($Item |convertto-json)" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
-				if (-not (Test-Path $Item.Path)) {
-					Write-PSFMessage -Level Verbose -Message "Creating Folder $($Item.Path)"
-					New-Item -Path $Item.Path -ItemType Directory | Out-Null
+			$msgParam = @{ Level = 'Verbose'; FunctionName = 'Invoke-PSMDTemplate' }
+			foreach ($item in $TemplateResult | Sort-Object { $_.FullPath.Length }) {
+				Write-PSFMessage @msgParam -Message "Creating file: $($item.FullPath)" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
+				if (-not (Test-Path $item.Path)) {
+					Write-PSFMessage -Level Verbose -Message "Creating Folder $($item.Path)"
+					$null = New-Item -Path $item.Path -ItemType Directory
 				}
-				if ($Item.IsText) {
-					Write-PSFMessage -Level Verbose -Message "Creating as a Text-File"
-					[System.IO.File]::WriteAllText($Item.FullPath, $Item.Content, $Encoding)
+				if ($item.IsFolder) {
+					if (-not (Test-Path $item.FullPath)) {
+						Write-PSFMessage  @msgParam -Message "Creating Folder $($item.FullPath)"
+						$null = New-Item -Path $item.FullPath -ItemType Directory
+					}
+					continue
+				}
+				if ($item.IsText) {
+					Write-PSFMessage @msgParam -Message "Creating as a Text-File"
+					[System.IO.File]::WriteAllText($item.FullPath, $item.Content, $Encoding)
 				}
 				else {
-					Write-PSFMessage -Level Verbose -Message "Creating as a Binary-File"
-					[System.IO.File]::WriteAllBytes($Item.FullPath, $Item.Content)
+					Write-PSFMessage @msgParam -Message "Creating as a Binary-File"
+					[System.IO.File]::WriteAllBytes($item.FullPath, $item.Content)
 				}
 			}
 		}

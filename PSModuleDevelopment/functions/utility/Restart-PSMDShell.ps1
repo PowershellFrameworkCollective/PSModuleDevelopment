@@ -1,6 +1,5 @@
-﻿function Restart-PSMDShell
-{
-    <#
+﻿function Restart-PSMDShell {
+	<#
         .SYNOPSIS
             A swift way to restart the PowerShell console.
         
@@ -33,13 +32,8 @@
             PS C:\> Restart-PSMDShell -Admin -NoExit
     
             Creates a new PowerShell process, run with elevation, while keeping the current console around.
-        
-        .NOTES
-			Version 1.0.0.0
-            Author: Friedrich Weinmann
-            Created on: August 6th, 2016
     #>
-    [Alias('rss', 'Restart-Shell')]
+	[Alias('rss', 'Restart-Shell')]
 	[CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Low')]
 	Param (
 		[Switch]
@@ -52,25 +46,36 @@
 		$NoProfile
 	)
 	
-	begin
-	{
-		$powershellPath = (Get-Process -id $pid).Path
+	begin {
+		$process = Get-Process -Id $pid
+		$powershellPath = $process.Path
+		$isWindowsTerminal = $process.Parent.ProcessName -eq 'WindowsTerminal'
 	}
-	process
-	{
-		if ($PSCmdlet.ShouldProcess("Current shell", "Restart"))
-		{
-			if ($NoProfile)
-			{
-				if ($Admin) { Start-Process $powershellPath -Verb RunAs -ArgumentList '-NoProfile' }
-				else { Start-Process $powershellPath -ArgumentList '-NoProfile' }
+	process {
+		if (-not $PSCmdlet.ShouldProcess("Current shell", "Restart")) { return }
+
+		if ($isWindowsTerminal) {
+			$psVersionName = 'powershell'
+			if ($PSVersionTable.PSVersion.Major -gt 5) { $psVersionName = 'pwsh' }
+
+			$param = @{
+				FilePath = 'wt'
+				ArgumentList = @('-w', 0, 'nt','--title', $psVersionName, $powershellPath)
 			}
-			else
-			{
-				if ($Admin) { Start-Process $powershellPath -Verb RunAs }
-				else { Start-Process $powershellPath }
-			}
-			if (-not $NoExit) { exit }
+			if ($NoProfile) { $param.ArgumentList = @('-w', 0, 'nt', '--title', $psVersionName, $powershellPath, '-NoProfile') }
+			if ($Admin) { $param.Verb = 'RunAs' }
+			Start-Process @param
 		}
+		else {
+			$param = @{
+				FilePath = $powershellPath
+			}
+			if ($NoProfile) { $param.ArgumentList = '-NoProfile' }
+			if ($Admin) { $param.Verb = 'RunAs' }
+			Start-Process @param
+		}
+	}
+	end {
+		if (-not $NoExit) { exit }
 	}
 }
