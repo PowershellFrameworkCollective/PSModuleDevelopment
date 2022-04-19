@@ -82,6 +82,7 @@
 #>
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSPossibleIncorrectUsageOfAssignmentOperator", "")]
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
+	[OutputType([PSModuleDevelopment.Template.TemplateResult])]
 	[Alias('imt')]
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param (
@@ -304,6 +305,7 @@
 		
 		function New-TemplateItem {
 			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+			[OutputType([PSModuleDevelopment.Template.TemplateResult])]
 			[CmdletBinding()]
 			param (
 				[PSModuleDevelopment.Template.TemplateItemBase]
