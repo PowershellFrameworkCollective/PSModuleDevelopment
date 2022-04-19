@@ -682,6 +682,43 @@
             Items under the current item.
             </summary>
         </member>
+        <member name="T:PSModuleDevelopment.Template.TemplateResult">
+            <summary>
+            The result object of a template invokation item.
+            A project template will generate one such object per file/folder
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateResult.Name">
+            <summary>
+            Name of the file or folder
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateResult.Path">
+            <summary>
+            Path the file or folder should be written to
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateResult.FullPath">
+            <summary>
+            The full, resolved path of the item
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateResult.Content">
+            <summary>
+            Any content to write (only viable for files)
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateResult.IsFolder">
+            <summary>
+            Whether the item to create is a folder or a file
+            </summary>
+        </member>
+        <member name="F:PSModuleDevelopment.Template.TemplateResult.IsText">
+            <summary>
+            Whether the file is a text-file.
+            If false, it will be written as a binary file instead.
+            </summary>
+        </member>
         <member name="T:PSModuleDevelopment.Template.TemplateType">
             <summary>
             Is the template a single file or a project?

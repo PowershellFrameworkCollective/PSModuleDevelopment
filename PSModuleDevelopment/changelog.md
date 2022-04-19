@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## ???
+
++ Upd: Invoke-PSMDTemplate - added parameter `-GenerateObjects` to return objects representing what would have been created as file, rather than actually creating files / folders.
+
 ## 2.2.10.134 (2022-03-17)
 
 + New: Test-PSMDClmCompatibility - Tests, whether the targeted file would have trouble executing under Constrained Language Mode.
