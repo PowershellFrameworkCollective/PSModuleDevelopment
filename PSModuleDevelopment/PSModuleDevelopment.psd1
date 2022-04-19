@@ -4,9 +4,10 @@
 	RootModule = 'PSModuleDevelopment.psm1'
 
 	# Version number of this module.
-	ModuleVersion = '2.2.10.134'
 
-	# ID used to uniquely identify this module
+	ModuleVersion = '2.2.11.138'
+
+  # ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
 
 	# Author of this module
@@ -157,10 +158,3 @@
 
 	} # End of PrivateData hashtable
 }
-
-
-
-
-
-
-

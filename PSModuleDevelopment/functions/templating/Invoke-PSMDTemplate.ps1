@@ -1,5 +1,5 @@
 ﻿function Invoke-PSMDTemplate {
-<#
+	<#
 	.SYNOPSIS
 		Creates a project/file from a template.
 	
@@ -49,6 +49,10 @@
 		By default, all parameters will be replaced during invocation.
 		In Raw mode, this is skipped, reproducing mostly the original template input (dynamic scriptblocks will now be named scriptblocks)).
 	
+	.PARAMETER GenerateObjects
+		By default, Invoke-PSMDTemplate generates files.
+		In GenerateObjects mode, no file but objects are created.
+	
 	.PARAMETER Force
 		If the target path the template should be written to (filename or folder name within $OutPath), then overwrite it.
 		By default, this function will fail if an overwrite is required.
@@ -78,7 +82,8 @@
 #>
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSPossibleIncorrectUsageOfAssignmentOperator", "")]
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
-    [Alias('imt')]
+	[OutputType([PSModuleDevelopment.Template.TemplateResult])]
+	[Alias('imt')]
 	[CmdletBinding(SupportsShouldProcess = $true)]
 	param (
 		[Parameter(Mandatory = $true, Position = 0, ParameterSetName = 'NameStore')]
@@ -118,6 +123,9 @@
 		
 		[switch]
 		$Raw,
+		
+		[switch]
+		$GenerateObjects,
 		
 		[switch]
 		$Force,
@@ -175,6 +183,9 @@
 				[bool]
 				$Raw,
 				
+				[switch]
+				$GenerateObjects,
+		
 				[bool]
 				$Silent
 			)
@@ -212,13 +223,11 @@
 				}
 			}
 			#endregion Scripts
-			
-			switch ($templateData.Type.ToString()) {
+			$createdTemplateItems = switch ($templateData.Type.ToString()) {
 				#region File
-				"File"
-				{
+				"File" {
 					foreach ($child in $templateData.Children) {
-						Write-TemplateItem -Item $child -Path $OutPath -Encoding $Encoding -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
+						New-TemplateItem -Item $child -Path $OutPath -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
 					}
 					if ($Raw -and $templateData.Scripts.Values) {
 						$templateData.Scripts.Values | Export-Clixml -Path (Join-Path $OutPath "_PSMD_ParameterScripts.xml")
@@ -227,8 +236,7 @@
 				#endregion File
 				
 				#region Project
-				"Project"
-				{
+				"Project" {
 					#region Resolve output folder
 					if (-not $NoFolder) {
 						if ($Parameters["Name"]) {
@@ -247,7 +255,7 @@
 					#endregion Resolve output folder
 					
 					foreach ($child in $templateData.Children) {
-						Write-TemplateItem -Item $child -Path $newFolder.FullName -Encoding $Encoding -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
+						New-TemplateItem -Item $child -Path $newFolder.FullName -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
 					}
 					
 					#region Write Config File (Raw)
@@ -278,17 +286,26 @@
 							$optionsTemplate = $optionsTemplate -replace "þþþPLACEHOLDER-$($guid)þþþ", ""
 						}
 						
-						$configFile = Join-Path $newFolder.FullName "PSMDTemplate.ps1"
-						Set-Content -Path $configFile -Value $optionsTemplate -Encoding ([PSFEncoding]'utf-8').Encoding
+						[PSModuleDevelopment.Template.TemplateResult]@{
+							Name     = "PSMDTemplate.ps1"
+							Path     = $newFolder.FullName
+							FullPath = (Join-Path $newFolder.FullName "PSMDTemplate.ps1")
+							Content  = $optionsTemplate
+						}
 					}
 					#endregion Write Config File (Raw)
 				}
 				#endregion Project
 			}
+			If ($GenerateObjects) {
+				return $createdTemplateItems
+			}
+			Write-TemplateResult -TemplateResult $createdTemplateItems -Encoding $Encoding
 		}
 		
-		function Write-TemplateItem {
+		function New-TemplateItem {
 			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+			[OutputType([PSModuleDevelopment.Template.TemplateResult])]
 			[CmdletBinding()]
 			param (
 				[PSModuleDevelopment.Template.TemplateItemBase]
@@ -296,9 +313,6 @@
 				
 				[string]
 				$Path,
-				
-				[PSFEncoding]
-				$Encoding,
 				
 				[hashtable]
 				$ParameterFlat,
@@ -309,8 +323,7 @@
 				[bool]
 				$Raw
 			)
-			
-			Write-PSFMessage -Level Verbose -Message "Creating file: $($Item.Name) ($($Item.RelativePath))" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
+			Write-PSFMessage -Level Verbose -Message "Creating Template-Item: $($Item.Name) ($($Item.RelativePath))" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
 			
 			$identifier = $Item.Identifier
 			$isFile = $Item.GetType().Name -eq 'TemplateItemFile'
@@ -320,7 +333,7 @@
 				$fileName = $Item.Name
 				if (-not $Raw) {
 					foreach ($param in $Item.FileSystemParameterFlat) {
-						$fileName = [PSModuleDevelopment.Utility.UtilityHost]::Replace($fileName,"$($identifier)$($param)$($identifier)", $ParameterFlat[$param], $false)
+						$fileName = [PSModuleDevelopment.Utility.UtilityHost]::Replace($fileName, "$($identifier)$($param)$($identifier)", $ParameterFlat[$param], $false)
 					}
 					foreach ($param in $Item.FileSystemParameterScript) {
 						$fileName = [PSModuleDevelopment.Utility.UtilityHost]::Replace($fileName, "$($identifier)$($param)$($identifier)", $ParameterScript[$param], $false)
@@ -338,11 +351,22 @@
 							$text = [PSModuleDevelopment.Utility.UtilityHost]::Replace($text, "$($identifier)!$($param)!$($identifier)", $ParameterScript[$param], $false)
 						}
 					}
-					[System.IO.File]::WriteAllText($destPath, $text, $Encoding)
+					return [PSModuleDevelopment.Template.TemplateResult]@{
+						Name     = $fileName
+						Path     = $Path
+						FullPath = $destPath
+						Content  = $text
+					}
 				}
 				else {
 					$bytes = [System.Convert]::FromBase64String($Item.Value)
-					[System.IO.File]::WriteAllBytes($destPath, $bytes)
+					return [PSModuleDevelopment.Template.TemplateResult]@{
+						Name     = $fileName
+						Path     = $Path
+						FullPath = $destPath
+						Content  = $bytes
+						IsText   = $false
+					}
 				}
 			}
 			#endregion File
@@ -358,13 +382,57 @@
 						$folderName = $folderName -replace "$($identifier)!$([regex]::Escape($param))!$($identifier)", $ParameterScript[$param]
 					}
 				}
-				$folder = New-Item -Path $Path -Name $folderName -ItemType Directory
+				$folder = Join-Path -Path $Path -ChildPath $folderName
+
+				# Return a folder object to make sure empty folders are not excluded
+				[PSModuleDevelopment.Template.TemplateResult]@{
+					Name     = $folderName
+					Path     = $Path
+					FullPath = $folder
+					IsFolder = $true
+					IsText   = $false
+				}
 				
 				foreach ($child in $Item.Children) {
-					Write-TemplateItem -Item $child -Path $folder.FullName -Encoding $Encoding -ParameterFlat $ParameterFlat -ParameterScript $ParameterScript -Raw $Raw
+					New-TemplateItem -Item $child -Path $folder -ParameterFlat $ParameterFlat -ParameterScript $ParameterScript -Raw $Raw
 				}
 			}
 			#endregion Folder
+		}
+		
+		function Write-TemplateResult {
+			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
+			[CmdletBinding()]
+			param (
+				[PSModuleDevelopment.Template.TemplateResult[]]
+				$TemplateResult,
+				
+				[PSFEncoding]
+				$Encoding
+			)
+			$msgParam = @{ Level = 'Verbose'; FunctionName = 'Invoke-PSMDTemplate' }
+			foreach ($item in $TemplateResult | Sort-Object { $_.FullPath.Length }) {
+				Write-PSFMessage @msgParam -Message "Creating file: $($item.FullPath)" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
+				if (-not (Test-Path $item.Path)) {
+					Write-PSFMessage -Level Verbose -Message "Creating Folder $($item.Path)"
+					$null = New-Item -Path $item.Path -ItemType Directory
+				}
+				if ($item.IsFolder) {
+					if (-not (Test-Path $item.FullPath)) {
+						Write-PSFMessage  @msgParam -Message "Creating Folder $($item.FullPath)"
+						$null = New-Item -Path $item.FullPath -ItemType Directory
+					}
+					continue
+				}
+				if ($item.IsText) {
+					Write-PSFMessage @msgParam -Message "Creating as a Text-File"
+					[System.IO.File]::WriteAllText($item.FullPath, $item.Content, $Encoding)
+				}
+				else {
+					Write-PSFMessage @msgParam -Message "Creating as a Binary-File"
+					[System.IO.File]::WriteAllBytes($item.FullPath, $item.Content)
+				}
+			}
 		}
 		#endregion Helper function
 	}
@@ -372,12 +440,13 @@
 		if (Test-PSFFunctionInterrupt) { return }
 		
 		$invokeParam = @{
-			Parameters = $Parameters.Clone()
-			OutPath    = Resolve-PSFPath -Path $OutPath
-			NoFolder   = $NoFolder
-			Encoding   = $Encoding
-			Raw	       = $Raw
-			Silent	   = $Silent
+			Parameters      = $Parameters.Clone()
+			OutPath         = Resolve-PSFPath -Path $OutPath
+			NoFolder        = $NoFolder
+			Encoding        = $Encoding
+			Raw             = $Raw
+			Silent          = $Silent
+			GenerateObjects = $GenerateObjects
 		}
 		
 		foreach ($item in $Template) {
