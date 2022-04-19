@@ -229,7 +229,7 @@
 					foreach ($child in $templateData.Children) {
 						$createdTemplateItems += New-TemplateItem -Item $child -Path $OutPath -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
 						# Write-PSFMessage "`$createdTemplateItems=$($createdTemplateItems|convertto-json)"
-						# Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding
+						# Write-TemplateResult -TemplateResult $createdTemplateItems -Encoding $Encoding
 					}
 					if ($Raw -and $templateData.Scripts.Values) {
 						$templateData.Scripts.Values | Export-Clixml -Path (Join-Path $OutPath "_PSMD_ParameterScripts.xml")
@@ -259,7 +259,7 @@
 					foreach ($child in $templateData.Children) {
 						$createdTemplateItems += New-TemplateItem -Item $child -Path $newFolder.FullName -ParameterFlat $Parameters -ParameterScript $scriptParameters -Raw $Raw
 						# Write-PSFMessage "`$createdTemplateItems=$($createdTemplateItems|convertto-json)"
-						# Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding
+						# Write-TemplateResult -TemplateResult $createdTemplateItems -Encoding $Encoding
 					}
 					
 					#region Write Config File (Raw)
@@ -305,7 +305,7 @@
 			If($GenerateObjects){
 				return $createdTemplateItems
 			}
-			Write-TemplateResults -TemplateResult $createdTemplateItems -Encoding $Encoding
+			Write-TemplateResult -TemplateResult $createdTemplateItems -Encoding $Encoding
 		}
 		
 		function New-TemplateItem {
@@ -396,7 +396,7 @@
 			}
 			#endregion Folder
 		}
-		function Write-TemplateResults {
+		function Write-TemplateResult {
 			[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
 			[CmdletBinding()]
 			param (
