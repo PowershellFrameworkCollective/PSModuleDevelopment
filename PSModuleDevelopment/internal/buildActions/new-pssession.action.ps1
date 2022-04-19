@@ -16,6 +16,12 @@
 		try { $credential = Import-PSFClixml -Path $path -ErrorAction Stop }
 		catch { throw "Error accessing credentials from $path : $_" }
 	}
+	if ($actualParameters.Credential) {
+		if ($actualParameters.Credential -isnot [pscredential]) {
+			throw "Not a credential object: $($actualParameters.Credential)"
+		}
+		$credential = $actualParameters.Credential
+	}
 	
 	$paramNewPSSession = @{ }
 	if ($actualParameters.VMName) { $paramNewPSSession.VMName = $actualParameters.VMName }
@@ -38,6 +44,7 @@ $params = @{
 		Port           = 'Port you want to connect to'
 		VMName         = 'The virtual machine to which to connect to via the HyperV VM Bus'
 		CredentialPath = 'The path to the credentials to use for the connection. Use %ProjectRoot% to insert the folder path to where the buildfile is located'
+		Credential     = 'PSCredential object to use for authenticatioon'
 		ArtifactName   = '(mandatory) The name under which to publish the session as an artifact'
 	}
 }
