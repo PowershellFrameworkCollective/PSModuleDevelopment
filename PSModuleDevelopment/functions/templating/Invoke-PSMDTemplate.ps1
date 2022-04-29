@@ -412,7 +412,7 @@
 			)
 			$msgParam = @{ Level = 'Verbose'; FunctionName = 'Invoke-PSMDTemplate' }
 			foreach ($item in $TemplateResult | Sort-Object { $_.FullPath.Length }) {
-				Write-PSFMessage @msgParam -Message "Creating file: $($item.FullPath)" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
+				Write-PSFMessage @msgParam -Message "Creating file: $($item.FullPath)" -Tag 'create', 'template'
 				if (-not (Test-Path $item.Path)) {
 					Write-PSFMessage -Level Verbose -Message "Creating Folder $($item.Path)"
 					$null = New-Item -Path $item.Path -ItemType Directory

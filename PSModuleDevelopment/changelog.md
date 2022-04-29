@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 2.2.11.139 (2022-04-29)
+
++ Fix: Invoke-PSMDTemplate - fails to generate templates on PS 5.1, due to splatting vs. explicitly bound parameter (#172)
+
 ## 2.2.11.138 (2022-04-19)
 
 + New: Template MiniModule - a scaffold for a minimal dependencies module
