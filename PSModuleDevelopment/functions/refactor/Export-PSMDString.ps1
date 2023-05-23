@@ -48,17 +48,17 @@
 			#region Command Parameters
 			$commandAsts = $ast.FindAll({
 					if ($args[0] -isnot [System.Management.Automation.Language.CommandAst]) { return $false }
-					if ($args[0].CommandElements[0].Value -notmatch '^Invoke-PSFProtectedCommand$|^Write-PSFMessage$|^Stop-PSFFunction$|^Test-PSFShouldProcess$') { return $false }
-					if (-not ($args[0].CommandElements.ParameterName -match '^String$|^ActionString$')) { return $false }
+					if ($args[0].CommandElements[0].Value -notmatch '^Invoke-PSFProtectedCommand$|^Write-PSFMessage$|^Stop-PSFFunction$|^Test-PSFShouldProcess$|^Get-PSFLocalizedString$') { return $false }
+					if (-not ($args[0].CommandElements.ParameterName -match '^String$|^ActionString$|^Name$')) { return $false }
 					$true
 				}, $true)
 			
 			foreach ($commandAst in $commandAsts)
 			{
-				$stringParam = $commandAst.CommandElements | Where-Object ParameterName -match '^String$|^ActionString$'
+				$stringParam = $commandAst.CommandElements | Where-Object ParameterName -match '^String$|^ActionString$|^Name$'
 				$stringParamValue = $commandAst.CommandElements[($commandAst.CommandElements.IndexOf($stringParam) + 1)].Value
 				
-				$stringValueParam = $commandAst.CommandElements | Where-Object ParameterName -match '^StringValues$|^ActionStringValues$'
+				$stringValueParam = $commandAst.CommandElements | Where-Object ParameterName -match '^StringValues$|^ActionStringValues$|^Name$'
 				if ($stringValueParam)
 				{
 					$stringValueParamValue = $commandAst.CommandElements[($commandAst.CommandElements.IndexOf($stringValueParam) + 1)].Extent.Text
