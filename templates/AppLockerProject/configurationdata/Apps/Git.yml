@@ -1,0 +1,30 @@
+Configurations:
+  - RuleCollections
+
+RuleCollections:
+  Exe:
+    EnforcementMode: AuditOnly
+    Rules:
+      - Name: Allow git.exe
+        Description: Allow all users to run git.exe
+        Path: '%PROGRAMFILES%\git\cmd\git.exe'
+        UserOrGroupSid: S-1-1-0
+        Action: Allow
+      - Name: Allow specific hashed git
+        Description: Allow all users to run git.exe that has a specific hash
+        Type: SHA256
+        Data: "0xC659F4712B60C25E86A927E0C0121C301075F2D0754506140F8B9812B5FDBA3C"
+        SourceFileName: git.exe
+        SourceFileLength: 45104
+        UserOrGroupSid: S-1-1-0
+        Action: Allow
+      - Name: Allow signed git
+        Description: Allow all users to run git.exe that was signed by a specific publisher
+        PublisherName: O=JOHANNES SCHINDELIN, S=NORDRHEIN-WESTFALEN, C=DE
+        ProductName: GIT
+        BinaryName: GIT.EXE
+        BinaryVersionRange:
+          LowSection: 2.40.1.1
+          HighSection: 2.40.1.1
+        UserOrGroupSid: S-1-1-0
+        Action: Allow

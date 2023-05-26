@@ -1,0 +1,5 @@
+PolicyName: Pol1
+Domain: contoso.com
+Apps:
+  - Git
+  - Obs

@@ -1,0 +1,58 @@
+ResolutionPrecedence:
+  - AllNodes\$($Node.Domain)\$($Node.PolicyName)
+  - '[x= { $Node.Apps | Foreach-Object {"Apps\$_"} } =]'
+  - Domains\$($Node.Domain)
+  - Generics\Windows
+
+DatumHandlersThrowOnError: true
+DatumHandlers:
+  Datum.InvokeCommand::InvokeCommand:
+    SkipDuringLoad: true
+
+default_lookup_options: MostSpecific
+
+lookup_options:
+  Configurations:
+    merge_basetype_array: Unique
+
+  RuleCollections:
+    merge_hash: deep
+  RuleCollections\Exe:
+    merge_hash: deep
+  RuleCollections\Exe\Rules:
+    merge_hash_array: UniqueKeyValTuples
+    merge_options:
+      tuple_keys:
+        - Name
+  RuleCollections\Msi:
+    merge_hash: deep
+  RuleCollections\Msi\Rules:
+    merge_hash_array: UniqueKeyValTuples
+    merge_options:
+      tuple_keys:
+        - Name
+  RuleCollections\Dll:
+    merge_hash: deep
+  RuleCollections\Dll\Rules:
+    merge_hash_array: UniqueKeyValTuples
+    merge_options:
+      tuple_keys:
+        - Name
+
+DatumStructure:
+  - StoreName: AllNodes
+    StoreProvider: Datum::File
+    StoreOptions:
+      Path: "./Policies"
+  - StoreName: Generics
+    StoreProvider: Datum::File
+    StoreOptions:
+      Path: "./Generics"
+  - StoreName: Domains
+    StoreProvider: Datum::File
+    StoreOptions:
+      Path: "./Domains"
+  - StoreName: Apps
+    StoreProvider: Datum::File
+    StoreOptions:
+      Path: "./Apps"
