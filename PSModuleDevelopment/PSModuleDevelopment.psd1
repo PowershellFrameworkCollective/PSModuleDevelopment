@@ -5,7 +5,7 @@
 
 	# Version number of this module.
 
-	ModuleVersion = '2.2.11.139'
+	ModuleVersion = '2.2.11.146'
 
   # ID used to uniquely identify this module
 	GUID = '37dd5fce-e7b5-4d57-ac37-832055ce49d6'
@@ -28,8 +28,8 @@
 	# Modules that must be imported into the global environment prior to importing
 	# this module
 	RequiredModules	       = @(
-		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.6.214' }
-		@{ ModuleName = 'string'; ModuleVersion = '1.0.0' }
+		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.7.270' }
+		@{ ModuleName = 'string'; ModuleVersion = '1.1.3' }
 	)
 
 	# Assemblies that must be loaded prior to importing this module

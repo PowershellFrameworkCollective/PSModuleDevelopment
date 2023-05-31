@@ -2,11 +2,12 @@
   push:
     branches:
       - master
+      - main
 
 jobs:
   build:
 
-    runs-on: windows-2019
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v1
