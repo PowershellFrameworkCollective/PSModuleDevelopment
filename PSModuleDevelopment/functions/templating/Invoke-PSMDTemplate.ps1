@@ -59,6 +59,9 @@
 	
 	.PARAMETER Silent
 		This places the function in unattended mode, causing it to error on anything requiring direct user input.
+
+	.PARAMETER NoConfigFile
+		By default, this command will look in the execution path and above for files named "PSMDConfig.psd1" to populate template parameters from.
 	
 	.PARAMETER EnableException
 		Replaces user friendly yellow warnings with bloody red exceptions of doom!
@@ -132,12 +135,17 @@
 		
 		[switch]
 		$Silent,
+
+		[switch]
+		$NoConfigFile,
 		
 		[switch]
 		$EnableException
 	)
 	
 	begin {
+		$resolvedPath = Resolve-PSFPath -Path $OutPath
+
 		$templates = @()
 		switch ($PSCmdlet.ParameterSetName) {
 			'NameStore' { $templates = Get-PSMDTemplate -TemplateName $TemplateName -Store $Store }
@@ -152,12 +160,8 @@
 		if (-not $Parameters) { $Parameters = @{ } }
 		if ($Name) { $Parameters["Name"] = $Name }
 		
-		foreach ($config in (Get-PSFConfig -Module 'PSModuleDevelopment' -Name 'Template.ParameterDefault.*')) {
-			$cfgName = $config.Name -replace '^.+\.([^\.]+)$', '$1'
-			if (-not $Parameters.ContainsKey($cfgName)) {
-				$Parameters[$cfgName] = $config.Value
-			}
-		}
+		if ($NoConfigFile) { $paramCloned = Resolve-TemplateParameter -Configuration $Parameters -FromConfiguration}
+		else { $paramCloned = Resolve-TemplateParameter -Path $resolvedPath -Configuration $Parameters -FromConfiguration }
 		#endregion Parameter Processing
 		
 		#region Helper function
@@ -440,8 +444,8 @@
 		if (Test-PSFFunctionInterrupt) { return }
 		
 		$invokeParam = @{
-			Parameters      = $Parameters.Clone()
-			OutPath         = Resolve-PSFPath -Path $OutPath
+			Parameters      = $paramCloned
+			OutPath         = $resolvedPath
 			NoFolder        = $NoFolder
 			Encoding        = $Encoding
 			Raw             = $Raw

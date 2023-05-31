@@ -1,5 +1,15 @@
 ﻿# Changelog
 
+## 2.2.11.146 (2023-05-31)
+
++ Upd: Export-PSMDString - added support for Get-PSMDLocalizedString calls (#181, thanks @nyanhp)
++ Upd: Invoke-PSMDTemplate - added support from template configuration files (#161)
++ Upd: Template MiniModule - added gitignore & main branch for automation (#179, Thanks @nyanhp)
++ Upd: Template MiniModule - switched github automation from windows-2019 to windows-latest
++ Upd: Template PSFProject - added main branch to build autopmation
++ Upd: Template PSFProject - switched github automation from windows-2019 to windows-latest
++ Upd: Templating - added common picture formats to the list of binary file extensions (#175)
+
 ## 2.2.11.139 (2022-04-29)
 
 + Fix: Invoke-PSMDTemplate - fails to generate templates on PS 5.1, due to splatting vs. explicitly bound parameter (#172)

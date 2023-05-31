@@ -1,27 +1,70 @@
-# Purpose
+# PSModuleDevelopment
 
-The PSModuleDevelopment module is designed to provide tools that help with - big surprise incoming - module development.
-This attempts to help with:
- - Speeding up iterative procedures, especially reinitiating tests runs
- - Debugging Execution
- - Development Research & Analytics
- - Miscellaneous other things
+Welcome to your one stop for PowerShell development tools!
+This project is designed to help you with accelerating your coding workflows through a wide range of utilities.
+Its flagship feature is a *templating engine* that allows you to swiftly create new projects - either by using some of the default templates or easily creating your own.
 
-# Alias Warning
+## Online Documentation
 
-This module actually ships with convenience aliases.
+As this module is part of the PSFramework project, its documentation can be found on [PSFramework.org](https://psframework.org/documentation/documents/psmoduledevelopment/templates.html).
 
-Generally, modules should leave aliases like that to the user's preference.
-However, in this instance, the main purpose is to optimize the performance of the developer, which requires the use of aliases.
+> As ever, documentation takes time out of _"more features!"_, so there could be more, but at least the templating is covered in depth.
 
-Due to this, the decision was made to ship the module with aliases.
+## Install
 
-# Configuration Notice
+To get read to use this module, run this:
 
-This module uses the PSFramework for configuration management (and many other things).
-Run `Get-PSFConfig -Module PSModuleDevelopment` in order to retrieve the full list of configurations set.
+```powershell
+Install-Module PSModuleDevelopment -Scope CurrentUser
+```
 
-# Profile notice
+## Profit
 
-Some features of this module assume, that it is in the profile and automtically imported on console start.
-It is still possible to profit from the module without this, but it is highly recommended to add the module import to the PowerShell profile
+With that you are ready to go and have fun with it.
+A few examples of what it can do for you:
+
+> Create a new module project
+
+```powershell
+Invoke-PSMDTemplate MiniModule
+```
+
+> Parse a script file and export all functions into dedicated files
+
+```powershell
+Split-PSMDScriptFile -File .\largescript.ps1 -Path .\functions
+```
+
+> Fix all the file encodings
+
+```powershell
+Get-ChildItem -Recurse -File | Set-PSMDEncoding
+```
+
+> Fix parameter blocks
+
+```powershell
+Get-ChildItem -Recurse -File | Set-PSMDCmdletBinding
+```
+
+> Get better members
+
+```powershell
+Get-Date | Get-PSMDMember -Name ToString
+```
+
+> Search for Assemblies and Types
+
+```powershell
+# List all assemblies
+Get-PSMDAssembly
+
+# Search for types in that assembly
+Get-PSMDAssembly *ActiveDirectory* | Find-PSMDType
+
+# Search for all types implementing IEnumerable
+Find-PSMDType -Implements IEnumerable
+
+# Get Constructors
+[DateTime] | Get-PSMDConstructor
+```
