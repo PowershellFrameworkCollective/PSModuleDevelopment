@@ -11,12 +11,13 @@ param
 
 Import-Module Pester
 
+$global:testroot = Join-Path $ProjectRoot tests
 $po = [PesterConfiguration]::New()
-$po.Run.Path = Join-Path $ProjectRoot "tests/$TestType"
+$po.Run.Path = Join-Path $global:testroot $TestType
 $po.Run.PassThru = $true
 $po.Output.Verbosity = 'Detailed'
 $po.TestResult.Enabled = $true
-$po.TestResult.OutputPath = Join-Path $ProjectRoot 'testresults.xml'
+$po.TestResult.OutputPath = Join-Path $global:testroot 'testresults.xml'
 $po.TestResult.OutputFormat = 'NUnit2.5'
 
 $result = Invoke-Pester -Configuration $po
