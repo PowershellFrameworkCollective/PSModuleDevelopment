@@ -1,5 +1,5 @@
 PolicyName: Pol1
-Domain: contoso.com
+Domain: þdomainfqdnþ
 Apps:
   - Git
   - Obs

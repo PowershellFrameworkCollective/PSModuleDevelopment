@@ -18,11 +18,11 @@ alternative credentials.
 
 The ideal workflow should you need or want to build it your self would look like this:
 
-1. Ensure prerequisites `build\prerequisites.ps1`
-1. Validate Configuration Data: `build\validate.ps1 -TestType ConfigurationData`
-1. Build policies and optional RSOP from configuration data: `build\build.ps1 -IncludeRsop`
-1. Validate Integration into environment: `build\validate.ps1 -TestType Integration`
-1. Publish:  `build\publish.ps1`
+1. Ensure prerequisites `.\build\prerequisites.ps1`
+1. Validate Configuration Data: `.\build\validate.ps1 -TestType ConfigurationData`
+1. Build policies and optional RSOP from configuration data: `.\build\build.ps1 -IncludeRsop`
+1. Validate Integration into environment: `.\build\validate.ps1 -TestType Integration`
+1. Publish:  `.\build\publish.ps1`
 
 ## Advanced setup
 
