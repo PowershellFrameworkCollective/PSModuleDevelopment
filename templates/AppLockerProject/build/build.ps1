@@ -2,14 +2,24 @@
 param
 (
     [string]
-    $SourcePath = (Resolve-Path "$PSScriptRoot\..\configurationdata").Path,
+    $SourcePath = "$PSScriptRoot\..\configurationdata",
 
     [string]
-    $OutputPath = (Resolve-Path "$PSScriptRoot\..\output").Path,
+    $OutputPath = "$PSScriptRoot\..\output",
 
     [switch]
     $IncludeRsop
 )
+
+$SourcePath = Resolve-Path -Path $SourcePath -ErrorAction Stop
+$OutputPath = if (-not (Resolve-Path -Path $OutputPath -ErrorAction SilentlyContinue))
+{
+    (New-Item -Path $OutputPath -ItemType Directory -Force).FullName
+}
+else
+{
+    Resolve-Path -Path $OutputPath
+}
 
 $rsopPath = Join-Path -Path $OutputPath -ChildPath rsop
 $policyPath = Join-Path -Path $OutputPath -ChildPath policies
@@ -21,6 +31,11 @@ if (-not (Test-Path -Path $rsopPath))
 if (-not (Test-Path -Path $policyPath))
 {
     $null = New-Item -Path $policyPath -ItemType Directory -Force
+}
+
+if (Get-DatumRsopCache)
+{
+    Clear-DatumRsopCache
 }
 
 $datum = New-DatumStructure -DefinitionFile (Join-Path $SourcePath Datum.yml)

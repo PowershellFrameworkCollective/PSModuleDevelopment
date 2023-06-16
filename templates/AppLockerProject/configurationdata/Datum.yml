@@ -24,6 +24,8 @@ lookup_options:
     merge_options:
       tuple_keys:
         - Name
+  RuleCollections\Exe\Rules\Exceptions:
+    merge_basetype_array: Unique
   RuleCollections\Msi:
     merge_hash: deep
   RuleCollections\Msi\Rules:
@@ -31,6 +33,8 @@ lookup_options:
     merge_options:
       tuple_keys:
         - Name
+  RuleCollections\Msi\Rules\Exceptions:
+    merge_basetype_array: Unique
   RuleCollections\Dll:
     merge_hash: deep
   RuleCollections\Dll\Rules:
@@ -38,6 +42,26 @@ lookup_options:
     merge_options:
       tuple_keys:
         - Name
+  RuleCollections\Dll\Rules\Exceptions:
+    merge_basetype_array: Unique
+  RuleCollections\Script:
+    merge_hash: deep
+  RuleCollections\Script\Rules:
+    merge_hash_array: UniqueKeyValTuples
+    merge_options:
+      tuple_keys:
+        - Name
+  RuleCollections\Script\Rules\Exceptions:
+    merge_basetype_array: Unique
+  RuleCollections\Appx:
+    merge_hash: deep
+  RuleCollections\Appx\Rules:
+    merge_hash_array: UniqueKeyValTuples
+    merge_options:
+      tuple_keys:
+        - Name
+  RuleCollections\Appx\Rules\Exceptions:
+    merge_basetype_array: Unique
 
 DatumStructure:
   - StoreName: AllNodes
