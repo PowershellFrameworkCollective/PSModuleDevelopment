@@ -1,124 +1,50 @@
 trigger:
   branches:
     include:
-    - main
+      - main
 
 stages:
   - stage: build
     jobs:
       - job: Build
-        displayName: 'Build AppLocker Artifacts'
+        displayName: "Build AppLocker Artifacts"
         pool:
           name: Default
         workspace:
           clean: all
         steps:
           - task: PowerShell@2
-            name: build
-            displayName: 'Download prerequisites'
+            name: prereq
+            displayName: "Download prerequisites"
             inputs:
-              filePath: '.\build\vsts-prerequisites.ps1'
+              filePath: '.\build\prerequisites.ps1'
           - task: PowerShell@2
-            name: build
+            name: validateyaml
             displayName: Validate Configuration Data
             inputs:
-              filePath: '.\build\vsts-validate.ps1'
-              arguments: '-TestType ConfigurationData'
+              filePath: '.\build\validate.ps1'
+              arguments: "-TestType ConfigurationData"
           - task: PowerShell@2
-            name: build
+            name: buildpolicy
             displayName: Build policy XML
             inputs:
-              filePath: '.\build\vsts-build.ps1'
-              arguments: '-IncludeRsop'
-
+              filePath: '.\build\build.ps1'
+              arguments: "-IncludeRsop"
           - task: PublishBuildArtifacts@1
-            displayName: 'Publish Policy XML Files'
+            displayName: "Publish Policy XML Files"
             inputs:
-              PathtoPublish: 'output/Policies'
+              PathtoPublish: "output/Policies"
               ArtifactName: Policies
-
           - task: PublishBuildArtifacts@1
-            displayName: 'Publish Policy RSOP Files'
+            displayName: "Publish Policy RSOP Files"
             inputs:
-              PathtoPublish: 'output/Rsop'
+              PathtoPublish: "output/Rsop"
               ArtifactName: Rsop
-
   - stage: publish
     dependsOn: build
     jobs:
-      - deployment: Dev
-        displayName: Dev Deployment
-        environment: Dev
-        pool:
-          name: Default
-        workspace:
-          clean: all
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-              - download: None
-
-              - task: DownloadBuildArtifacts@0
-                displayName: 'Download Build Artifact: Rsop'
-                inputs:
-                  buildType: 'current'
-                  artifactName: Rsop
-                  downloadPath: $(Build.SourcesDirectory)
-              - task: DownloadBuildArtifacts@0
-                displayName: 'Download Build Artifact: Policies'
-                inputs:
-                  buildType: 'current'
-                  artifactName: Policies
-                  downloadPath: $(Build.SourcesDirectory)
-              - task: PowerShell@2
-                name: publishpolicies
-                displayName: Publish policies
-                inputs:
-                  filePath: '.\build\vsts-publish.ps1'
-                  arguments: '-OutputPath  $(Build.SourcesDirectory)'
-
-  - stage: DscDeploymentTest
-    dependsOn:
-      - build
-      - DscDeploymentDev
-    jobs:
-      - deployment: Test
-        displayName: Test Deployment
-        environment: Test
-        pool:
-          name: Default
-        workspace:
-          clean: all
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-              - download: None
-
-              - task: DownloadBuildArtifacts@0
-                displayName: 'Download Build Artifact: MOF'
-                inputs:
-                  buildType: 'current'
-                  artifactName: MOF
-                  downloadPath: $(Build.SourcesDirectory)
-
-              - task: CopyFiles@2
-                name: DeployMofsToPullServer
-                displayName: 'Deploy MOF Files to Pull Server'
-                inputs:
-                  SourceFolder: '$(Build.SourcesDirectory)/MOF/$(Environment.Name)'
-                  Contents: '**'
-                  TargetFolder: '\\dscpull01\DscConfiguration'
-                  OverWrite: true
-
-  - stage: DscDeploymentProd
-    dependsOn:
-      - build
-      - DscDeploymentTest
-    jobs:
       - deployment: Prod
-        displayName: Prodt Deployment
+        displayName: Prod Deployment
         environment: Prod
         pool:
           name: Default
@@ -128,20 +54,28 @@ stages:
           runOnce:
             deploy:
               steps:
-              - download: None
-
-              - task: DownloadBuildArtifacts@0
-                displayName: 'Download Build Artifact: MOF'
-                inputs:
-                  buildType: 'current'
-                  artifactName: MOF
-                  downloadPath: $(Build.SourcesDirectory)
-
-              - task: CopyFiles@2
-                name: DeployMofsToPullServer
-                displayName: 'Deploy MOF Files to Pull Server'
-                inputs:
-                  SourceFolder: '$(Build.SourcesDirectory)/MOF/$(Environment.Name)'
-                  Contents: '**'
-                  TargetFolder: '\\dscpull01\DscConfiguration'
-                  OverWrite: true
+                - download: None
+                - task: DownloadBuildArtifacts@0
+                  displayName: "Download Build Artifact: Rsop"
+                  inputs:
+                    buildType: "current"
+                    artifactName: Rsop
+                    downloadPath: $(Build.SourcesDirectory)
+                - task: DownloadBuildArtifacts@0
+                  displayName: "Download Build Artifact: Policies"
+                  inputs:
+                    buildType: "current"
+                    artifactName: Policies
+                    downloadPath: $(Build.SourcesDirectory)
+                - task: PowerShell@2
+                  name: publishpolicies
+                  displayName: Publish policies
+                  inputs:
+                    filePath: '.\build\publish.ps1'
+                    arguments: "-OutputPath $(Build.SourcesDirectory)"
+                - task: PowerShell@2
+                  name: validateintegration
+                  displayName: Validate Integration
+                  inputs:
+                    filePath: '.\build\validate.ps1'
+                    arguments: "-TestType Integration"
