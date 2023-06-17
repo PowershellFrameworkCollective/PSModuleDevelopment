@@ -17,5 +17,5 @@ foreach ($policy in (Get-ChildItem -Path (Join-Path -Path $OutputPath -ChildPath
 
     $policyFound = $searcher.FindOne()
 
-    Set-AppLockerPolicy -XmlPolicy (Get-Content -Path $policy.FullName) -Ldap $policyFound.Path
+    Set-AppLockerPolicy -XmlPolicy $policy.FullName -Ldap $policyFound.Path
 }

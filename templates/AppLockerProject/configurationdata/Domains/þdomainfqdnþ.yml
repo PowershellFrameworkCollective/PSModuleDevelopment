@@ -44,4 +44,5 @@ RuleCollections:
       - Name: Prohibit PowerShell 2 unsigned JIT
         Description: Explicitly deny signed DLLs needed for PowerShell v2
         Action: Deny
+        UserOrGroupSid: S-1-1-0
         Path: '%WINDIR%\assembly\NativeImages_v2.0.50727_32\System.Management.A#\*'
