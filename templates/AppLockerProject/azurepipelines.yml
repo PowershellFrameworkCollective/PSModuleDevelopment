@@ -1,13 +1,13 @@
 trigger:
   branches:
     include:
-      - main
+    - main
 
 stages:
   - stage: build
     jobs:
       - job: Build
-        displayName: "Build AppLocker Artifacts"
+        displayName: 'Build AppLocker Artifacts'
         pool:
           name: Default
         workspace:
@@ -15,30 +15,33 @@ stages:
         steps:
           - task: PowerShell@2
             name: prereq
-            displayName: "Download prerequisites"
+            displayName: 'Download prerequisites'
             inputs:
               filePath: '.\build\prerequisites.ps1'
+              arguments: '-DependencyPath .\build\requiredModules.psd1'
           - task: PowerShell@2
             name: validateyaml
             displayName: Validate Configuration Data
             inputs:
               filePath: '.\build\validate.ps1'
-              arguments: "-TestType ConfigurationData"
+              arguments: '-TestType ConfigurationData -DependencyPath .\build\requiredModules.psd1'
           - task: PowerShell@2
             name: buildpolicy
             displayName: Build policy XML
             inputs:
               filePath: '.\build\build.ps1'
-              arguments: "-IncludeRsop"
+              arguments: '-IncludeRsop -DependencyPath .\build\requiredModules.psd1'
+
           - task: PublishBuildArtifacts@1
-            displayName: "Publish Policy XML Files"
+            displayName: 'Publish Policy XML Files'
             inputs:
-              PathtoPublish: "output/Policies"
+              PathtoPublish: 'output/Policies'
               ArtifactName: Policies
+
           - task: PublishBuildArtifacts@1
-            displayName: "Publish Policy RSOP Files"
+            displayName: 'Publish Policy RSOP Files'
             inputs:
-              PathtoPublish: "output/Rsop"
+              PathtoPublish: 'output/Rsop'
               ArtifactName: Rsop
   - stage: publish
     dependsOn: build
@@ -54,28 +57,29 @@ stages:
           runOnce:
             deploy:
               steps:
-                - download: None
-                - task: DownloadBuildArtifacts@0
-                  displayName: "Download Build Artifact: Rsop"
-                  inputs:
-                    buildType: "current"
-                    artifactName: Rsop
-                    downloadPath: $(Build.SourcesDirectory)
-                - task: DownloadBuildArtifacts@0
-                  displayName: "Download Build Artifact: Policies"
-                  inputs:
-                    buildType: "current"
-                    artifactName: Policies
-                    downloadPath: $(Build.SourcesDirectory)
-                - task: PowerShell@2
-                  name: publishpolicies
-                  displayName: Publish policies
-                  inputs:
-                    filePath: '.\build\publish.ps1'
-                    arguments: "-OutputPath $(Build.SourcesDirectory)"
-                - task: PowerShell@2
-                  name: validateintegration
-                  displayName: Validate Integration
-                  inputs:
-                    filePath: '.\build\validate.ps1'
-                    arguments: "-TestType Integration"
+              - download: None
+
+              - task: DownloadBuildArtifacts@0
+                displayName: 'Download Build Artifact: Rsop'
+                inputs:
+                  buildType: 'current'
+                  artifactName: Rsop
+                  downloadPath: $(Build.SourcesDirectory)
+              - task: DownloadBuildArtifacts@0
+                displayName: 'Download Build Artifact: Policies'
+                inputs:
+                  buildType: 'current'
+                  artifactName: Policies
+                  downloadPath: $(Build.SourcesDirectory)
+              - task: PowerShell@2
+                name: publishpolicies
+                displayName: Publish policies
+                inputs:
+                  filePath: '.\build\publish.ps1'
+                  arguments: '-OutputPath $(Build.SourcesDirectory) -DependencyPath .\build\requiredModules.psd1'
+              - task: PowerShell@2
+                name: validateintegration
+                displayName: Validate Integration
+                inputs:
+                  filePath: '.\build\validate.ps1'
+                  arguments: '-TestType Integration -DependencyPath .\build\requiredModules.psd1'

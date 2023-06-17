@@ -2,6 +2,9 @@
 param
 (
     [string]
+    $DependencyPath = (Resolve-Path "$PSScriptRoot\requiredModules.psd1").Path,
+
+    [string]
     $SourcePath = "$PSScriptRoot\..\configurationdata",
 
     [string]
@@ -10,6 +13,12 @@ param
     [switch]
     $IncludeRsop
 )
+
+$psdependConfig = Import-PowerShellDataFile -Path $DependencyPath
+$modPath = Resolve-Path -Path $psdependConfig.PSDependOptions.Target
+$modOld = $env:PSModulePath
+$pathSeparator = [System.IO.Path]::PathSeparator
+$env:PSModulePath = "$modPath$pathSeparator$modOld"
 
 $SourcePath = Resolve-Path -Path $SourcePath -ErrorAction Stop
 $OutputPath = if (-not (Resolve-Path -Path $OutputPath -ErrorAction SilentlyContinue))
@@ -42,7 +51,11 @@ $datum = New-DatumStructure -DefinitionFile (Join-Path $SourcePath Datum.yml)
 $rsops = Get-DatumRsop $datum (Get-DatumNodesRecursive -AllDatumNodes $Datum.AllNodes)
 $rsops | Export-AlfXml -Path $policyPath
 
-if (-not $IncludeRsop) { return }
+if (-not $IncludeRsop)
+{
+    $env:PSModulePath = $modOld
+    return
+}
 
 foreach ($rsop in $rsops)
 {
@@ -53,3 +66,5 @@ foreach ($rsop in $rsops)
     }
     $rsop | ConvertTo-Yaml -OutFile (Join-Path -Path $domainPath -ChildPath "$($rsop.PolicyName).yml") -Force
 }
+
+$env:PSModulePath = $modOld

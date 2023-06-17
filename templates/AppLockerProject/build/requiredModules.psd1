@@ -1,6 +1,6 @@
 @{
     PSDependOptions       = @{
-        AddToPath  = $true
+        AddToPath  = $false
         Target     = 'output\RequiredModules'
         Parameters = @{
             Repository      = 'PSGallery'
