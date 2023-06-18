@@ -12,6 +12,7 @@ $modPath = Resolve-Path -Path $psdependConfig.PSDependOptions.Target
 $modOld = $env:PSModulePath
 $pathSeparator = [System.IO.Path]::PathSeparator
 $env:PSModulePath = "$modPath$pathSeparator$modOld"
+$rsops = Get-DatumRsopCache
 
 foreach ($policy in (Get-ChildItem -Path (Join-Path -Path $OutputPath -ChildPath Policies) -Recurse -Filter *.xml))
 {
@@ -22,6 +23,12 @@ foreach ($policy in (Get-ChildItem -Path (Join-Path -Path $OutputPath -ChildPath
     if (-not $policyFound)
     {
         $null = New-GPO -Name $policy.BaseName -Comment "Auto-updated applocker policy" -Domain $policy.Directory.Name
+    }
+
+    $rsop = $rsops | Where-Object { $_.Name -eq $policy.BaseName }
+    foreach ($link in $rsop.Links)
+    {
+        Set-GPLink -Name $rsop.PolicyName -Target $link.OrgUnitDn -LinkEnabled $link.Enabled -Enforced $link.Enforced -Order $link.Order -Domain $policy.Directory.Name -Confirm:0
     }
 
     $policyFound = $searcher.FindOne()

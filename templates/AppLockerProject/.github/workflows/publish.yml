@@ -12,13 +12,13 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Install Prerequisites
-      run: .\build\vsts-prerequisites.ps1
+      run: .\build\prerequisites.ps1 -BuildWorker -DependencyPath (Join-Path $env:GITHUB_WORKSPACE build\requiredModules.psd1)
       shell: powershell
     - name: Validate Configuration Data
-      run: .\build\vsts-validate.ps1 -TestType ConfigurationData
+      run: .\build\validate.ps1 -TestType ConfigurationData -DependencyPath (Join-Path $env:GITHUB_WORKSPACE build\requiredModules.psd1) -ProjectRoot $env:GITHUB_WORKSPACE
       shell: powershell
     - name: Build
-      run: .\build\vsts-build.ps1 -IncludeRsop
+      run: .\build\build.ps1 -IncludeRsop -DependencyPath (Join-Path $env:GITHUB_WORKSPACE build\requiredModules.psd1) -SourcePath (Join-Path $env:GITHUB_WORKSPACE configurationdata) -OutputPath (Join-Path $env:GITHUB_WORKSPACE output)
       shell: powershell
     - uses: actions/upload-artifact@v3
       with:
@@ -26,9 +26,9 @@ jobs:
         path: |
           .\output\rsop
           .\output\policies
-    - name: Validate Integration Tests
-      run: .\build\vsts-validate.ps1 -TestType Integration
-      shell: powershell
     - name: Publish
-      run: .\build\vsts-publish.ps1
+      run: .\build\publish.ps1
+      shell: powershell
+    - name: Validate Integration Tests
+      run: .\build\validate.ps1 -TestType Integration -DependencyPath (Join-Path $env:GITHUB_WORKSPACE build\requiredModules.psd1) -ProjectRoot $env:GITHUB_WORKSPACE
       shell: powershell
