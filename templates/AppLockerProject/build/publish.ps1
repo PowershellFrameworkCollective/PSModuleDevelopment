@@ -4,7 +4,10 @@ param
     $DependencyPath = (Resolve-Path "$PSScriptRoot\requiredModules.psd1").Path,
 
     [string]
-    $OutputPath = (Resolve-Path "$PSScriptRoot\..\output").Path
+    $OutputPath = (Resolve-Path "$PSScriptRoot\..\output").Path,
+
+    [string]
+    $SourcePath = "$PSScriptRoot\..\configurationdata"
 )
 
 $psdependConfig = Import-PowerShellDataFile -Path $DependencyPath
@@ -12,7 +15,8 @@ $modPath = Resolve-Path -Path $psdependConfig.PSDependOptions.Target
 $modOld = $env:PSModulePath
 $pathSeparator = [System.IO.Path]::PathSeparator
 $env:PSModulePath = "$modPath$pathSeparator$modOld"
-$rsops = Get-DatumRsopCache
+$datum = New-DatumStructure -DefinitionFile (Join-Path $SourcePath Datum.yml)
+[hashtable[]] $rsops = Get-DatumRsop $datum (Get-DatumNodesRecursive -AllDatumNodes $Datum.AllNodes)
 
 foreach ($policy in (Get-ChildItem -Path (Join-Path -Path $OutputPath -ChildPath Policies) -Recurse -Filter *.xml))
 {
@@ -25,10 +29,30 @@ foreach ($policy in (Get-ChildItem -Path (Join-Path -Path $OutputPath -ChildPath
         $null = New-GPO -Name $policy.BaseName -Comment "Auto-updated applocker policy" -Domain $policy.Directory.Name
     }
 
-    $rsop = $rsops | Where-Object { $_.Name -eq $policy.BaseName }
+    $rsop = $rsops | Where-Object { $_['PolicyName'] -eq $policy.BaseName }
     foreach ($link in $rsop.Links)
     {
-        Set-GPLink -Name $rsop.PolicyName -Target $link.OrgUnitDn -LinkEnabled $link.Enabled -Enforced $link.Enforced -Order $link.Order -Domain $policy.Directory.Name -Confirm:0
+        $param = @{
+            Name    = $rsop.PolicyName
+            Target  = $link.OrgUnitDn
+            Domain  = $policy.Directory.Name
+            Confirm = $false
+        }
+
+        if ($rsop.ContainsKey('Enabled'))
+        {
+            $param['LinkEnabled'] = $link.Enabled
+        }
+        if ($rsop.ContainsKey('Enforced'))
+        {
+            $param['Enforced'] = $link.Enforced
+        }
+        if ($rsop.ContainsKey('Order'))
+        {
+            $param['Order'] = $link.Order
+        }
+
+        Set-GPLink @param
     }
 
     $policyFound = $searcher.FindOne()

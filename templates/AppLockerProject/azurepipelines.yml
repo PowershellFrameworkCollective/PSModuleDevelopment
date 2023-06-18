@@ -73,7 +73,7 @@ jobs:
             displayName: Publish policies
             inputs:
               filePath: '.\build\publish.ps1'
-              arguments: '-DependencyPath (Join-Path $(Build.SourcesDirectory) build\requiredModules.psd1) -OutputPath (Join-Path $(Build.SourcesDirectory) output)'
+              arguments: '-DependencyPath (Join-Path $(Build.SourcesDirectory) build\requiredModules.psd1) -SourcePath (Join-Path $(Build.SourcesDirectory) configurationdata) -OutputPath (Join-Path $(Build.SourcesDirectory) output)'
           - task: PowerShell@2
             name: validateintegration
             displayName: Validate Integration
