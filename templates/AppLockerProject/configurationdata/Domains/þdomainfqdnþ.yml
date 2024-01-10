@@ -1,0 +1,48 @@
+Configurations:
+  - RuleCollections
+
+RuleCollections:
+  Msi:
+    EnforcementMode: AuditOnly
+    Rules:
+      - Name: Allow DLLs (Admin)
+        Description: Allows members of the local Administrators group to load all DLLs.
+        Path: "*"
+        UserOrGroupSid: S-1-5-32-544
+        Action: Allow
+  Dll:
+    EnforcementMode: AuditOnly
+    Rules:
+      - Name: Allow msi in CCMCache (Everyone)
+        Description: Allows everyone to run installer files in the SCCM cache.
+        Path: '%WINDIR%\ccmcache\*'
+        UserOrGroupSid: S-1-1-0
+        Action: Allow
+      - Name: Allow DLLs (Everyone Windir)
+        Description: Allows Everyone to load DLLs located in the Windows folder.
+        Path: '%WINDIR%\*'
+        UserOrGroupSid: S-1-1-0
+        Action: Allow
+        Exceptions:
+          - '%WINDIR%\SomeFolder'
+          - '%WINDIR%\AnotherFolder'
+      - Name: Allow DLLs (Everyone Windir)
+        Description: Allows Everyone to load DLLs located in the Program Files folder.
+        Path: '%PROGRAMFILES%\*'
+        UserOrGroupSid: S-1-1-0
+        Action: Allow
+      - Name: Prohibit PowerShell 2
+        Description: Explicitly deny signed DLLs needed for PowerShell v2
+        Action: Deny
+        UserOrGroupSid: S-1-1-0
+        PublisherName: O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US
+        ProductName: MICROSOFT (R) WINDOWS (R) OPERATING SYSTEM
+        BinaryName: SYSTEM.MANAGEMENT.AUTOMATION.DLL
+        BinaryVersionRange:
+          LowSection: "*"
+          HighSection: 9.9.9.9
+      - Name: Prohibit PowerShell 2 unsigned JIT
+        Description: Explicitly deny signed DLLs needed for PowerShell v2
+        Action: Deny
+        UserOrGroupSid: S-1-1-0
+        Path: '%WINDIR%\assembly\NativeImages_v2.0.50727_32\System.Management.A#\*'

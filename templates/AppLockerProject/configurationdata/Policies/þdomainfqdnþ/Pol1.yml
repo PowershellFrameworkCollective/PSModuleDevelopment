@@ -1,0 +1,14 @@
+PolicyName: "[x={ $Node.Name }=]"
+Domain: "[x={ $File.Directory.BaseName } =]"
+Links:
+  - OrgUnitDn: "OU=Prod,DC=contoso,DC=com"
+    LinkOrder: 1
+    Enforced: yes # unspecified, no
+    Enabled: no # unspecified, yes
+  - OrgUnitDn: "OU=Test,DC=contoso,DC=com"
+    LinkOrder: 1
+    Enforced: yes # unspecified, no
+    Enabled: yes # unspecified, no
+Apps:
+  - Git
+  - Obs

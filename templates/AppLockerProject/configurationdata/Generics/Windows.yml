@@ -1,0 +1,22 @@
+Configurations:
+  - RuleCollections
+
+RuleCollections:
+  Dll:
+    EnforcementMode: AuditOnly
+    Rules:
+      - Name: Prohibit PowerShell 2
+        Description: Explicitly deny signed DLLs needed for PowerShell v2
+        Action: Deny
+        UserOrGroupSid: S-1-1-0
+        PublisherName: O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US
+        ProductName: MICROSOFT (R) WINDOWS (R) OPERATING SYSTEM
+        BinaryName: SYSTEM.MANAGEMENT.AUTOMATION.DLL
+        BinaryVersionRange:
+          LowSection: "*"
+          HighSection: 9.9.9.9
+      - Name: Prohibit PowerShell 2 unsigned JIT
+        UserOrGroupSid: S-1-1-0
+        Description: Explicitly deny signed DLLs needed for PowerShell v2
+        Action: Deny
+        Path: '%WINDIR%\assembly\NativeImages_v2.0.50727_32\System.Management.A#\*'
