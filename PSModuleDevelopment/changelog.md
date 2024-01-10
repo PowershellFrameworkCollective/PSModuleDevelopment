@@ -1,5 +1,15 @@
 ﻿# Changelog
 
+## Unreleased
+
++ New: Template ApplockerPipeline - A project that can be used to generate AppLocker policies across environments
++ Upd: Template PSFProject - Improved PSScriptAnalyzer test results
++ Upd: Template PSFModule - Improved PSScriptAnalyzer test results
++ Upd: Template PSFHelp - Improved PSScriptAnalyzer test results
++ Fix: Template PSFProject - Help test fails on PS7.4
++ Fix: Template PSFModule - Help test fails on PS7.4
++ Fix: Template PSFHelp - Help test fails on PS7.4
+
 ## 2.2.11.146 (2023-05-31)
 
 + Upd: Export-PSMDString - added support for Get-PSMDLocalizedString calls (#181, thanks @nyanhp)
