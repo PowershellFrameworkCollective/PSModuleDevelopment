@@ -17,6 +17,20 @@ $global:BannedCommands = @(
 
 	# Use Get-WinEvent instead
 	'Get-EventLog'
+
+	# User Preference should not be used in automation
+	'Clear-Host' # Console Screen belongs to the user
+	'Set-Location' # Console path belongs to the user. Use $PSScriptRoot instead.
+
+	# Dynamic Variables are undesirable. Use hashtable instead.
+	'Get-Variable'
+	'Set-Variable'
+	'Clear-Variable'
+	'Remove-Variable'
+	'New-Variable'
+
+	# Dynamic Code execution should not require this
+	'Invoke-Expression' # Consider splatting instead. Yes, you can splat parameters for external applications!
 )
 
 <#

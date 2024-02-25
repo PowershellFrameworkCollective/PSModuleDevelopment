@@ -1,6 +1,6 @@
 ﻿@{
 	TemplateName = 'PSFProject'
-	Version = "1.3.3"
+	Version = "1.3.4"
 	AutoIncrementVersion = $true
 	Tags = 'module','psframework'
 	Author = 'Friedrich Weinmann'

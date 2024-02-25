@@ -18,7 +18,10 @@ param (
 	$SkipPublish,
 	
 	[switch]
-	$AutoVersion
+	$AutoVersion,
+
+	[switch]
+	$Build
 )
 
 #region Handle Working Directory Defaults
@@ -32,6 +35,14 @@ if (-not $WorkingDirectory)
 }
 if (-not $WorkingDirectory) { $WorkingDirectory = Split-Path $PSScriptRoot }
 #endregion Handle Working Directory Defaults
+
+# Build Library
+if ($Build) {
+	dotnet build "$WorkingDirectory\library\þnameþ.sln"
+	if ($LASTEXITCODE -ne 0) {
+		throw "Failed to build þnameþ.dll!"
+	}
+}
 
 # Prepare publish folder
 Write-PSFMessage -Level Important -Message "Creating and populating publishing directory"
