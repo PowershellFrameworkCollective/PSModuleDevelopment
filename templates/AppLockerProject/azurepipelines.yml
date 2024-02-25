@@ -1,0 +1,91 @@
+trigger:
+  branches:
+    include:
+    - main
+
+jobs:
+  - job: Build
+    displayName: 'Build AppLocker Artifacts'
+    pool:
+      name: Default
+    steps:
+      - task: PowerShell@2
+        name: prereq
+        displayName: 'Download prerequisites'
+        inputs:
+          filePath: '.\build\prerequisites.ps1'
+          arguments: '-DependencyPath (Join-Path $(Build.SourcesDirectory) build\requiredModules.psd1)'
+      - task: PowerShell@2
+        name: validateyaml
+        displayName: Validate Configuration Data
+        inputs:
+          filePath: '.\build\validate.ps1'
+          arguments: '-TestType ConfigurationData -DependencyPath (Join-Path $(Build.SourcesDirectory) build\requiredModules.psd1) -ProjectRoot $(Build.SourcesDirectory)'
+      - task: PowerShell@2
+        name: buildpolicy
+        displayName: Build policy XML
+        inputs:
+          filePath: '.\build\build.ps1'
+          arguments: '-IncludeRsop -DependencyPath (Join-Path $(Build.SourcesDirectory) build\requiredModules.psd1) -SourcePath (Join-Path $(Build.SourcesDirectory) configurationdata) -OutputPath (Join-Path $(Build.SourcesDirectory) output)'
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Policy XML Files'
+        inputs:
+          PathtoPublish: 'output/Policies'
+          ArtifactName: Policies
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Policy RSOP Files'
+        inputs:
+          PathtoPublish: 'output/Rsop'
+          ArtifactName: Rsop
+      - task: PublishTestResults@2
+        displayName: 'Publish Configuration Data Test Results'
+        condition: succeededOrFailed()
+        inputs:
+            testResultsFormat: 'NUnit'
+            testResultsFiles: 'tests/testresults.xml'
+            mergeTestResults: true
+            failTaskOnFailedTests: true
+            testRunTitle: 'Configuration Data Tests'
+  - deployment: Prod
+    dependsOn: Build
+    displayName: Prod Deployment
+    environment: Prod
+    pool:
+      name: Default
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadBuildArtifacts@0
+            displayName: 'Download Build Artifact: Rsop'
+            inputs:
+              buildType: 'current'
+              artifactName: Rsop
+              downloadPath: $(Build.SourcesDirectory)
+          - task: DownloadBuildArtifacts@0
+            displayName: 'Download Build Artifact: Policies'
+            inputs:
+              buildType: 'current'
+              artifactName: Policies
+              downloadPath: $(Build.SourcesDirectory)
+          - task: PowerShell@2
+            name: publishpolicies
+            displayName: Publish policies
+            inputs:
+              filePath: '.\build\publish.ps1'
+              arguments: '-DependencyPath (Join-Path $(Build.SourcesDirectory) build\requiredModules.psd1) -SourcePath (Join-Path $(Build.SourcesDirectory) configurationdata) -OutputPath (Join-Path $(Build.SourcesDirectory) output)'
+          - task: PowerShell@2
+            name: validateintegration
+            displayName: Validate Integration
+            inputs:
+              filePath: '.\build\validate.ps1'
+              arguments: '-TestType Integration -DependencyPath (Join-Path $(Build.SourcesDirectory) build\requiredModules.psd1) -ProjectRoot $(Build.SourcesDirectory)'
+          - task: PublishTestResults@2
+            displayName: 'Publish Integration Test Results'
+            condition: succeededOrFailed()
+            inputs:
+                testResultsFormat: 'NUnit'
+                testResultsFiles: 'tests/testresults.xml'
+                mergeTestResults: true
+                failTaskOnFailedTests: true
+                testRunTitle: 'Integration Tests'

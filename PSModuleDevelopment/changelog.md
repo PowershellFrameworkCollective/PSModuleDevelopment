@@ -1,5 +1,25 @@
 ﻿# Changelog
 
+## 2.2.11.163 (2024-02-25)
+
++ New: Template ApplockerPipeline - A project that can be used to generate AppLocker policies across environments
++ Upd: Template AzureFunction - Added automatic Endpoint generation based on functions defined in the module
++ Upd: Template PSFProject - Improved PSScriptAnalyzer test results
++ Upd: Template PSFProject - Extended list of blacklisted commands
++ Upd: Template PSFProject - Build logic now also supports compiling the C# solution
++ Upd: Template PSFModule - Improved PSScriptAnalyzer test results
++ Upd: Template PSFModule - Extended list of blacklisted commands
++ Upd: Template PSFHelp - Improved PSScriptAnalyzer test results
++ Upd: Template PSFHelp - Extended list of blacklisted commands
++ Upd: Template MiniModule - Extended list of blacklisted commands
++ Fix: Template PSFProject - Help test fails on PS7.4
++ Fix: Template PSFProject - Help test added ProgressAction to common parameters
++ Fix: Template PSFModule - Help test fails on PS7.4
++ Fix: Template PSFModule - Help test added ProgressAction to common parameters
++ Fix: Template PSFHelp - Help test fails on PS7.4
++ Fix: Template PSFHelp - Help test added ProgressAction to common parameters
++ Fix: Template MiniModule - Help test - added ProgressAction to common parameters
+
 ## 2.2.11.146 (2023-05-31)
 
 + Upd: Export-PSMDString - added support for Get-PSMDLocalizedString calls (#181, thanks @nyanhp)
