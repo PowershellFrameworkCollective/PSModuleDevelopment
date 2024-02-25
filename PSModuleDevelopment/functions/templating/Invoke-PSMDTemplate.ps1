@@ -82,6 +82,11 @@
 		PS C:\> Invoke-PSMDTemplate -TemplateName "module" -Name "MyModule"
 		
 		Creates a project based on the module template with the name "MyModule"
+
+	.EXAMPLE
+		PS C:\> Invoke-PSMDTemplate MiniModule -Parameters @{ Author = 'Fred' }
+
+		Creates a new project based on the template MiniModule and predefines the value for the "Author" placeholder.
 #>
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSPossibleIncorrectUsageOfAssignmentOperator", "")]
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
