@@ -1,6 +1,23 @@
 {
-  "version": "2.0",
-  "managedDependency": {
-    "Enabled": true
-  }
+	"version": "2.0",
+	"extensions": {
+		"http": {
+			"routePrefix": "api",
+			"customHeaders": {
+				"Content-Security-Policy": "default-src 'self'",
+				"Permissions-Policy": "geolocation=()",
+				"X-Frame-Options": "SAMEORIGIN",
+				"Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+				"X-Content-Type-Options": "nosniff",
+				"Referrer-Policy": "no-referrer"
+			}
+		}
+	},
+	"managedDependency": {
+		"enabled": true
+	},
+	"extensionBundle": {
+		"id": "Microsoft.Azure.Functions.ExtensionBundle",
+		"version": "[3.*, 4.0.0)"
+	}
 }

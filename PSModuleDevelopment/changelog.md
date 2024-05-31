@@ -1,5 +1,13 @@
 ﻿# Changelog
 
+## 2.2.11.168 (2024-05-31)
+
++ Upd: Template AzureFunction - added config option to override http Endpoint methods (#198)
++ Upd: Template AzureFunction - updated host.json to include some default headers (#197)
++ Fix: Template AzureFunction - build script ignores some overrides due to typo (#199)
++ Fix: Template AzureFunction - build fails when executing without the String module loaded (#196)
++ Fix: Template MiniModule - Automatically adds wrong github sponsor accountname
+
 ## 2.2.11.163 (2024-02-25)
 
 + New: Template ApplockerPipeline - A project that can be used to generate AppLocker policies across environments
