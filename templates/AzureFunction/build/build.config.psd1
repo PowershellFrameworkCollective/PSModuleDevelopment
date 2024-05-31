@@ -22,5 +22,9 @@
 		AuthLevelOverrides = @{
 			# 'Set-Foo' = 'anonymous'
 		}
+		Methods = @('get', 'post')
+		MethodOverrides = @{
+			# 'Set-Foo' = 'delete'
+		}
 	}
 }

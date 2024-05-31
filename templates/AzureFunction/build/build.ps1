@@ -28,25 +28,29 @@ $commands = Get-ChildItem -Path "$($buildFolder.FullName)/modules/þnameþ/Funct
 Update-ModuleManifest -Path "$($buildFolder.FullName)/modules/þnameþ/þnameþ.psd1" -FunctionsToExport $commands
 
 # Generate Http Trigger
-$httpCode = Get-Content -Path "$PSScriptRoot\functionHttp\run.ps1" | Join-String "`n"
-$httpConfig = Get-Content -Path "$PSScriptRoot\functionHttp\function.json" | Join-String "`n"
+$httpCode = Get-Content -Path "$PSScriptRoot\functionHttp\run.ps1" | Join-String -Separator "`n"
+$httpConfig = Get-Content -Path "$PSScriptRoot\functionHttp\function.json" | Join-String -Separator "`n"
 foreach ($command in Get-ChildItem -Path "$workingDirectory\þnameþ\functions\httpTrigger" -Recurse -File -Filter *.ps1) {
 	$authLevel = $config.HttpTrigger.AuthLevel
-	if ($config.HttpTrigger.AuthLevelOverride.$($command.BaseName)) {
-		$authLevel = $config.HttpTrigger.AuthLevelOverride.$($command.BaseName)
+	if ($config.HttpTrigger.AuthLevelOverrides.$($command.BaseName)) {
+		$authLevel = $config.HttpTrigger.AuthLevelOverrides.$($command.BaseName)
+	}
+	$methods = $config.HttpTrigger.Methods
+	if ($config.HttpTrigger.MethodOverrides.$($command.BaseName)) {
+		$methods = $config.HttpTrigger.MethodOverrides.$($command.BaseName)
 	}
 	$endpointFolder = New-Item -Path $buildFolder.FullName -Name $command.BaseName -ItemType Directory
 	$httpCode -replace '%COMMAND%',$command.BaseName | Set-Content -Path "$($endpointFolder.FullName)\run.ps1"
-	$httpConfig -replace '%AUTHLEVEL%', $authLevel | Set-Content -Path "$($endpointFolder.FullName)\function.json"
+	$httpConfig -replace '%AUTHLEVEL%', $authLevel -replace '%METHODS%', ($methods -join '", "') | Set-Content -Path "$($endpointFolder.FullName)\function.json"
 }
 
 # Generate Timer Trigger
-$timerCode = Get-Content -Path "$PSScriptRoot\functionTimer\run.ps1" | Join-String "`n"
-$timerConfig = Get-Content -Path "$PSScriptRoot\functionTimer\function.json" | Join-String "`n"
+$timerCode = Get-Content -Path "$PSScriptRoot\functionTimer\run.ps1" | Join-String -Separator "`n"
+$timerConfig = Get-Content -Path "$PSScriptRoot\functionTimer\function.json" | Join-String -Separator "`n"
 foreach ($command in Get-ChildItem -Path "$workingDirectory\þnameþ\functions\timerTrigger" -Recurse -File -Filter *.ps1) {
 	$schedule = $config.TimerTrigger.Schedule
-	if ($config.TimerTrigger.ScheduleOverride.$($command.BaseName)) {
-		$schedule = $config.TimerTrigger.ScheduleOverride.$($command.BaseName)
+	if ($config.TimerTrigger.ScheduleOverrides.$($command.BaseName)) {
+		$schedule = $config.TimerTrigger.ScheduleOverrides.$($command.BaseName)
 	}
 	$endpointFolder = New-Item -Path $buildFolder.FullName -Name $command.BaseName -ItemType Directory
 	$timerCode -replace '%COMMAND%',$command.BaseName | Set-Content -Path "$($endpointFolder.FullName)\run.ps1"

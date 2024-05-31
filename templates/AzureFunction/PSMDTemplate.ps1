@@ -1,6 +1,6 @@
 ﻿@{
     TemplateName         = 'AzureFunction'
-    Version              = "2.0.0"
+    Version              = "2.0.5"
     AutoIncrementVersion = $true
     Tags                 = 'azure', 'function'
     Author               = 'Friedrich Weinmann'
