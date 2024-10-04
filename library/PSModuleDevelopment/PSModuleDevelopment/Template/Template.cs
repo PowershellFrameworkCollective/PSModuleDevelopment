@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks;
+using PSModuleDevelopment.Utility;
 
 namespace PSModuleDevelopment.Template
 {
@@ -95,6 +97,47 @@ namespace PSModuleDevelopment.Template
             info.Generation = Generation;
 
             return info;
+        }
+    
+        /// <summary>
+        /// Create a blank template object
+        /// </summary>
+        public Template()
+        {
+
+        }
+
+        /// <summary>
+        /// Create a template object based on a deserialized template object
+        /// </summary>
+        /// <param name="Item">The deserialized tample object to restore</param>
+        /// <exception cref="ArgumentException">If anything at all is not as it should be.</exception>
+        public Template(PSObject Item)
+        {
+            try
+            {
+                Name = Item.GetValue<string>("Name");
+                Type = (TemplateType)Item.GetValue<int>("Type");
+                Version = Item.GetValue<Version>("Version");
+                Description = Item.GetValue<string>("Description");
+                Author = Item.GetValue<string>("Author");
+                CreatedOn = Item.GetValue<DateTime>("CreatedOn");
+                foreach (object item in Item.GetValue<ArrayList>("Tags"))
+                    Tags.Add((string)item);
+                foreach (object item in Item.GetValue<ArrayList>("Parameters"))
+                    Parameters.Add((string)item);
+                foreach (KeyValuePair<string, ParameterScript> entry in Item.GetDictionary<ParameterScript>("Scripts"))
+                    Scripts[entry.Key] =entry.Value;
+                // Parameters2 not used
+                foreach (object item in Item.GetValue<ArrayList>("Children"))
+                    Children.Add(TemplateHost.GetTemplateItem(item));
+
+                Generation = Item.GetValue<int>("Generation");
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException($"Cannot convert {Item} of type {Item.BaseObject.GetType().FullName} to type PSModuleDevelopment.Template.Template! {e.Message}", e);
+            }
         }
     }
 }

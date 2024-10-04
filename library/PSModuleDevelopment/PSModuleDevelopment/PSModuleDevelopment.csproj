@@ -66,6 +66,7 @@
     <Compile Include="Template\Parameter\ScriptExecutionTime.cs" />
     <Compile Include="Template\Store.cs" />
     <Compile Include="Template\Template.cs" />
+    <Compile Include="Template\TemplateHost.cs" />
     <Compile Include="Template\TemplateInfo.cs" />
     <Compile Include="Template\TemplateItemBase.cs" />
     <Compile Include="Template\TemplateItemFile.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Template\TemplateType.cs" />
     <Compile Include="Utility\LinesOfCode.cs" />
     <Compile Include="Utility\PropertySearchResult.cs" />
+    <Compile Include="Utility\PSObjectExtension.cs" />
     <Compile Include="Utility\TextAlignment.cs" />
     <Compile Include="Utility\TextHeader.cs" />
     <Compile Include="Utility\UtilityHost.cs" />

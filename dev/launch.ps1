@@ -3,6 +3,9 @@ param (
 	[switch]
 	$Local,
 
+	[switch]
+	$Build,
+
 	[ValidateSet('Desktop', 'Core')]
 	[string]
 	$PSVersion
@@ -16,7 +19,10 @@ if (-not $Local) {
 		if ($PSVersion -eq 'Desktop') { $application = 'powershell.exe'}
 	}
 
-	Start-Process $application -ArgumentList @('-NoExit', '-NoProfile', '-File', "$PSScriptRoot\launch.ps1", '-Local')
+	$arguments =  @('-NoExit', '-NoProfile', '-File', "$PSScriptRoot\launch.ps1", '-Local')
+	if ($Build) { $arguments += '-Build' }
+
+	Start-Process $application -ArgumentList $arguments
 	return
 }
 #endregion Launch in new cponsole
@@ -80,10 +86,26 @@ function Import-PsmdModule {
 	# Does not work during initial start
 	# [Microsoft.PowerShell.PSConsoleReadLine]::AddToHistory("ipmo '$ProjectPath\PSModuleDevelopment\PSModuleDevelopment.psd1'")
 }
+
+function Build-PsmdModule {
+	[CmdletBinding()]
+	param (
+		[Parameter(Mandatory = $true)]
+		[string]
+		$ProjectPath
+	)
+
+	Write-Host "Building Library. This may require the .NET 4.8 Targeting Pack"
+	try { $null = & "$ProjectPath\build\vsts-build-library.ps1" }
+	catch {
+		Write-Host "Targeting pack Download Link: https://dotnet.microsoft.com/en-us/download/visual-studio-sdks?cid=getdotnetsdk"
+		throw
+	}
+}
 #endregion Functions
 
 $projectRoot = Resolve-Path -Path "$PSScriptRoot\.."
 $templateRoot = New-TemporaryPath -Prefix PsmdTemplate
-#Build-PsmdModule -ProjectPath $projectRoot
+if ($Build) { Build-PsmdModule -ProjectPath $projectRoot }
 Import-PsmdModule -ProjectPath $projectRoot
 Build-Template -RootPath $templateRoot -ProjectPath $projectRoot
