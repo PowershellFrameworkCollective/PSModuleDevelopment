@@ -449,6 +449,12 @@
             <param name="Name">The name of the parameter. This is used to insert it into individual files or file names.</param>
             <param name="ScriptBlock"></param>
         </member>
+        <member name="M:PSModuleDevelopment.Template.ParameterScript.#ctor(System.Management.Automation.PSObject)">
+            <summary>
+            Creates a prefilled parameter script. Usually used in fixing serialization the hard way.
+            </summary>
+            <param name="Item">The deserialized ParameterScript item</param>
+        </member>
         <member name="T:PSModuleDevelopment.Template.Store">
             <summary>
             Class containing information relating to where templates are stored
@@ -550,6 +556,23 @@
             Returns the template digest used as index file.
             </summary>
             <returns>A TemplateInfo object describing this template.</returns>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.Template.#ctor">
+            <summary>
+            Create a blank template object
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.Template.#ctor(System.Management.Automation.PSObject)">
+            <summary>
+            Create a template object based on a deserialized template object
+            </summary>
+            <param name="Item">The deserialized tample object to restore</param>
+            <exception cref="T:System.ArgumentException">If anything at all is not as it should be.</exception>
+        </member>
+        <member name="T:PSModuleDevelopment.Template.TemplateHost">
+            <summary>
+            Static helpers for the template system
+            </summary>
         </member>
         <member name="T:PSModuleDevelopment.Template.TemplateInfo">
             <summary>
@@ -822,6 +845,29 @@
             <param name="PathElements">The path elements if it is a nested property</param>
             <param name="Value">The actual value found</param>
             <param name="InputObject">The original input object offered to the command.</param>
+        </member>
+        <member name="T:PSModuleDevelopment.Utility.PSObjectExtension">
+            <summary>
+            Extends the PSObject with C# convenience
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Utility.PSObjectExtension.GetValue``1(System.Management.Automation.PSObject,System.String)">
+            <summary>
+            Get the value!
+            </summary>
+            <typeparam name="T">The type of the value</typeparam>
+            <param name="PSObject">The object to extend</param>
+            <param name="Name">The name of the property that has the value</param>
+            <returns>The value</returns>
+        </member>
+        <member name="M:PSModuleDevelopment.Utility.PSObjectExtension.GetDictionary``1(System.Management.Automation.PSObject,System.String)">
+            <summary>
+            Get a hashtable value!
+            </summary>
+            <typeparam name="T">The type of the values in hashtable</typeparam>
+            <param name="PSObject">The object to extend</param>
+            <param name="Name">The name of the property that has the hashtable</param>
+            <returns>The hashtable!</returns>
         </member>
         <member name="T:PSModuleDevelopment.Utility.TextAlignment">
             <summary>
