@@ -50,5 +50,15 @@ namespace PSModuleDevelopment.Template
             this.Name = Name;
             this.ScriptBlock = ScriptBlock;
         }
+
+        /// <summary>
+        /// Creates a prefilled parameter script. Usually used in fixing serialization the hard way.
+        /// </summary>
+        /// <param name="Item">The deserialized ParameterScript item</param>
+        public ParameterScript(PSObject Item)
+        {
+            Name = (string)Item.Properties["Name"].Value;
+            ScriptBlock = ScriptBlock.Create((string)Item.Properties["ScriptBlock"].Value);
+        }
     }
 }

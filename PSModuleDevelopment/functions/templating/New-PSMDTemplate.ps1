@@ -552,7 +552,7 @@
 		
 		$template.CreatedOn = (Get-Date).Date
 		
-		$template | Export-Clixml -Path (Join-Path $exportFolder $fileName)
-		$template.ToTemplateInfo() | Export-Clixml -Path (Join-Path $exportFolder $infoFileName)
+		$template | Export-PSFClixml -Path (Join-Path $exportFolder $fileName) -Depth 99
+		$template.ToTemplateInfo() | Export-PSFClixml -Path (Join-Path $exportFolder $infoFileName)
 	}
 }

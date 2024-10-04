@@ -1,5 +1,11 @@
 ﻿# Changelog
 
+## 2.2.12.171 (2024-10-04)
+
++ Upd: Raised PSFramework dependency due to critical security update
++ Fix: Invoke-PSMDTemplate - fails on non-Windows
++ Fix: Invoke-PSMDTemplate - fails with latest PSFramework version
+
 ## 2.2.11.168 (2024-05-31)
 
 + Upd: Template AzureFunction - added config option to override http Endpoint methods (#198)
