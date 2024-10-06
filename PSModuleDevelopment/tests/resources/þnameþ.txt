@@ -1,0 +1,2 @@
+﻿Name = þnameþ
+Value = þ{ "123" }þ

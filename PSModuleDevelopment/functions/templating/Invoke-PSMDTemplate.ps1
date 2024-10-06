@@ -317,7 +317,9 @@
 			[OutputType([PSModuleDevelopment.Template.TemplateResult])]
 			[CmdletBinding()]
 			param (
-				[PSModuleDevelopment.Template.TemplateItemBase]
+				# Fixing that in the next PSFramework release: https://github.com/PowershellFrameworkCollective/psframework/issues/646
+				#[PSFramework.Utility.ScriptTransformation('PSModuleDevelopment.TemplateItem', [PSModuleDevelopment.Template.TemplateItemBase])]
+				#[PSModuleDevelopment.Template.TemplateItemBase]
 				$Item,
 				
 				[string]
@@ -335,7 +337,7 @@
 			Write-PSFMessage -Level Verbose -Message "Creating Template-Item: $($Item.Name) ($($Item.RelativePath))" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
 			
 			$identifier = $Item.Identifier
-			$isFile = $Item.GetType().Name -eq 'TemplateItemFile'
+			$isFile = $Item.PSObject.Properties.Name -contains 'Value'
 			
 			#region File
 			if ($isFile) {

@@ -574,6 +574,13 @@
             Static helpers for the template system
             </summary>
         </member>
+        <member name="M:PSModuleDevelopment.Template.TemplateHost.GetTemplateItem(System.Object)">
+            <summary>
+            Convert a deserialized template item into a fully valid object of its type.
+            </summary>
+            <param name="Item">The PSObject to transform back into what it was meant to be</param>
+            <returns>The resultant TemplateItemBase</returns>
+        </member>
         <member name="T:PSModuleDevelopment.Template.TemplateInfo">
             <summary>
             Class containing meta information about a template
@@ -694,6 +701,18 @@
             <summary>
             List of script value insertion parameters for the plaintext file
             </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.TemplateItemFile.#ctor">
+            <summary>
+            Creates an empty TemplateItemFile
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.TemplateItemFile.#ctor(System.Management.Automation.PSObject)">
+            <summary>
+            Creates a filled-out TemplateItemFile.
+            Usually called when deserializing a template.
+            </summary>
+            <param name="PSItem">The deserialized instance of this template item file.</param>
         </member>
         <member name="T:PSModuleDevelopment.Template.TemplateItemFolder">
             <summary>
@@ -860,7 +879,16 @@
             <param name="Name">The name of the property that has the value</param>
             <returns>The value</returns>
         </member>
-        <member name="M:PSModuleDevelopment.Utility.PSObjectExtension.GetDictionary``1(System.Management.Automation.PSObject,System.String)">
+        <member name="M:PSModuleDevelopment.Utility.PSObjectExtension.GetValues(System.Management.Automation.PSObject,System.String)">
+            <summary>
+            Get the Values!
+            Always as an arraylist, empty if null
+            </summary>
+            <param name="PSObject">The object to extend</param>
+            <param name="Name">>The name of the property that has the values</param>
+            <returns>The values</returns>
+        </member>
+        <member name="M:PSModuleDevelopment.Utility.PSObjectExtension.GetParameterScriptDictionary(System.Management.Automation.PSObject,System.String)">
             <summary>
             Get a hashtable value!
             </summary>
