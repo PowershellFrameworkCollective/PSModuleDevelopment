@@ -122,14 +122,14 @@ namespace PSModuleDevelopment.Template
                 Description = Item.GetValue<string>("Description");
                 Author = Item.GetValue<string>("Author");
                 CreatedOn = Item.GetValue<DateTime>("CreatedOn");
-                foreach (object item in Item.GetValue<ArrayList>("Tags"))
+                foreach (object item in Item.GetValues("Tags"))
                     Tags.Add((string)item);
-                foreach (object item in Item.GetValue<ArrayList>("Parameters"))
+                foreach (object item in Item.GetValues("Parameters"))
                     Parameters.Add((string)item);
-                foreach (KeyValuePair<string, ParameterScript> entry in Item.GetDictionary<ParameterScript>("Scripts"))
+                foreach (KeyValuePair<string, ParameterScript> entry in Item.GetParameterScriptDictionary("Scripts"))
                     Scripts[entry.Key] =entry.Value;
                 // Parameters2 not used
-                foreach (object item in Item.GetValue<ArrayList>("Children"))
+                foreach (object item in Item.GetValues("Children"))
                     Children.Add(TemplateHost.GetTemplateItem(item));
 
                 Generation = Item.GetValue<int>("Generation");

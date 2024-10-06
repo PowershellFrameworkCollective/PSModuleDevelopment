@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Types>
   <!-- PSModuleDevelopment.Template.ParameterScript -->
-  <Type>
+  <!-- <Type>
     <Name>Deserialized.PSModuleDevelopment.Template.ParameterScript</Name>
     <Members>
       <MemberSet>
@@ -33,7 +33,7 @@
     <TypeConverter>
       <TypeName>PSFramework.Serialization.SerializationTypeConverter</TypeName>
     </TypeConverter>
-  </Type>
+  </Type> -->
   
   <!-- PSModuleDevelopment.Template.Template -->
   <Type>

@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 2.2.12.172 (2024-10-06)
+
++ Fix: Invoke-PSMDTemplate - On WinPS, script-logic on templates is not executed
+
 ## 2.2.12.171 (2024-10-04)
 
 + Upd: Raised PSFramework dependency due to critical security update

@@ -860,7 +860,16 @@
             <param name="Name">The name of the property that has the value</param>
             <returns>The value</returns>
         </member>
-        <member name="M:PSModuleDevelopment.Utility.PSObjectExtension.GetDictionary``1(System.Management.Automation.PSObject,System.String)">
+        <member name="M:PSModuleDevelopment.Utility.PSObjectExtension.GetValues(System.Management.Automation.PSObject,System.String)">
+            <summary>
+            Get the Values!
+            Always as an arraylist, empty if null
+            </summary>
+            <param name="PSObject">The object to extend</param>
+            <param name="Name">>The name of the property that has the values</param>
+            <returns>The values</returns>
+        </member>
+        <member name="M:PSModuleDevelopment.Utility.PSObjectExtension.GetParameterScriptDictionary(System.Management.Automation.PSObject,System.String)">
             <summary>
             Get a hashtable value!
             </summary>
