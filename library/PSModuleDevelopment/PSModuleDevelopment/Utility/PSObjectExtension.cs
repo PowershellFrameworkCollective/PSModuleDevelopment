@@ -36,7 +36,7 @@ namespace PSModuleDevelopment.Utility
         /// <returns>The values</returns>
         public static ArrayList GetValues(this PSObject PSObject, string Name)
         {
-            if (null == PSObject.Properties[Name].Value)
+            if (null == PSObject || null == PSObject.Properties || null == PSObject.Properties[Name].Value)
                 return new ArrayList();
             PSObject value = PSObject.AsPSObject(PSObject.Properties[Name].Value);
             if (null == value.BaseObject)
