@@ -9,7 +9,16 @@
 		{ New-PSMDTemplate -TemplateName $templateName -FilePath "$resourcePath\þnameþ.txt" -OutPath $outPath -EnableException -ErrorAction Stop } | Should -Not -Throw
 		$templateInfo = Get-PSMDTemplate -TemplateName $templateName -Path $outPath
 		$templateRaw = Import-PSFClixml -Path $templateInfo.Path
-		$template = [PSModuleDevelopment.Template.Template]$templateRaw
+		try { $template = [PSModuleDevelopment.Template.Template]$templateRaw }
+		catch {
+			Write-Warning "Conversion to template Failed!"
+			Write-Warning "======================================================================="
+			$_ | Format-List -Force | Out-Host
+			Write-Warning "======================================================================="
+			$_.Exception | Format-List -Force | Out-Host
+			Write-Warning "======================================================================="
+			throw
+		}
 		$template.Name | Should -Be $templateName
 		$template.Parameters.Count | Should -Be 1
 		$template.Scripts.Count | Should -Be 1
