@@ -337,7 +337,7 @@
 			Write-PSFMessage -Level Verbose -Message "Creating Template-Item: $($Item.Name) ($($Item.RelativePath))" -FunctionName Invoke-PSMDTemplate -ModuleName PSModuleDevelopment -Tag 'create', 'template'
 			
 			$identifier = $Item.Identifier
-			$isFile = $Item.GetType().Name -eq 'TemplateItemFile'
+			$isFile = $Item.PSObject.Properties.Name -contains 'Value'
 			
 			#region File
 			if ($isFile) {
