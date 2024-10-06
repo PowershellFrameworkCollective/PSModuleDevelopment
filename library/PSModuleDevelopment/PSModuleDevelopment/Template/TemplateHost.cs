@@ -12,7 +12,7 @@ namespace PSModuleDevelopment.Template
     /// <summary>
     /// Static helpers for the template system
     /// </summary>
-    internal static class TemplateHost
+    public static class TemplateHost
     {
         internal static TemplateItemBase GetTemplateItem(object Item)
         {

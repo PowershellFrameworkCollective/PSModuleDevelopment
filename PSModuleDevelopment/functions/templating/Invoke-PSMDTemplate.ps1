@@ -317,6 +317,7 @@
 			[OutputType([PSModuleDevelopment.Template.TemplateResult])]
 			[CmdletBinding()]
 			param (
+				[PSFramework.Utility.ScriptTransformation('PSModuleDevelopment.TemplateItem', [PSModuleDevelopment.Template.TemplateItemBase])]
 				[PSModuleDevelopment.Template.TemplateItemBase]
 				$Item,
 				
