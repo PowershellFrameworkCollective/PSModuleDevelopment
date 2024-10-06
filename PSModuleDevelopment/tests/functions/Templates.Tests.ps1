@@ -1,12 +1,13 @@
 ﻿Describe "Verifying templating component" {
 	BeforeAll {
+		$outPath = (Get-Item -Path 'TestDrive:\').FullName
 		$resourcePath = Resolve-PSFPath -Path "$PSScriptRoot\..\resources"
 		$templateName = 'TestTemplate-{0}' -f (Get-Random)
 	}
 
 	It "Should Record the template correctly" {
-		{ New-PSMDTemplate -TemplateName $templateName -FilePath "$resourcePath\þnameþ.txt" -EnableException -ErrorAction Stop } | Should -Not -Throw
-		$templateInfo = Get-PSMDTemplate -TemplateName $templateName
+		{ New-PSMDTemplate -TemplateName $templateName -FilePath "$resourcePath\þnameþ.txt" -OutPath $outPath -EnableException -ErrorAction Stop } | Should -Not -Throw
+		$templateInfo = Get-PSMDTemplate -TemplateName $templateName -Path $outPath
 		$templateRaw = Import-PSFClixml -Path $templateInfo.Path
 		$template = [PSModuleDevelopment.Template.Template]$templateRaw
 		$template.Name | Should -Be $templateName
@@ -16,7 +17,7 @@
 	}
 
 	It "Should Invoke the template correctly" {
-		{ Invoke-PSMDTemplate -TemplateName $templateName -OutPath TestDrive:\ -Name Test -EnableException } | Should -Not -Throw
+		{ Invoke-PSMDTemplate -TemplateName $templateName -Path $outPath -OutPath $outPath -Name Test -EnableException } | Should -Not -Throw
 		$content = Get-Content -Path "TestDrive:\Test.txt" -ErrorAction Stop
 		$values = $content | ConvertFrom-StringData -ErrorAction Stop
 		$values.Name | Should -Be Test
