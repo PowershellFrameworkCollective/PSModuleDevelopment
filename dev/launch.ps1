@@ -45,11 +45,13 @@ function New-TemporaryPath {
 
 	Write-Host "Creating new temporary path: $Prefix"
 
+	$temp = [System.IO.Path]::GetTempPath()
+
 	# Remove Previous Temporary Paths
-	Remove-Item -Path "$env:Temp\$Prefix*" -Force -Recurse -ErrorAction SilentlyContinue
+	Remove-Item -Path "$temp\$Prefix*" -Force -Recurse -ErrorAction SilentlyContinue
 
 	# Create New Temporary Path
-	$item = New-Item -Path $env:TEMP -Name "$($Prefix)_$(Get-Random)" -ItemType Directory
+	$item = New-Item -Path $temp -Name "$($Prefix)_$(Get-Random)" -ItemType Directory
 	$item.FullName
 }
 
