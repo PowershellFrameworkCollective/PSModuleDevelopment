@@ -11,3 +11,9 @@ if (-not (Test-Path (Get-PSFConfigValue -FullName 'PSModuleDevelopment.Debug.Con
 
 # Pass on the host UI to the library
 [PSModuleDevelopment.Utility.UtilityHost]::RawUI = $host.UI.RawUI
+
+# Register Type-Conversion to fix template issues in serialization edge-casaes
+Register-PSFArgumentTransformationScriptblock -Name 'PSModuleDevelopment.TemplateItem' -Scriptblock {
+	if ($_ -is [PSModuleDevelopment.Template.TemplateItemBase]) { return $_ }
+	[PSModuleDevelopment.Template.TemplateHost]::GetTemplateItem($_)
+}

@@ -317,7 +317,9 @@
 			[OutputType([PSModuleDevelopment.Template.TemplateResult])]
 			[CmdletBinding()]
 			param (
-				[PSModuleDevelopment.Template.TemplateItemBase]
+				# Fixing that in the next PSFramework release: https://github.com/PowershellFrameworkCollective/psframework/issues/646
+				#[PSFramework.Utility.ScriptTransformation('PSModuleDevelopment.TemplateItem', [PSModuleDevelopment.Template.TemplateItemBase])]
+				#[PSModuleDevelopment.Template.TemplateItemBase]
 				$Item,
 				
 				[string]
