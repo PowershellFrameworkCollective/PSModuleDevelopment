@@ -19,8 +19,11 @@ namespace PSModuleDevelopment.Template
             if (Item.GetType() == typeof(TemplateItemFile))
                 return (TemplateItemFile)Item;
 
-            TemplateItemFolder result = new TemplateItemFolder(); ;
             PSObject PSItem = PSObject.AsPSObject(Item);
+            if (PSItem.TypeNames.Contains("Deserialized.PSModuleDevelopment.Template.TemplateItemFile"))
+                return new TemplateItemFile(PSItem);
+
+            TemplateItemFolder result = new TemplateItemFolder();
 
             foreach (object child in PSItem.GetValues("Children"))
                 result.Children.Add(GetTemplateItem(child));

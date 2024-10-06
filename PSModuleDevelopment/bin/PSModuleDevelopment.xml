@@ -695,6 +695,18 @@
             List of script value insertion parameters for the plaintext file
             </summary>
         </member>
+        <member name="M:PSModuleDevelopment.Template.TemplateItemFile.#ctor">
+            <summary>
+            Creates an empty TemplateItemFile
+            </summary>
+        </member>
+        <member name="M:PSModuleDevelopment.Template.TemplateItemFile.#ctor(System.Management.Automation.PSObject)">
+            <summary>
+            Creates a filled-out TemplateItemFile.
+            Usually called when deserializing a template.
+            </summary>
+            <param name="PSItem">The deserialized instance of this template item file.</param>
+        </member>
         <member name="T:PSModuleDevelopment.Template.TemplateItemFolder">
             <summary>
             Describes a folder that is part of a template
