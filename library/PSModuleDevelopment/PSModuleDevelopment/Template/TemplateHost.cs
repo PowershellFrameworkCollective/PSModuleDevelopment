@@ -14,7 +14,12 @@ namespace PSModuleDevelopment.Template
     /// </summary>
     public static class TemplateHost
     {
-        internal static TemplateItemBase GetTemplateItem(object Item)
+        /// <summary>
+        /// Convert a deserialized template item into a fully valid object of its type.
+        /// </summary>
+        /// <param name="Item">The PSObject to transform back into what it was meant to be</param>
+        /// <returns>The resultant TemplateItemBase</returns>
+        public static TemplateItemBase GetTemplateItem(object Item)
         {
             if (Item.GetType() == typeof(TemplateItemFile))
                 return (TemplateItemFile)Item;

@@ -574,6 +574,13 @@
             Static helpers for the template system
             </summary>
         </member>
+        <member name="M:PSModuleDevelopment.Template.TemplateHost.GetTemplateItem(System.Object)">
+            <summary>
+            Convert a deserialized template item into a fully valid object of its type.
+            </summary>
+            <param name="Item">The PSObject to transform back into what it was meant to be</param>
+            <returns>The resultant TemplateItemBase</returns>
+        </member>
         <member name="T:PSModuleDevelopment.Template.TemplateInfo">
             <summary>
             Class containing meta information about a template
