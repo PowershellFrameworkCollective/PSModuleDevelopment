@@ -1,8 +1,12 @@
 ﻿Describe "Verifying templating component" {
 	BeforeAll {
-		$outPath = (Get-Item -Path 'TestDrive:\').FullName
+		$outPath = [System.IO.Path]::GetTempPath().Trim("\/")
+		if ($env:SYSTEM_DEFAULTWORKINGDIRECTORY) { $outPath = $env:SYSTEM_DEFAULTWORKINGDIRECTORY.Trim("\/") }
 		$resourcePath = Resolve-PSFPath -Path "$PSScriptRoot\..\resources"
 		$templateName = 'TestTemplate-{0}' -f (Get-Random)
+	}
+	AfterAll {
+		Remove-Item -Path "$outPath\Test.txt" -ErrorAction Ignore
 	}
 
 	It "Should Record the template correctly" {
@@ -27,7 +31,7 @@
 
 	It "Should Invoke the template correctly" {
 		{ Invoke-PSMDTemplate -TemplateName $templateName -Path $outPath -OutPath $outPath -Name Test -EnableException } | Should -Not -Throw
-		$content = Get-Content -Path "TestDrive:\Test.txt" -ErrorAction Stop
+		$content = Get-Content -Path "$outPath\Test.txt" -ErrorAction Stop
 		$values = $content | ConvertFrom-StringData -ErrorAction Stop
 		$values.Name | Should -Be Test
 		$values.Value | Should -Be '123'
