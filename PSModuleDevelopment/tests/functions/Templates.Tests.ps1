@@ -1,6 +1,7 @@
 ﻿Describe "Verifying templating component" {
 	BeforeAll {
 		$outPath = [System.IO.Path]::GetTempPath().Trim("\/")
+		if ($env:System_ArtifactsDirectory) { $outPath = $env:System_ArtifactsDirectory.Trim("\/") }
 		$resourcePath = Resolve-PSFPath -Path "$PSScriptRoot\..\resources"
 		$templateName = 'TestTemplate-{0}' -f (Get-Random)
 	}
