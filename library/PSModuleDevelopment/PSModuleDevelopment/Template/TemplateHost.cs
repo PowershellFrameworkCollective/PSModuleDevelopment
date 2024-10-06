@@ -22,15 +22,15 @@ namespace PSModuleDevelopment.Template
             TemplateItemFolder result = new TemplateItemFolder(); ;
             PSObject PSItem = PSObject.AsPSObject(Item);
 
-            foreach (object child in PSItem.GetValue<ArrayList>("Children"))
+            foreach (object child in PSItem.GetValues("Children"))
                 result.Children.Add(GetTemplateItem(child));
 
             result.Name = PSItem.GetValue<string>("Name");
             result.RelativePath = PSItem.GetValue<string>("RelativePath");
             result.Identifier = PSItem.GetValue<string>("Identifier");
-            foreach (string entry in PSItem.GetValue<ArrayList>("FileSystemParameterFlat"))
+            foreach (string entry in PSItem.GetValues("FileSystemParameterFlat"))
                 result.FileSystemParameterFlat.Add(entry);
-            foreach (string entry in PSItem.GetValue<ArrayList>("FileSystemParameterScript"))
+            foreach (string entry in PSItem.GetValues("FileSystemParameterScript"))
                 result.FileSystemParameterScript.Add(entry);
 
             return result;
