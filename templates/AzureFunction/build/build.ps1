@@ -44,6 +44,24 @@ foreach ($command in Get-ChildItem -Path "$workingDirectory\þnameþ\functions\h
 	$httpConfig -replace '%AUTHLEVEL%', $authLevel -replace '%METHODS%', ($methods -join '", "') | Set-Content -Path "$($endpointFolder.FullName)\function.json"
 }
 
+
+# Generate Event Grid Trigger
+$eventGridCode = Get-Content -Path "$PSScriptRoot\functionEventGrid\run.ps1" | Join-String -Separator "`n"
+$eventGridConfig = Get-Content -Path "$PSScriptRoot\functionEventGrid\function.json" | Join-String -Separator "`n"
+foreach ($command in Get-ChildItem -Path "$workingDirectory\þnameþ\functions\eventGridTrigger" -Recurse -File -Filter *.ps1) {
+	$authLevel = $config.EventGridTrigger.AuthLevel
+	if ($config.EventGridTrigger.AuthLevelOverrides.$($command.BaseName)) {
+		$authLevel = $config.EventGridTrigger.AuthLevelOverrides.$($command.BaseName)
+	}
+	$methods = $config.EventGridTrigger.Methods
+	if ($config.EventGridTrigger.MethodOverrides.$($command.BaseName)) {
+		$methods = $config.EventGridTrFigger.MethodOverrides.$($command.BaseName)
+	}
+	$endpointFolder = New-Item -Path $buildFolder.FullName -Name $command.BaseName -ItemType Directory
+	$eventGridCode -replace '%COMMAND%',$command.BaseName | Set-Content -Path "$($endpointFolder.FullName)\run.ps1"
+	$eventGridConfig -replace '%AUTHLEVEL%', $authLevel -replace '%METHODS%', ($methods -join '", "') | Set-Content -Path "$($endpointFolder.FullName)\function.json"
+}
+
 # Generate Timer Trigger
 $timerCode = Get-Content -Path "$PSScriptRoot\functionTimer\run.ps1" | Join-String -Separator "`n"
 $timerConfig = Get-Content -Path "$PSScriptRoot\functionTimer\function.json" | Join-String -Separator "`n"
