@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## ???
+
++ New: Template AzureFunctionEventGrid - dedicated endpoint template for an EventGrid function
++ Upd: Template AzureFunction - now also builds EventGrid triggers.
+
 ## 2.2.12.172 (2024-10-06)
 
 + Fix: Invoke-PSMDTemplate - On WinPS, script-logic on templates is not executed
