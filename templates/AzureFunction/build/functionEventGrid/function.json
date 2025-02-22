@@ -1,0 +1,19 @@
+﻿{
+    "bindings": [
+        {
+            "authLevel": "%AUTHLEVEL%",
+            "type": "eventGridTrigger",
+            "direction": "in",
+            "name": "EventGridEvent",
+            "methods": [
+                "%METHODS%"
+            ]
+        },
+        {
+            "type": "http",
+            "direction": "out",
+            "name": "Response"
+        }
+    ],
+    "disabled": false
+}
