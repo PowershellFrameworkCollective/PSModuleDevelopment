@@ -1,8 +1,10 @@
 ﻿# Changelog
 
-## ???
+## 2.2.13.176 (2025-05-04)
 
 + New: Template AzureFunctionEventGrid - dedicated endpoint template for an EventGrid function
++ New: Template DscClassFile - a script file with a scaffold for individual DSC Resources. Intended for use with the DscModule template.
++ New: Template DscModule - a module designed to host one or multiple DSC Resources
 + Upd: Template AzureFunction - now also builds EventGrid triggers.
 
 ## 2.2.12.172 (2024-10-06)
