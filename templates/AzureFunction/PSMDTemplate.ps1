@@ -4,7 +4,7 @@
     AutoIncrementVersion = $true
     Tags                 = 'azure', 'function'
     Author               = 'Friedrich Weinmann'
-    Description          = 'Basic Azure Function Template'
+    Description          = 'Scaffold for a PowerShell Azure Functions app: base folder layout, sample function entry point and build hooks ready for adding specific triggers'
     Exclusions           = @("PSMDInvoke.ps1", ".PSMDDependency") # Contains list of files - relative path to root - to ignore when building the template
     Scripts              = @{ }
     NoFolder             = $true # Whether invoking this template should generate a new folder ... or not.

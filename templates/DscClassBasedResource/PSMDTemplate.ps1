@@ -4,7 +4,7 @@
 	AutoIncrementVersion = $true
 	Tags = 'dscresource'
 	Author = 'Jan-Hendrik Peters'
-	Description = 'Basic class-based DSC resource template with support for Azure Guest Configuration'
+	Description = 'Class-based DSC resource scaffold (with GUID & year injection) including Azure Guest Configuration friendly structure and placeholder tests'
 	Exclusions = @("PSMDInvoke.ps1") # Contains list of files - relative path to root - to ignore when building the template
 	Scripts = @{
 		guid = {

@@ -4,7 +4,7 @@
 	AutoIncrementVersion = $true # If a newer version than specified is present, instead of the specified version, make it one greater than the existing template
 	Tags = @('Tests', 'PSFramework') # Insert Tags as desired
 	Author = 'Friedrich Weinmann' # The author of the template, not the file / project created from it
-	Description = 'The PSFramework-based standard test suite for a PowerShell Module' # Try describing the template
+	Description = 'Standard PSFramework-powered Pester test suite scaffold: folder structure, GUID script, optional test folder/pester config hooks' # Try describing the template
 	Exclusions = @('PSMDInvoke.ps1') # Contains list of files - relative path to root - to ignore when building the template
 	Scripts = @{
 		guid = {

@@ -4,7 +4,7 @@
 	AutoIncrementVersion = $true
 	Tags = 'module'
 	Author = 'Friedrich Weinmann'
-	Description = 'Module scaffold with full CI/CD support and minimal dependencies'
+	Description = 'Lean PowerShell module scaffold with CI/CD basics, minimal dependencies, build + test structure, manifest & metadata placeholders'
 	Exclusions = @("PSMDInvoke.ps1") # Contains list of files - relative path to root - to ignore when building the template
 	Scripts = @{
 		guid = {

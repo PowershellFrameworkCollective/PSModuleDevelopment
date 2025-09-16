@@ -4,7 +4,7 @@
 	AutoIncrementVersion = $true
 	Tags				 = 'azure', 'function', 'rest'
 	Author			     = 'Friedrich Weinmann'
-	Description		     = 'HTTP Trigger endpoint for the basic Azure Function Template'
+	Description	     = 'Adds an HTTP (REST) trigger function with sample request/response handling to the base AzureFunction scaffold'
 	Exclusions		     = @("PSMDInvoke.ps1", ".PSMDDependency") # Contains list of files - relative path to root - to ignore when building the template
 	Scripts			     = @{ }
 }
