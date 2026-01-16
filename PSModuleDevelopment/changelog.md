@@ -10,7 +10,10 @@
 + Upd: Template AzureFunction - Added `-Restart` parameter to the build script, restarting the Function App after deployment
 + Upd: Template AzureFunction - Added psf-build.ps1 for faster build through PSFramework.Nuget
 + Upd: Template AzureFunction - Added option to deploy to Flex Consumption plans, disabling Managed Dependencies
++ Upd: Template DscModule - Reordered import sequence to prioritize resources over other components
++ Upd: Template DscModule - Added support to exclude files from the syntax verification, to address issues with PowerShell Classes
 + Fix: Template AzureFunction - the folder "modules" should be "Modules"
++ Fix: Template DscClassFile - Removed a trailing whitespace that would trigger module tests checking for that.
 
 ## 2.2.13.176 (2025-05-04)
 
