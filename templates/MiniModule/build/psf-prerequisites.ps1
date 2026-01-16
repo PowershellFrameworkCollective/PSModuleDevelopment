@@ -1,11 +1,14 @@
-﻿<#
-Uses PowerShellGet to install all modules required to run the pipeline.
+<#
+Uses PSFramework.Nuget to install all modules required to run the pipeline.
 #>
 [CmdletBinding()]
 param (
     [string]
     $Repository = 'PSGallery'
 )
+
+Invoke-WebRequest 'https://raw.githubusercontent.com/PowershellFrameworkCollective/PSFramework.NuGet/refs/heads/master/bootstrap.ps1' -UseBasicParsing | Invoke-Expression
+Install-PSFPowerShellGet
 
 $modules = @(
 	'Pester' # Testing Framework
@@ -27,8 +30,4 @@ foreach ($dependency in $data.RequiredModules) {
     }
 }
 
-foreach ($module in $modules) {
-    Write-Host "Installing $module" -ForegroundColor Cyan
-    Install-Module $module -Force -SkipPublisherCheck -Repository $Repository
-    Import-Module $module -Force -PassThru
-}
+Install-PSFModule -Name $modules -Repository $Repository -TrustRepository

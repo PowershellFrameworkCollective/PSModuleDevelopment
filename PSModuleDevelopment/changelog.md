@@ -1,6 +1,6 @@
 ﻿# Changelog
 
-## ???
+## 2.2.13.216 (2026-01-16)
 
 + Upd: Template AzureFunction - Update host.json extension bundle version to `[4.*, 5.0.0)`
 + Upd: Template AzureFunction - PSModulePath ensured to exist correctly
@@ -12,8 +12,36 @@
 + Upd: Template AzureFunction - Added option to deploy to Flex Consumption plans, disabling Managed Dependencies
 + Upd: Template DscModule - Reordered import sequence to prioritize resources over other components
 + Upd: Template DscModule - Added support to exclude files from the syntax verification, to address issues with PowerShell Classes
++ Upd: Template MiniModule - Now asks for the Github Account name during invocation (GithubAccount)
++ Upd: Template MiniModule - Improved Readme.md
++ Upd: Template MiniModule - Added Project Uri, License Uri & Readme Uri to the manifest
++ Upd: Template MiniModule - Added `build/psf-prerequisites.ps1` as a faster dependencies alternative
++ Upd: Template MiniModule - Updated `build/vsts-build.ps1`, removing publishing steps and integrating config file
++ Upd: Template MiniModule - Added `build/psf-build.ps1`, an alternative build option using PSFramework.NuGet
++ Upd: Template MiniModule - added ability to auto-populate FunctionsToExport
++ Upd: Template MiniModule - added example project snippets for vscode
++ Upd: Template MiniModule - added example `initialize.ps1` script
++ Upd: Template MiniModule - added example `variables.ps1` script
++ Upd: Template MiniModule - added example project settings for vscode
++ Upd: Template MiniModule - added config file for simple settings that apply to the project
++ Upd: Template MiniModule - added the module variable "$script:ModuleRoo", pointing at the folder the module is in.
++ Upd: Template MiniModule - Added `build/vsts-release.ps1`, allowing to publish a release to Github
++ Upd: Template MiniModule - Added `build/vsts-publish.ps1` as a dedicated publishing step
++ Upd: Template MiniModule - Added `build/psf-publish.ps1` as a dedicated publishing step using `PSFramework.NuGet`. Can skip dependencies check.
++ Upd: Template MiniModule - Added the modules `Microsoft.PowerShell.PlatyPS` and `PSModuleDevelopment` to `build/vsts-prerequisites.ps1` for new build & publish features
++ Upd: Template MiniModule - Added explicit `Export-ModuleMember` call as part of the build step
++ Upd: Template MiniModule - Removed the type test part of the help test, as not relevant in a project unlikely to have Cmdlet exports
++ Upd: Template MiniModule - Updated PR Validation flow to run on PowerShell 7
++ Upd: Template MiniModule - Updated PR Validation flow to use `psf-prerequisites.ps1` by default, improving performance substantially
++ Upd: Template MiniModule - Updated PR Validation flow to use `actions/checkout@v6`
++ Upd: Template MiniModule - Updated Build & Publish flow to use `psf-prerequisites.ps1` by default, improving performance substantially
++ Upd: Template MiniModule - Updated Build & Publish flow to use `actions/checkout@v6`
++ Upd: Template MiniModule - Updated Build & Publish flow, splitting up building the module & publishing it to a repository
++ Upd: Template MiniModule - Updated Build & Publish flow, adding Github Release creation as the final step
++ Upd: Template MiniModule - Added changelog.md
 + Fix: Template AzureFunction - the folder "modules" should be "Modules"
 + Fix: Template DscClassFile - Removed a trailing whitespace that would trigger module tests checking for that.
++ Fix: Template MiniModule - help tests fail on parameters that are part of multiple parametersets but only mandatory in some of them
 
 ## 2.2.13.176 (2025-05-04)
 

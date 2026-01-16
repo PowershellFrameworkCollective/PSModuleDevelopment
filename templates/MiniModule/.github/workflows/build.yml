@@ -8,17 +8,27 @@ jobs:
   build:
 
     runs-on: windows-latest
+    permissions:
+      contents: write
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v6
     - name: Install Prerequisites
-      run: .\build\vsts-prerequisites.ps1
-      shell: powershell
+      run: .\build\psf-prerequisites.ps1
+      shell: pwsh
     - name: Validate
       run: .\build\vsts-validate.ps1
-      shell: powershell
+      shell: pwsh
     - name: Build
-      run: .\build\vsts-build.ps1 -ApiKey $env:APIKEY
-      shell: powershell
+      run: .\build\psf-build.ps1
+      shell: pwsh
+    - name: Publish
+      run: .\build\psf-publish.ps1 -ApiKey $env:APIKEY
+      shell: pwsh
       env:
         APIKEY: ${{ secrets.ApiKey }}
+    - name: Release
+      run: .\build\vsts-release.ps1
+      shell: pwsh
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -13,5 +13,8 @@
 		year = {
 			Get-Date -Format "yyyy"
 		}
+		date = {
+			Get-Date -Format "yyyy-MM-dd"
+		}
 	}
 }

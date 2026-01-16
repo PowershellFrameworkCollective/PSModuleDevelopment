@@ -1,6 +1,6 @@
 ﻿<#
 This script wraps up the module, creating a finished artifact, ready to publish a repository such as the PS Gallery.
-Useres PowerShellGet for interaction with the package management system.
+Useres PSFramework.NuGet for interaction with the package management system.
 
 Insert any build steps you may need to take before publishing it here.
 #>
@@ -30,7 +30,7 @@ if (-not $WorkingDirectory) { $WorkingDirectory = Split-Path $PSScriptRoot }
 #endregion Handle Working Directory Defaults
 
 #region Handle Configuration
-$config = Import-PowerShellDataFile -Path (Join-Path -Path $WorkingDirectory -ChildPath 'config.psd1') -ErrorAction Stop
+$config = Import-PSFPowerShellDataFile -Path (Join-Path -Path $WorkingDirectory -ChildPath 'config.psd1') -ErrorAction Stop
 if ($PSBoundParameters.Keys -notcontains 'AutoVersion') {
 	$AutoVersion = $config.AutoVersion
 }
@@ -76,7 +76,7 @@ Remove-Item -Path "$($publishDir.FullName)\þnameþ\functions" -Recurse -Force
 #region Updating the Module Version
 if ($AutoVersion) {
 	Write-Host "Updating module version numbers."
-	try { [version]$remoteVersion = (Find-Module 'þnameþ' -Repository $Repository -ErrorAction Stop).Version }
+	try { [version]$remoteVersion = @(Find-PSFModule 'þnameþ' -Repository $Repository -ErrorAction Stop | Sort-Object Version -Descending)[0].Version }
 	catch {
 		throw "Failed to access $($Repository) : $_"
 	}
@@ -84,8 +84,8 @@ if ($AutoVersion) {
 		throw "Couldn't find þnameþ on repository $($Repository) : $_"
 	}
 	$newBuildNumber = $remoteVersion.Build + 1
-	[version]$localVersion = (Import-PowerShellDataFile -Path "$($publishDir.FullName)\þnameþ\þnameþ.psd1").ModuleVersion
-	Update-ModuleManifest -Path "$($publishDir.FullName)\þnameþ\þnameþ.psd1" -ModuleVersion "$($localVersion.Major).$($localVersion.Minor).$($newBuildNumber)"
+	[version]$localVersion = (Import-PSFPowerShellDataFile -Path "$($publishDir.FullName)\þnameþ\þnameþ.psd1").ModuleVersion
+	Update-PSFModuleManifest -Path "$($publishDir.FullName)\þnameþ\þnameþ.psd1" -ModuleVersion "$($localVersion.Major).$($localVersion.Minor).$($newBuildNumber)"
 }
 #endregion Updating the Module Version
 
@@ -94,6 +94,6 @@ if ($ExportFunctions) {
 	Write-Host "Exporting all public functions"
 
 	$functionFiles = Get-ChildItem -Path "$($WorkingDirectory)\þnameþ\functions" -Filter '*.ps1' -Recurse
-	Update-ModuleManifest -Path "$($publishDir.FullName)\þnameþ\þnameþ.psd1" -FunctionsToExport ($functionFiles.BaseName | Sort-Object)
+	Update-PSFModuleManifest -Path "$($publishDir.FullName)\þnameþ\þnameþ.psd1" -FunctionsToExport ($functionFiles.BaseName | Sort-Object)
 }
 #endregion Export Functions
