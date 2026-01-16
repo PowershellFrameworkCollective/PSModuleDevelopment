@@ -1,5 +1,17 @@
 ﻿# Changelog
 
+## ???
+
++ Upd: Template AzureFunction - Update host.json extension bundle version to `[4.*, 5.0.0)`
++ Upd: Template AzureFunction - PSModulePath ensured to exist correctly
++ Upd: Template AzureFunction - Configuration for Flex Consumption added, changing build behavior
++ Upd: Template AzureFunction - Added Eventgrid Trigger folder to project module
++ Upd: Template AzureFunction - Added readme with setup instructions
++ Upd: Template AzureFunction - Added `-Restart` parameter to the build script, restarting the Function App after deployment
++ Upd: Template AzureFunction - Added psf-build.ps1 for faster build through PSFramework.Nuget
++ Upd: Template AzureFunction - Added option to deploy to Flex Consumption plans, disabling Managed Dependencies
++ Fix: Template AzureFunction - the folder "modules" should be "Modules"
+
 ## 2.2.13.176 (2025-05-04)
 
 + New: Template AzureFunctionEventGrid - dedicated endpoint template for an EventGrid function

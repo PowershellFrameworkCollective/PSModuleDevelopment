@@ -16,6 +16,11 @@ if ($env:MSI_SECRET -and (Get-Module -ListAvailable Az.Accounts))
 	Connect-AzAccount -Identity
 }
 
-# Uncomment the next line to enable legacy AzureRm alias in Azure PowerShell.
-# Enable-AzureRmAlias
-# You can also define functions or aliases that can be referenced in any of your PowerShell functions.
+$pathDelimiter = ';'
+if (-not $IsWindows) { $pathDelimiter = ':' }
+$modulePaths = $env:PSModulePath -split $pathDelimiter
+$ourModulePath = Join-Path -Path $PSScriptRoot -ChildPath Modules
+
+if ($modulePaths -notcontains $ourModulePath) {
+	$env:PSModulePath = $ourModulePath, $env:PSModulePath -join $pathDelimiter
+}
