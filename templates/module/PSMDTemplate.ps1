@@ -4,7 +4,7 @@
 	AutoIncrementVersion = $true
 	Tags = 'module'
 	Author = 'Friedrich Weinmann'
-	Description = 'Basic module scaffold'
+	Description = 'Basic PowerShell module scaffold: standard folder structure, manifest with GUID/year/scripts, function/test placeholders and PSFramework version capture'
 	Exclusions = @("PSMDInvoke.ps1") # Contains list of files - relative path to root - to ignore when building the template
 	Scripts = @{
 		guid = {
