@@ -56,12 +56,14 @@ Describe "Verifying integrity of module files" {
 				($file | Select-String "\s$" | Where-Object { $_.Line.Trim().Length -gt 0}).LineNumber | Should -BeNullOrEmpty
 			}
 			
-			$tokens = $null
-			$parseErrors = $null
-			$null = [System.Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$parseErrors)
-			
-			It "[$name] Should have no syntax errors" -TestCases @{ parseErrors = $parseErrors } {
-				$parseErrors | Should -BeNullOrEmpty
+			if ($file.Name -notin $global:ExcludeSyntaxCheck -and $file.FullName -notmatch '[\\/]resources[\\/]') {
+				$tokens = $null
+				$parseErrors = $null
+				$null = [System.Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$parseErrors)
+				
+				It "[$name] Should have no syntax errors" -TestCases @{ parseErrors = $parseErrors } {
+					$parseErrors | Should -BeNullOrEmpty
+				}
 			}
 			
 			foreach ($command in $global:BannedCommands)

@@ -46,6 +46,13 @@ Get-ChildItem -Path "$($publishDir.FullName)\þnameþ\internal\classes\" -Recurs
 	$text += [System.IO.File]::ReadAllText($_.FullName)
 }
 
+# Gather DSC Resources
+$resourceNames = Get-ChildItem -Path "$($publishDir.FullName)\þnameþ\resources\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
+	$text += [System.IO.File]::ReadAllText($_.FullName) -replace '(?m)^using', '# using' # (?m) turns "^" into "Start of line", rather than "Start of text"
+	$_.BaseName
+}
+Update-ModuleManifest -Path "$($publishDir.FullName)\þnameþ\þnameþ.psd1" -DscResourcesToExport @($resourceNames)
+
 # Gather commands
 Get-ChildItem -Path "$($publishDir.FullName)\þnameþ\internal\functions\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
 	$text += [System.IO.File]::ReadAllText($_.FullName)
@@ -58,13 +65,6 @@ Get-ChildItem -Path "$($publishDir.FullName)\þnameþ\functions\" -Recurse -File
 Get-ChildItem -Path "$($publishDir.FullName)\þnameþ\internal\scripts\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
 	$text += [System.IO.File]::ReadAllText($_.FullName)
 }
-
-# Gather DSC Resources
-$resourceNames = Get-ChildItem -Path "$($publishDir.FullName)\þnameþ\resources\" -Recurse -File -Filter "*.ps1" | ForEach-Object {
-	$text += [System.IO.File]::ReadAllText($_.FullName) -replace '(?m)^using', '# using' # (?m) turns "^" into "Start of line", rather than "Start of text"
-	$_.BaseName
-}
-Update-ModuleManifest -Path "$($publishDir.FullName)\þnameþ\þnameþ.psd1" -DscResourcesToExport @($resourceNames)
 
 #region Update the psm1 file & Cleanup
 [System.IO.File]::WriteAllText("$($publishDir.FullName)\þnameþ\þnameþ.psm1", ($text -join "`n`n"), [System.Text.Encoding]::UTF8)

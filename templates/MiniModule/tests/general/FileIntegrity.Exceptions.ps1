@@ -42,4 +42,5 @@ $global:MayContainCommand = @{
 	"Write-Output" = @()
 	"Write-Information" = @()
 	"Write-Debug" = @()
+	"Invoke-Expression" = @('psf-prerequisites.ps1')
 }

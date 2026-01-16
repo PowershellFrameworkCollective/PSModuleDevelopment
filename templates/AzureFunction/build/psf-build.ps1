@@ -19,6 +19,8 @@ trap {
 	throw $_
 }
 
+Invoke-WebRequest 'https://raw.githubusercontent.com/PowershellFrameworkCollective/PSFramework.NuGet/refs/heads/master/bootstrap.ps1' -UseBasicParsing | Invoke-Expression
+
 $workingDirectory = Split-Path $PSScriptRoot
 $config = Import-PowerShellDataFile -Path "$PSScriptRoot\build.config.psd1"
 
@@ -32,15 +34,14 @@ Copy-Item -Path "$workingDirectory/function/*" -Destination $buildFolder.FullNam
 $requiredModules = (Import-PowerShellDataFile -Path "$workingDirectory/þnameþ/þnameþ.psd1").RequiredModules
 foreach ($module in $requiredModules) {
 	if ($module -is [string]) {
-		Save-Module -Name $module -Path "$($buildFolder.FullName)/modules" -Force -Repository $Repository
-		continue
+		Save-PSFModule -Name $module -Path "$($buildFolder.FullName)/modules" -Force -Repository $Repository
 	}
-
-	$saveParam = @{ Name = $module.ModuleName }
-	if ($module.RequiredVersion) { $saveParam.RequiredVersion = $module.RequiredVersion }
-	elseif ($module.ModuleVersion) { $saveParam.MinimumVersion = $module.ModuleVersion }
-
-	Save-Module @saveParam -Path "$($buildFolder.FullName)/modules" -Force -Repository $Repository
+	else {
+		$versionParam = @{}
+		if ($module.RequiredVersion) { $versionParam.Version = $module.RequiredVersion }
+		elseif ($module.ModuleVersion) { $versionParam.Version = "[$($module.ModuleVersion)-" }
+		Save-PSFModule -Name $module.ModuleName @versionParam -Path "$($buildFolder.FullName)/modules" -Force -Repository $Repository
+	}
 }
 
 #region Handle the Requirements for Flex Consumption Plans
@@ -51,22 +52,21 @@ if ($config.General.FlexConsumption) {
 	$requiredModules = foreach ($name in $mDeps.Keys) {
 		if ($mDeps.$name -match '\*') {
 			@{
-				Name = $name
-				MinimumVersion = '{0}.0.0' -f $mDeps.$name.Split('.')[0]
-				MaximumVersion = '{0}.999.999' -f $mDeps.$name.Split('.')[0]
+				Name    = $name
+				Version = '[{0}.0.0-{1}.0.0)' -f $mDeps.$name.Split('.')[0], (1 + $mDeps.$name.Split('.')[0])
 			}
 		}
 		else {
 			@{
-				Name = $name
-				RequiredVersion = $mDeps.$name
+				Name    = $name
+				Version = $mDeps.$name
 			}
 		}
 	}
 
 	# Inject New Dependencies
 	foreach ($module in $requiredModules) {
-		Save-Module @module -Path "$($buildFolder.FullName)/modules" -Force -Repository $Repository
+		Save-PSFModule @module -Path "$($buildFolder.FullName)/modules" -Force -Repository $Repository
 	}
 
 	# Disable Managed Dependencies
@@ -80,7 +80,7 @@ if ($config.General.FlexConsumption) {
 # Process Function Module
 Copy-Item -Path "$workingDirectory/þnameþ" -Destination "$($buildFolder.FullName)/modules" -Force -Recurse
 $commands = Get-ChildItem -Path "$($buildFolder.FullName)/modules/þnameþ/Functions" -Recurse -Filter *.ps1 | ForEach-Object BaseName
-Update-ModuleManifest -Path "$($buildFolder.FullName)/modules/þnameþ/þnameþ.psd1" -FunctionsToExport $commands
+Update-PSFModuleManifest -Path "$($buildFolder.FullName)/modules/þnameþ/þnameþ.psd1" -FunctionsToExport $commands
 #endregion Handle Modules
 
 #region Triggers
@@ -97,7 +97,7 @@ foreach ($command in Get-ChildItem -Path "$workingDirectory\þnameþ\functions\h
 		$methods = $config.HttpTrigger.MethodOverrides.$($command.BaseName)
 	}
 	$endpointFolder = New-Item -Path $buildFolder.FullName -Name $command.BaseName -ItemType Directory
-	$httpCode -replace '%COMMAND%',$command.BaseName | Set-Content -Path "$($endpointFolder.FullName)\run.ps1"
+	$httpCode -replace '%COMMAND%', $command.BaseName | Set-Content -Path "$($endpointFolder.FullName)\run.ps1"
 	$httpConfig -replace '%AUTHLEVEL%', $authLevel -replace '%METHODS%', ($methods -join '", "') | Set-Content -Path "$($endpointFolder.FullName)\function.json"
 }
 
@@ -115,7 +115,7 @@ foreach ($command in Get-ChildItem -Path "$workingDirectory\þnameþ\functions\e
 		$methods = $config.EventGridTrFigger.MethodOverrides.$($command.BaseName)
 	}
 	$endpointFolder = New-Item -Path $buildFolder.FullName -Name $command.BaseName -ItemType Directory
-	$eventGridCode -replace '%COMMAND%',$command.BaseName | Set-Content -Path "$($endpointFolder.FullName)\run.ps1"
+	$eventGridCode -replace '%COMMAND%', $command.BaseName | Set-Content -Path "$($endpointFolder.FullName)\run.ps1"
 	$eventGridConfig -replace '%AUTHLEVEL%', $authLevel -replace '%METHODS%', ($methods -join '", "') | Set-Content -Path "$($endpointFolder.FullName)\function.json"
 }
 
@@ -128,7 +128,7 @@ foreach ($command in Get-ChildItem -Path "$workingDirectory\þnameþ\functions\t
 		$schedule = $config.TimerTrigger.ScheduleOverrides.$($command.BaseName)
 	}
 	$endpointFolder = New-Item -Path $buildFolder.FullName -Name $command.BaseName -ItemType Directory
-	$timerCode -replace '%COMMAND%',$command.BaseName | Set-Content -Path "$($endpointFolder.FullName)\run.ps1"
+	$timerCode -replace '%COMMAND%', $command.BaseName | Set-Content -Path "$($endpointFolder.FullName)\run.ps1"
 	$timerConfig -replace '%SCHEDULE%', $schedule | Set-Content -Path "$($endpointFolder.FullName)\function.json"
 }
 #endregion Triggers

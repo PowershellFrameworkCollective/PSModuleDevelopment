@@ -6,10 +6,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v6
     - name: Install Prerequisites
-      run: .\build\vsts-prerequisites.ps1
-      shell: powershell
+      run: .\build\psf-prerequisites.ps1
+      shell: pwsh
     - name: Validate
       run: .\build\vsts-validate.ps1
-      shell: powershell
+      shell: pwsh

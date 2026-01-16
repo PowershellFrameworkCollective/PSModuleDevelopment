@@ -64,7 +64,7 @@ class þnameþ {
                 }
                 # Add property to new
                 $dscProperties.add($property, $value)
-            } 
+            }
         }
         return $dscProperties
     }

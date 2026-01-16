@@ -1,0 +1,38 @@
+﻿{
+	// Tabs, not Whitespaces. Set to True to not use tabs
+	"editor.insertSpaces": false,
+
+	// How large the tab or how many spaces
+	"editor.tabSize": 4,
+
+	// Whether the open braces are placed in the same line, like this: foreach ($a in $b) {
+	"powershell.codeFormatting.openBraceOnSameLine": true,
+
+	// Autodetect is undesired, when we define how we want things formatted in a config file
+	"editor.detectIndentation": false,
+
+	// Make PowerShell beautiful on autoformat
+	"powershell.codeFormatting.autoCorrectAliases": true,
+	"powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationAfterEveryPipeline",
+    "powershell.codeFormatting.trimWhitespaceAroundPipe": true,
+	"powershell.codeFormatting.useCorrectCasing": true,
+    "powershell.codeFormatting.whitespaceBetweenParameters": true,
+
+	// Avoid encoding issues across OS Languages
+	"files.encoding": "utf8bom",
+
+	// Make everyone format their files automatically
+	"editor.formatOnSave": true,
+
+	"[powershell]": {
+		// A Truly hostile panel of no value in PowerShell
+		"editor.parameterHints.enabled": false,
+
+		// Enable Doubleclick on Variables
+		"editor.wordSeparators": "`~!@#%^&*()=+[{]}\\|;:'\",.<>/?"
+	},
+	// Markdown doesn't like tabs
+	"[markdown]": {
+		"editor.insertSpaces": true
+	}
+}
