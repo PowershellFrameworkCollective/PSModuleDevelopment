@@ -1,4 +1,6 @@
-﻿foreach ($file in Get-ChildItem -Path "$PSScriptRoot/internal/functions" -Filter *.ps1 -Recurse) {
+﻿$script:ModuleRoot = $PSScriptRoot
+
+foreach ($file in Get-ChildItem -Path "$PSScriptRoot/internal/functions" -Filter *.ps1 -Recurse) {
     . $file.FullName
 }
 

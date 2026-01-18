@@ -4,7 +4,7 @@
 	AutoIncrementVersion = $true
 	Tags = 'module','psframework'
 	Author = 'Friedrich Weinmann'
-	Description = 'PowerShell Framework based project scaffold'
+	Description = 'Comprehensive PSFramework project scaffold (no new folder) with advanced GUID/date scripts, test result setup, build + test config & version capture'
 	Exclusions = @("PSMDInvoke.ps1", ".PSMDDependency") # Contains list of files - relative path to root - to ignore when building the template
 	Scripts = @{
 		guid = {

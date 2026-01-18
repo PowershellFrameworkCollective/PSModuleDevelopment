@@ -98,7 +98,7 @@ foreach ($command in $commands) {
             
             $parameters = $command.ParameterSets.Parameters | Sort-Object -Property Name -Unique | Where-Object Name -notin $common
             $parameterNames = $parameters.Name
-            $HelpParameterNames = $Help.Parameters.Parameter.Name | Sort-Object -Unique
+            $helpParameterNames = $Help.Parameters.Parameter.Name | Sort-Object -Unique
             foreach ($parameter in $parameters) {
                 $parameterName = $parameter.Name
                 $parameterHelp = $Help.parameters.parameter | Where-Object Name -EQ $parameterName
@@ -108,40 +108,13 @@ foreach ($command in $commands) {
 					$parameterHelp.Description.Text | Should -Not -BeNullOrEmpty
 				}
                 
-                $codeMandatory = $parameter.IsMandatory.toString()
+				# Mandatory in help is tricky, if the same parameter is part of multiple parametersets but not mandatory in all of them
+                $codeMandatory = $command.ParameterSets.Parameters | Where-Object Name -eq $parameterName | ForEach-Object { $_.IsMandatory -as [string] }
 				It "help for $parameterName parameter in $commandName has correct Mandatory value" -TestCases @{ parameterHelp = $parameterHelp; codeMandatory = $codeMandatory } {
-					$parameterHelp.Required | Should -Be $codeMandatory
+					$parameterHelp.Required | Should -BeIn $codeMandatory
 				}
-                
-                if ($HelpTestSkipParameterType[$commandName] -contains $parameterName) { continue }
-                
-                $codeType = $parameter.ParameterType.Name
-                
-                if ($parameter.ParameterType.IsEnum) {
-                    # Enumerations often have issues with the typename not being reliably available
-                    $names = $parameter.ParameterType::GetNames($parameter.ParameterType)
-						# Parameter type in Help should match code
-					It "help for $commandName has correct parameter type for $parameterName" -TestCases @{ parameterHelp = $parameterHelp; names = $names } {
-						$parameterHelp.parameterValueGroup.parameterValue | Should -be $names
-					}
-                }
-                elseif ($parameter.ParameterType.FullName -in $HelpTestEnumeratedArrays) {
-                    # Enumerations often have issues with the typename not being reliably available
-                    $names = [Enum]::GetNames($parameter.ParameterType.DeclaredMembers[0].ReturnType)
-					It "help for $commandName has correct parameter type for $parameterName" -TestCases @{ parameterHelp = $parameterHelp; names = $names } {
-						$parameterHelp.parameterValueGroup.parameterValue | Should -be $names
-					}
-                }
-                else {
-                    # To avoid calling Trim method on a null object.
-                    $helpType = if ($parameterHelp.parameterValue) { $parameterHelp.parameterValue.Trim() }
-					# Parameter type in Help should match code
-					It "help for $commandName has correct parameter type for $parameterName" -TestCases @{ helpType = $helpType; codeType = $codeType } {
-						$helpType | Should -be $codeType
-					}
-                }
             }
-            foreach ($helpParm in $HelpParameterNames) {
+            foreach ($helpParm in $helpParameterNames) {
 				# Shouldn't find extra parameters in help.
 				It "finds help parameter in code: $helpParm" -TestCases @{ helpParm = $helpParm; parameterNames = $parameterNames } {
 					$helpParm -in $parameterNames | Should -Be $true

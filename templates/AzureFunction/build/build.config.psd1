@@ -1,4 +1,11 @@
 ﻿@{
+	General = @{
+		# Is this Function App deployed to a Flex COnsumption plan?
+		# If so, Managed Dependencies cannot be used and must be* disabled!
+		# *The build script will handle that for you, if setting this to $true
+		FlexConsumption = $false
+	}
+
     TimerTrigger     = @{
         # Default Schedule for timed executions
         Schedule          = '0 5 * * * *'
