@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 2.3.13.217 (2026-03-30)
+
++ Fix: Template AzureFunction - fails to detect injected dependencies in FlexConsumption mode
+
 ## 2.2.13.216 (2026-01-16)
 
 + Upd: Template AzureFunction - Update host.json extension bundle version to `[4.*, 5.0.0)`
