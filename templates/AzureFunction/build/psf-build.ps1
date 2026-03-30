@@ -34,13 +34,13 @@ Copy-Item -Path "$workingDirectory/function/*" -Destination $buildFolder.FullNam
 $requiredModules = (Import-PowerShellDataFile -Path "$workingDirectory/þnameþ/þnameþ.psd1").RequiredModules
 foreach ($module in $requiredModules) {
 	if ($module -is [string]) {
-		Save-PSFModule -Name $module -Path "$($buildFolder.FullName)/modules" -Force -Repository $Repository
+		Save-PSFModule -Name $module -Path "$($buildFolder.FullName)/Modules" -Force -Repository $Repository
 	}
 	else {
 		$versionParam = @{}
 		if ($module.RequiredVersion) { $versionParam.Version = $module.RequiredVersion }
 		elseif ($module.ModuleVersion) { $versionParam.Version = "[$($module.ModuleVersion)-" }
-		Save-PSFModule -Name $module.ModuleName @versionParam -Path "$($buildFolder.FullName)/modules" -Force -Repository $Repository
+		Save-PSFModule -Name $module.ModuleName @versionParam -Path "$($buildFolder.FullName)/Modules" -Force -Repository $Repository
 	}
 }
 
@@ -66,7 +66,7 @@ if ($config.General.FlexConsumption) {
 
 	# Inject New Dependencies
 	foreach ($module in $requiredModules) {
-		Save-PSFModule @module -Path "$($buildFolder.FullName)/modules" -Force -Repository $Repository
+		Save-PSFModule @module -Path "$($buildFolder.FullName)/Modules" -Force -Repository $Repository
 	}
 
 	# Disable Managed Dependencies
@@ -78,9 +78,9 @@ if ($config.General.FlexConsumption) {
 #endregion Handle the Requirements for Flex Consumption Plans
 
 # Process Function Module
-Copy-Item -Path "$workingDirectory/þnameþ" -Destination "$($buildFolder.FullName)/modules" -Force -Recurse
-$commands = Get-ChildItem -Path "$($buildFolder.FullName)/modules/þnameþ/Functions" -Recurse -Filter *.ps1 | ForEach-Object BaseName
-Update-PSFModuleManifest -Path "$($buildFolder.FullName)/modules/þnameþ/þnameþ.psd1" -FunctionsToExport $commands
+Copy-Item -Path "$workingDirectory/þnameþ" -Destination "$($buildFolder.FullName)/Modules" -Force -Recurse
+$commands = Get-ChildItem -Path "$($buildFolder.FullName)/Modules/þnameþ/Functions" -Recurse -Filter *.ps1 | ForEach-Object BaseName
+Update-PSFModuleManifest -Path "$($buildFolder.FullName)/Modules/þnameþ/þnameþ.psd1" -FunctionsToExport $commands
 #endregion Handle Modules
 
 #region Triggers
